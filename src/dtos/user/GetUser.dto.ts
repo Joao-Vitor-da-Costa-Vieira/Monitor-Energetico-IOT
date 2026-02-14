@@ -1,15 +1,39 @@
+import User from "../../models/user/User";
+
 export class GetUserDto {
     private id : bigint;
     private name : string;
     private email : string;
     private pass : string;
 
-	constructor($id: bigint, $name: string, $email: string, $pass: string) {
-		this.id = $id;
-		this.name = $name;
-		this.email = $email;
-		this.pass = $pass;
-	}
+    /**
+     * 
+     * @param {bigint} $id 
+     * @param {string} $name 
+     * @param {string} $email 
+     * @param {string} $pass 
+     */
+	constructor($id: bigint, $name: string, $email: string, $pass: string);
+
+    /**
+     * 
+     * @param {User} $user 
+     */
+    constructor($user: User);
+
+    constructor($idOrUser: bigint | User, $name?: string, $email?: string, $pass?: string) {
+        if (typeof $idOrUser != 'bigint') {
+            this.id = $idOrUser.$id;
+            this.name = $idOrUser.$name;
+            this.email = $idOrUser.$email;
+            this.pass = $idOrUser.$pass;
+        } else {
+            this.id = $idOrUser;
+            this.name = $name!;
+            this.email = $email!;
+            this.pass = $pass!;
+        }
+    }
 
     /**
      * Getter $id

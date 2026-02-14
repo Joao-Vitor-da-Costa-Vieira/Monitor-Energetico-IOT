@@ -1,12 +1,12 @@
 export class UpdateUserDto {
-    private name : string | undefined;
-    private email : string | undefined;
-    private pass : string | undefined;
+    private name? : string;
+    private email? : string;
+    private pass? : string;
 
 	constructor(
-        $name: string | undefined, 
-        $email: string | undefined, 
-        $pass: string | undefined
+        $name?: string, 
+        $email?: string, 
+        $pass?: string
     ) {
 		this.name = $name;
 		this.email = $email;

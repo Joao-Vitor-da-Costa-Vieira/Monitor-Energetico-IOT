@@ -161,6 +161,22 @@ class Measurement {
 	}
 
     /**
+     * Getter $user
+     * @return {User | undefined}
+     */
+    public get $user(): User | undefined {
+        return this.user;
+    }
+
+    /**
+     * Getter $place
+     * @return {Place | undefined}
+     */
+    public get $place(): Place | undefined {
+        return this.place;
+    }
+
+    /**
      * Setter $id
      * @param {bigint} value
      */
@@ -207,6 +223,24 @@ class Measurement {
 	public set $usr_id(value: bigint) {
 		this.usr_id = value;
 	}
+
+    /**
+     * Setter $user
+     * @param {User} value
+     */
+    public set $user(value: User) {
+        this.user = value;
+        this.usr_id = value.$id;
+    }
+
+    /**
+     * Setter $place
+     * @param {Place} value
+     */
+    public set $place(value: Place) {
+        this.place = value;
+        this.loc_id = value.$id;
+    }
     
 }
 

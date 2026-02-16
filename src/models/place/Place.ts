@@ -1,37 +1,37 @@
 import User from "../user/User.ts";
 
 class Place {
-    private id : bigint;
+    private id : Number;
     private name : string;
-    private usr_id : bigint;
+    private usr_id : Number;
 
     private user? : User;
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {string} $name 
-     * @param {bigint} $usr_id 
+     * @param {Number} $usr_id 
      */
-	constructor($id: bigint, $name: string, $usr_id: bigint);
+	constructor($id: Number, $name: string, $usr_id: Number);
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {string} $name 
      * @param {User} $user
      */
-	constructor($id: bigint, $name: string, $user: User);
+	constructor($id: Number, $name: string, $user: User);
     
     // TODO: constructor DTO
 
-    constructor($id_dto: bigint, $name?: string, $user?: bigint | User) {
+    constructor($id_dto: Number, $name?: string, $user?: Number | User) {
         // TODO constructor DTO
         
         this.id = $id_dto;
         this.name = $name!;
         
-        if (typeof $user == 'bigint') {
+        if ($user instanceof Number) {
             this.usr_id = $user
         } else {
             this.user = $user
@@ -41,9 +41,9 @@ class Place {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
+	public get $id(): Number {
 		return this.id;
 	}
 
@@ -57,17 +57,17 @@ class Place {
 
     /**
      * Getter $usr_id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $usr_id(): bigint {
+	public get $usr_id(): Number {
 		return this.usr_id;
 	}
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 
@@ -81,9 +81,9 @@ class Place {
 
     /**
      * Setter $usr_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $usr_id(value: bigint) {
+	public set $usr_id(value: Number) {
 		this.usr_id = value;
 	}
 

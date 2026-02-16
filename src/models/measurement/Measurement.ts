@@ -6,22 +6,27 @@ class Measurement {
     private date : Date;
     private current : Number;
     private power : Number;
-    private loc_id : bigint;
     private usr_id : bigint;
+    private loc_id? : bigint;
 
-    private place? : Place;
     private user? : User;
+    private place? : Place;
 
     /**
      * 
      * @param {bigint} $id 
      * @param {Date} $date 
      * @param {Number} $current 
-     * @param {Number} $power 
-     * @param {bigint} $loc_id 
-     * @param {bigint} $usr_id 
+     * @param {Number} $power  
+     * @param {bigint} $usr_id
      */
-    constructor($id: bigint, $date: Date, $current: Number, $power: Number, $loc_id: bigint, $usr_id: bigint);
+    constructor(
+        $id: bigint, 
+        $date: Date, 
+        $current: Number, 
+        $power: Number, 
+        $usr_id: bigint
+    );
 
     /**
      * 
@@ -29,33 +34,81 @@ class Measurement {
      * @param {Date} $date 
      * @param {Number} $current 
      * @param {Number} $power 
-     * @param {Place} $place 
      * @param {User} $user 
      */
-    constructor($id: bigint, $date: Date, $current: Number, $power: Number, $place: Place, $user: User);
+    constructor(
+        $id: bigint, 
+        $date: Date, 
+        $current: Number, 
+        $power: Number, 
+        $user: User
+    );
+
+    /**
+     * 
+     * @param {bigint} $id 
+     * @param {Date} $date 
+     * @param {Number} $current 
+     * @param {Number} $power  
+     * @param {bigint} $usr_id
+     * @param {bigint} $loc_id 
+     */
+    constructor(
+        $id: bigint, 
+        $date: Date, 
+        $current: Number, 
+        $power: Number, 
+        $usr_id: bigint, 
+        $loc_id: bigint
+    );
+
+    /**
+     * 
+     * @param {bigint} $id 
+     * @param {Date} $date 
+     * @param {Number} $current 
+     * @param {Number} $power 
+     * @param {User} $user 
+     * @param {Place} $place 
+     */
+    constructor(
+        $id: bigint, 
+        $date: Date, 
+        $current: Number, 
+        $power: Number, 
+        $user: User, 
+        $place: Place
+    );
 
     // TODO: constructor DTO
 
-    constructor($id_obj: bigint, $date?: Date, $current?: Number, $power?: Number, $place?: Place | bigint, $user?: User | bigint) {
+    constructor(
+        $id_obj: bigint, 
+        $date?: Date, 
+        $current?: Number, 
+        $power?: Number, 
+        $user?: User | bigint, 
+        $place?: Place | bigint
+    ) {
         //TODO: constructor DTO
 
         this.id = $id_obj;
         this.date = $date!;
         this.current = $current!;
         this.power = $power!;
-        
-        if (typeof $place == 'bigint') {
-            this.loc_id = $place;
-        } else {
-            this.place = $place;
-            this.loc_id = $place!.$id;
-        }
 
         if (typeof $user == 'bigint') {
             this.usr_id = $user;
         } else {
             this.user = $user;
             this.usr_id = $user!.$id;
+        }
+
+        if (typeof $place == 'bigint') {
+            this.loc_id = $place;
+        } else if ($place instanceof Place) {
+            this.place = $place;
+            this.loc_id = $place.$id;
         }
     }
 
@@ -93,9 +146,9 @@ class Measurement {
 
     /**
      * Getter $loc_id
-     * @return {bigint}
+     * @return {bigint | undefined}
      */
-	public get $loc_id(): bigint {
+	public get $loc_id(): bigint | undefined {
 		return this.loc_id;
 	}
 
@@ -106,6 +159,22 @@ class Measurement {
 	public get $usr_id(): bigint {
 		return this.usr_id;
 	}
+
+    /**
+     * Getter $user
+     * @return {User | undefined}
+     */
+    public get $user(): User | undefined {
+        return this.user;
+    }
+
+    /**
+     * Getter $place
+     * @return {Place | undefined}
+     */
+    public get $place(): Place | undefined {
+        return this.place;
+    }
 
     /**
      * Setter $id
@@ -154,6 +223,24 @@ class Measurement {
 	public set $usr_id(value: bigint) {
 		this.usr_id = value;
 	}
+
+    /**
+     * Setter $user
+     * @param {User} value
+     */
+    public set $user(value: User) {
+        this.user = value;
+        this.usr_id = value.$id;
+    }
+
+    /**
+     * Setter $place
+     * @param {Place} value
+     */
+    public set $place(value: Place) {
+        this.place = value;
+        this.loc_id = value.$id;
+    }
     
 }
 

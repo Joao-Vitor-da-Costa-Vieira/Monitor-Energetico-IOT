@@ -100,7 +100,8 @@ class Place {
      * @param {User} value
      */
     public set $user(value : User) {
-        this.user = value
+        this.user = value;
+        this.usr_id = value.$id;
     }
 
 }

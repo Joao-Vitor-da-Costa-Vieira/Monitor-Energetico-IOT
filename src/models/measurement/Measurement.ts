@@ -2,42 +2,42 @@ import Place from "../place/Place.ts";
 import User from "../user/User.ts";
 
 class Measurement {
-    private id : bigint;
+    private id : Number;
     private date : Date;
     private current : Number;
     private power : Number;
-    private usr_id : bigint;
-    private loc_id? : bigint;
+    private usr_id : Number;
+    private loc_id? : Number;
 
     private user? : User;
     private place? : Place;
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {Date} $date 
      * @param {Number} $current 
      * @param {Number} $power  
-     * @param {bigint} $usr_id
+     * @param {Number} $usr_id
      */
     constructor(
-        $id: bigint, 
+        $id: Number, 
         $date: Date, 
         $current: Number, 
         $power: Number, 
-        $usr_id: bigint
+        $usr_id: Number
     );
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {Date} $date 
      * @param {Number} $current 
      * @param {Number} $power 
      * @param {User} $user 
      */
     constructor(
-        $id: bigint, 
+        $id: Number, 
         $date: Date, 
         $current: Number, 
         $power: Number, 
@@ -46,25 +46,25 @@ class Measurement {
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {Date} $date 
      * @param {Number} $current 
      * @param {Number} $power  
-     * @param {bigint} $usr_id
-     * @param {bigint} $loc_id 
+     * @param {Number} $usr_id
+     * @param {Number} $loc_id 
      */
     constructor(
-        $id: bigint, 
+        $id: Number, 
         $date: Date, 
         $current: Number, 
         $power: Number, 
-        $usr_id: bigint, 
-        $loc_id: bigint
+        $usr_id: Number, 
+        $loc_id: Number
     );
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {Date} $date 
      * @param {Number} $current 
      * @param {Number} $power 
@@ -72,7 +72,7 @@ class Measurement {
      * @param {Place} $place 
      */
     constructor(
-        $id: bigint, 
+        $id: Number, 
         $date: Date, 
         $current: Number, 
         $power: Number, 
@@ -83,12 +83,12 @@ class Measurement {
     // TODO: constructor DTO
 
     constructor(
-        $id_obj: bigint, 
+        $id_obj: Number, 
         $date?: Date, 
         $current?: Number, 
         $power?: Number, 
-        $user?: User | bigint, 
-        $place?: Place | bigint
+        $user?: User | Number, 
+        $place?: Place | Number
     ) {
         //TODO: constructor DTO
 
@@ -97,14 +97,14 @@ class Measurement {
         this.current = $current!;
         this.power = $power!;
 
-        if (typeof $user == 'bigint') {
+        if (typeof $user == 'number') {
             this.usr_id = $user;
         } else {
-            this.user = $user;
-            this.usr_id = $user!.$id;
+            this.user = $user as User;
+            this.usr_id = ($user as User).$id;
         }
 
-        if (typeof $place == 'bigint') {
+        if (typeof $place == 'number') {
             this.loc_id = $place;
         } else if ($place instanceof Place) {
             this.place = $place;
@@ -114,9 +114,9 @@ class Measurement {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
+	public get $id(): Number {
 		return this.id;
 	}
 
@@ -146,17 +146,17 @@ class Measurement {
 
     /**
      * Getter $loc_id
-     * @return {bigint | undefined}
+     * @return {Number | undefined}
      */
-	public get $loc_id(): bigint | undefined {
+	public get $loc_id(): Number | undefined {
 		return this.loc_id;
 	}
 
     /**
      * Getter $usr_id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $usr_id(): bigint {
+	public get $usr_id(): Number {
 		return this.usr_id;
 	}
 
@@ -178,9 +178,9 @@ class Measurement {
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 
@@ -210,17 +210,17 @@ class Measurement {
 
     /**
      * Setter $loc_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $loc_id(value: bigint) {
+	public set $loc_id(value: Number) {
 		this.loc_id = value;
 	}
 
     /**
      * Setter $usr_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $usr_id(value: bigint) {
+	public set $usr_id(value: Number) {
 		this.usr_id = value;
 	}
 

@@ -1,4 +1,4 @@
-export class CreateMeasurement {
+export class CreateMeasurementDto {
     private date : string;
     private current : Number;
     private power : Number;

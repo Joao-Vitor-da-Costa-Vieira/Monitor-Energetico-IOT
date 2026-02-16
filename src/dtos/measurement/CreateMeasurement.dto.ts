@@ -2,23 +2,23 @@ export class CreateMeasurement {
     private date : string;
     private current : Number;
     private power : Number;
-    private usr_id : bigint;
-    private loc_id : bigint;
+    private usr_id : Number;
+    private loc_id : Number;
 
     /**
      * 
      * @param {string} $date 
      * @param {Number} $current 
      * @param {Number} $power 
-     * @param {bigint} $usr_id 
-     * @param {bigint} $loc_id 
+     * @param {Number} $usr_id 
+     * @param {Number} $loc_id 
      */
 	constructor(
         $date: string, 
         $current: Number, 
         $power: Number, 
-        $usr_id: bigint, 
-        $loc_id: bigint
+        $usr_id: Number, 
+        $loc_id: Number
     ) {
         this.date = $date;
         this.current = $current;
@@ -53,17 +53,17 @@ export class CreateMeasurement {
 
     /**
      * Getter $usr_id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $usr_id(): bigint {
+	public get $usr_id(): Number {
 		return this.usr_id;
 	}
 
     /**
      * Getter $loc_id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $loc_id(): bigint {
+	public get $loc_id(): Number {
 		return this.loc_id;
 	}
 
@@ -93,17 +93,17 @@ export class CreateMeasurement {
 
     /**
      * Setter $usr_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $usr_id(value: bigint) {
+	public set $usr_id(value: Number) {
 		this.usr_id = value;
 	}
 
     /**
      * Setter $loc_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $loc_id(value: bigint) {
+	public set $loc_id(value: Number) {
 		this.loc_id = value;
 	}
     

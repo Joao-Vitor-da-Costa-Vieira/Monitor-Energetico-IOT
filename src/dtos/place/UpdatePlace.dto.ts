@@ -1,12 +1,12 @@
 export class UpdatePlaceDto {
-    private id : bigint;
+    private id : Number;
     private name? : string;
-    private user_id? : bigint;
+    private user_id? : Number;
 
 	constructor(
-        $id: bigint, 
+        $id: Number, 
         $name?: string, 
-        $user_id?: bigint
+        $user_id?: Number
     ) {
         this.id = $id;
         this.name = $name;
@@ -15,9 +15,9 @@ export class UpdatePlaceDto {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
+	public get $id(): Number {
 		return this.id;
 	}
     
@@ -31,17 +31,17 @@ export class UpdatePlaceDto {
 
     /**
      * Getter $user_id
-     * @return {bigint | undefined}
+     * @return {Number | undefined}
      */
-	public get $user_id(): bigint | undefined {
+	public get $user_id(): Number | undefined {
 		return this.user_id;
 	}
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 
@@ -55,9 +55,9 @@ export class UpdatePlaceDto {
 
     /**
      * Setter $user_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $user_id(value: bigint) {
+	public set $user_id(value: Number) {
 		this.user_id = value;
 	}
 }

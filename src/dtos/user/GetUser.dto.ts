@@ -1,19 +1,19 @@
 import User from "../../models/user/User";
 
 export class GetUserDto {
-    private id : bigint;
+    private id : Number;
     private name : string;
     private email : string;
     private pass : string;
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {string} $name 
      * @param {string} $email 
      * @param {string} $pass 
      */
-	constructor($id: bigint, $name: string, $email: string, $pass: string);
+	constructor($id: Number, $name: string, $email: string, $pass: string);
 
     /**
      * 
@@ -21,8 +21,8 @@ export class GetUserDto {
      */
     constructor($user: User);
 
-    constructor($idOrUser: bigint | User, $name?: string, $email?: string, $pass?: string) {
-        if (typeof $idOrUser != 'bigint') {
+    constructor($idOrUser: Number | User, $name?: string, $email?: string, $pass?: string) {
+        if ($idOrUser instanceof User) {
             this.id = $idOrUser.$id;
             this.name = $idOrUser.$name;
             this.email = $idOrUser.$email;
@@ -37,9 +37,9 @@ export class GetUserDto {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
+	public get $id(): Number {
 		return this.id;
 	}
 
@@ -69,9 +69,9 @@ export class GetUserDto {
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 

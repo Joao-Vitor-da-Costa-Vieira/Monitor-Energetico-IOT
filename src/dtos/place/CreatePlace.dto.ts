@@ -1,8 +1,8 @@
 export class CreatePlaceDto {
     private name : string;
-    private user_id : bigint;
+    private user_id : Number;
 
-	constructor($name: string, $user_id: bigint) {
+	constructor($name: string, $user_id: Number) {
 		this.name = $name;
 		this.user_id = $user_id;
 	}
@@ -17,9 +17,9 @@ export class CreatePlaceDto {
 
     /**
      * Getter $user_id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $user_id(): bigint {
+	public get $user_id(): Number {
 		return this.user_id;
 	}
 
@@ -33,9 +33,9 @@ export class CreatePlaceDto {
 
     /**
      * Setter $user_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $user_id(value: bigint) {
+	public set $user_id(value: Number) {
 		this.user_id = value;
 	}
 

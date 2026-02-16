@@ -1,18 +1,18 @@
 export class UpdateMeasurementDto {
-    private id : bigint;
+    private id : Number;
     private date? : string;
     private current? : Number;
     private power? : Number;
-    private usr_id? : bigint;
-    private loc_id? : bigint;
+    private usr_id? : Number;
+    private loc_id? : Number;
 
     constructor(
-        $id: bigint,
+        $id: Number,
         $date?: string,
         $current?: Number,
         $power?: Number,
-        $usr_id?: bigint,
-        $loc_id?: bigint
+        $usr_id?: Number,
+        $loc_id?: Number
     ) {
         this.id = $id;
         this.date = $date;
@@ -24,9 +24,9 @@ export class UpdateMeasurementDto {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
+	public get $id(): Number {
 		return this.id;
 	}
 
@@ -56,25 +56,25 @@ export class UpdateMeasurementDto {
 
     /**
      * Getter $usr_id
-     * @return {bigint | undefined}
+     * @return {Number | undefined}
      */
-	public get $usr_id(): bigint | undefined {
+	public get $usr_id(): Number | undefined {
 		return this.usr_id;
 	}
 
     /**
      * Getter $loc_id
-     * @return {bigint | undefined}
+     * @return {Number | undefined}
      */
-	public get $loc_id(): bigint | undefined {
+	public get $loc_id(): Number | undefined {
 		return this.loc_id;
 	}
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 
@@ -104,17 +104,17 @@ export class UpdateMeasurementDto {
 
     /**
      * Setter $usr_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $usr_id(value: bigint) {
+	public set $usr_id(value: Number) {
 		this.usr_id = value;
 	}
 
     /**
      * Setter $loc_id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $loc_id(value: bigint) {
+	public set $loc_id(value: Number) {
 		this.loc_id = value;
 	}
 

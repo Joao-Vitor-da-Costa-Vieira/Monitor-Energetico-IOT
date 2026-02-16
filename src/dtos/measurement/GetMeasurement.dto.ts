@@ -5,7 +5,7 @@ import { GetPlaceDto } from "../place/GetPlace.dto.ts"
 import Place from "../../models/place/Place.ts";
 
 export class GetMeasurementDto {
-    private id : bigint;
+    private id : Number;
     private date : Date;
     private current : Number;
     private power : Number;
@@ -14,14 +14,14 @@ export class GetMeasurementDto {
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {Date} $date 
      * @param {Number} $current 
      * @param {Number} $power 
      * @param {GetUserDto | User} $user 
      */
 	constructor(
-        $id: bigint,
+        $id: Number,
         $date: Date,
         $current: Number,
         $power: Number,
@@ -30,7 +30,7 @@ export class GetMeasurementDto {
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {Date} $date 
      * @param {Number} $current 
      * @param {Number} $power 
@@ -38,7 +38,7 @@ export class GetMeasurementDto {
      * @param {GetPlaceDto | Place } $place
      */
 	constructor(
-        $id: bigint,
+        $id: Number,
         $date: Date,
         $current: Number,
         $power: Number,
@@ -55,7 +55,7 @@ export class GetMeasurementDto {
     )
 
     constructor(
-        $idOrObj: bigint | Measurement,
+        $idOrObj: Number | Measurement,
         $date?: Date,
         $current?: Number,
         $power?: Number,
@@ -92,9 +92,9 @@ export class GetMeasurementDto {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
+	public get $id(): Number {
 		return this.id;
 	}
 
@@ -140,9 +140,9 @@ export class GetMeasurementDto {
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 

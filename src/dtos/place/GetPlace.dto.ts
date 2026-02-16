@@ -3,25 +3,25 @@ import User from '../../models/user/User.ts'
 import Place from '../../models/place/Place.ts';
 
 export class GetPlaceDto {
-    private id : bigint;
+    private id : Number;
     private name : string;
     private user : GetUserDto;
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {string} $name 
      * @param {User} $user 
      */
-    constructor($id: bigint, $name: string, $user: User);
+    constructor($id: Number, $name: string, $user: User);
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {string} $name 
      * @param {GetUserDto} $user 
      */
-    constructor($id: bigint, $name: string, $user: GetUserDto);
+    constructor($id: Number, $name: string, $user: GetUserDto);
 
     /**
      * 
@@ -29,8 +29,8 @@ export class GetPlaceDto {
      */
     constructor($place: Place);
 
-    constructor($idOrObj: bigint | Place, $name?: string, $user?: User | GetUserDto) {
-        if (typeof $idOrObj != 'bigint') {
+    constructor($idOrObj: Number | Place, $name?: string, $user?: User | GetUserDto) {
+        if ($idOrObj instanceof Place) {
             this.id = $idOrObj.$id;
             this.name = $idOrObj.$name;
             this.user = new GetUserDto($idOrObj.$user!);
@@ -49,9 +49,9 @@ export class GetPlaceDto {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
+	public get $id(): Number {
 		return this.id;
 	}
 
@@ -73,9 +73,9 @@ export class GetPlaceDto {
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 

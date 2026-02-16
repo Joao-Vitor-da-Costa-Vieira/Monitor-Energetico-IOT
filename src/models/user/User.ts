@@ -1,18 +1,18 @@
 class User {
-    private id : bigint;
+    private id : Number;
     private name : string;
     private email : string;
     private pass : string;
 
     /**
      * 
-     * @param {bigint} $id 
+     * @param {Number} $id 
      * @param {string} $name 
      * @param {string} $email 
      * @param {string} $pass 
      */
 	constructor(
-        $id: bigint, 
+        $id: Number, 
         $name: string, 
         $email: string, 
         $pass: string
@@ -25,10 +25,10 @@ class User {
 
     /**
      * Getter $id
-     * @return {bigint}
+     * @return {Number}
      */
-	public get $id(): bigint {
-		return this.id;
+	public get $id(): Number {
+		return Number(this.id);
 	}
 
     /**
@@ -57,9 +57,9 @@ class User {
 
     /**
      * Setter $id
-     * @param {bigint} value
+     * @param {Number} value
      */
-	public set $id(value: bigint) {
+	public set $id(value: Number) {
 		this.id = value;
 	}
 

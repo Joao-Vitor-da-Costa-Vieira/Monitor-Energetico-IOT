@@ -31,11 +31,11 @@ class Place {
         this.id = $id_dto;
         this.name = $name!;
         
-        if ($user instanceof Number) {
+        if (typeof $user == 'number') {
             this.usr_id = $user
         } else {
-            this.user = $user
-            this.usr_id = $user!.$id
+            this.user = $user as User
+            this.usr_id = ($user as User).$id
         }
     }
 

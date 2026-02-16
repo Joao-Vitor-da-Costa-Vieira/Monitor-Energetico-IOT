@@ -1,16 +1,35 @@
 export class UpdateUserDto {
+    private id : Number;
     private name? : string;
     private email? : string;
     private pass? : string;
 
 	constructor(
+        $id: Number,
         $name?: string, 
         $email?: string, 
         $pass?: string
     ) {
+        this.id = $id;
 		this.name = $name;
 		this.email = $email;
 		this.pass = $pass;
+	}
+
+    /**
+     * Getter $id
+     * @return {Number}
+     */
+	public get $id(): Number {
+		return this.id;
+	}
+
+    /**
+     * Setter $id
+     * @param {Number} value
+     */
+	public set $id(value: Number) {
+		this.id = value;
 	}
 
     /**

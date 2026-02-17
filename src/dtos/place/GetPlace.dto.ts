@@ -5,7 +5,17 @@ import Place from '../../models/place/Place.ts';
 export class GetPlaceDto {
     private id : Number;
     private name : string;
-    private user : GetUserDto;
+    private user? : GetUserDto;
+
+    /**
+     * 
+     * @param {Number} $id 
+     * @param {string} $name
+     */
+    constructor(
+        $id: Number, 
+        $name: string
+    );
 
     /**
      * 
@@ -13,7 +23,11 @@ export class GetPlaceDto {
      * @param {string} $name 
      * @param {User} $user 
      */
-    constructor($id: Number, $name: string, $user: User);
+    constructor(
+        $id: Number,
+        $name: string,
+        $user: User
+    );
 
     /**
      * 
@@ -21,7 +35,11 @@ export class GetPlaceDto {
      * @param {string} $name 
      * @param {GetUserDto} $user 
      */
-    constructor($id: Number, $name: string, $user: GetUserDto);
+    constructor(
+        $id: Number,
+        $name: string,
+        $user: GetUserDto
+    );
 
     /**
      * 
@@ -29,11 +47,15 @@ export class GetPlaceDto {
      */
     constructor($place: Place);
 
-    constructor($idOrObj: Number | Place, $name?: string, $user?: User | GetUserDto) {
+    constructor(
+        $idOrObj: Number | Place,
+        $name?: string,
+        $user?: User | GetUserDto
+    ) {
         if ($idOrObj instanceof Place) {
             this.id = $idOrObj.$id;
             this.name = $idOrObj.$name;
-            this.user = new GetUserDto($idOrObj.$user!);
+            this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
             return;
         }
         
@@ -42,8 +64,8 @@ export class GetPlaceDto {
 
         if ($user instanceof GetUserDto) {
             this.user = $user;
-        } else {
-            this.user = new GetUserDto($user!);
+        } else if ($user instanceof User) {
+            this.user = new GetUserDto($user);
         }
     }
 
@@ -67,7 +89,7 @@ export class GetPlaceDto {
      * Getter $user
      * @return {GetUserDto}
      */
-	public get $user(): GetUserDto {
+	public get $user(): GetUserDto | undefined {
 		return this.user;
 	}
 

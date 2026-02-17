@@ -9,8 +9,22 @@ export class GetMeasurementDto {
     private date : Date;
     private current : Number;
     private power : Number;
-    private user : GetUserDto;
+    private user? : GetUserDto;
     private place? : GetPlaceDto;
+
+    /**
+     * 
+     * @param {Number} $id 
+     * @param {Date} $date 
+     * @param {Number} $current 
+     * @param {Number} $power
+     */
+	constructor(
+        $id: Number,
+        $date: Date,
+        $current: Number,
+        $power: Number
+    );
 
     /**
      * 
@@ -67,7 +81,7 @@ export class GetMeasurementDto {
             this.date = $idOrObj.$date;
             this.current = $idOrObj.$current;
             this.power = $idOrObj.$power;
-            this.user = new GetUserDto($idOrObj.$user!);
+            this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
             this.place = $idOrObj.$place ? new GetPlaceDto($idOrObj.$place) : undefined;
             return;
         }
@@ -79,8 +93,8 @@ export class GetMeasurementDto {
         
         if ($user instanceof GetUserDto) {
             this.user = $user;
-        } else {
-            this.user = new GetUserDto($user!);
+        } else if ($user instanceof User) {
+            this.user = new GetUserDto($user);
         }
 
         if ($place instanceof GetPlaceDto) {
@@ -124,9 +138,9 @@ export class GetMeasurementDto {
 
     /**
      * Getter $user
-     * @return {GetUserDto}
+     * @return {GetUserDto | undefined}
      */
-	public get $user(): GetUserDto {
+	public get $user(): GetUserDto | undefined {
 		return this.user;
 	}
 

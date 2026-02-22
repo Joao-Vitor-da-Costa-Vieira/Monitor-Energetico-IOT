@@ -64,6 +64,22 @@ class SheetsDbContext {
             }
         })
     }
+
+    public static async getByMatch(
+        $value: any, 
+        $page: string, 
+        $colSearch: string, 
+        $colStart: string, 
+        $colEnd: string
+    ) {
+        const values = await SheetsDbContext.get(`${$page}!${$colSearch}:${$colSearch}`)
+
+        const rowSearch = values.data.values?.findIndex(r => r[0] == $value);
+
+        return !rowSearch? 
+            undefined : 
+            await SheetsDbContext.get(`${$page}!${$colStart}${rowSearch + 1}:${$colEnd}${rowSearch + 1}`)
+    }
 }
 
 export { SheetsDbContext };

@@ -43,6 +43,7 @@ class SheetsDbContext {
             spreadsheetId: process.env.SHEETS_URL,
             range: $range,
             valueInputOption: 'USER_ENTERED',
+            includeValuesInResponse: true,
             requestBody: {
                 majorDimension: 'ROWS',
                 values: $values

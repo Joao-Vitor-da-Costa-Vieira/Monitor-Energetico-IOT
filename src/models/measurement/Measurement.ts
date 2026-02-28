@@ -7,7 +7,7 @@ class Measurement {
     private current : Number;
     private power : Number;
     private usr_id : Number;
-    private loc_id? : Number;
+    private plc_id? : Number;
 
     private user? : User;
     private place? : Place;
@@ -51,7 +51,7 @@ class Measurement {
      * @param {Number} $current 
      * @param {Number} $power  
      * @param {Number} $usr_id
-     * @param {Number} $loc_id 
+     * @param {Number} $plc_id 
      */
     constructor(
         $id: Number, 
@@ -59,7 +59,7 @@ class Measurement {
         $current: Number, 
         $power: Number, 
         $usr_id: Number, 
-        $loc_id: Number
+        $plc_id: Number
     );
 
     /**
@@ -105,10 +105,10 @@ class Measurement {
         }
 
         if (typeof $place == 'number') {
-            this.loc_id = $place;
+            this.plc_id = $place;
         } else if ($place instanceof Place) {
             this.place = $place;
-            this.loc_id = $place.$id;
+            this.plc_id = $place.$id;
         }
     }
 
@@ -145,11 +145,11 @@ class Measurement {
 	}
 
     /**
-     * Getter $loc_id
+     * Getter $plc_id
      * @return {Number | undefined}
      */
-	public get $loc_id(): Number | undefined {
-		return this.loc_id;
+	public get $plc_id(): Number | undefined {
+		return this.plc_id;
 	}
 
     /**
@@ -209,11 +209,11 @@ class Measurement {
 	}
 
     /**
-     * Setter $loc_id
+     * Setter $plc_id
      * @param {Number} value
      */
-	public set $loc_id(value: Number) {
-		this.loc_id = value;
+	public set $plc_id(value: Number) {
+		this.plc_id = value;
 	}
 
     /**
@@ -239,7 +239,7 @@ class Measurement {
      */
     public set $place(value: Place) {
         this.place = value;
-        this.loc_id = value.$id;
+        this.plc_id = value.$id;
     }
     
 }

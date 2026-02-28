@@ -73,13 +73,16 @@ class SheetsDbContext {
         $colStart: string, 
         $colEnd: string
     ) {
-        const values = await SheetsDbContext.get(`${$page}!${$colSearch}:${$colSearch}`)
+        const values = await SheetsDbContext.get(`${$page}!${$colSearch}:${$colSearch}`);
+
+        if (!values || !values.data.values)
+            return undefined;
 
         const rowSearch = values.data.values?.findIndex(r => r[0] == $value);
 
-        return !rowSearch? 
+        return rowSearch == -1? 
             undefined : 
-            await SheetsDbContext.get(`${$page}!${$colStart}${rowSearch + 1}:${$colEnd}${rowSearch + 1}`)
+            await SheetsDbContext.get(`${$page}!${$colStart}${rowSearch + 1}:${$colEnd}${rowSearch + 1}`);
     }
 }
 

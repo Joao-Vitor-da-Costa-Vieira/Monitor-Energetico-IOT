@@ -5,6 +5,7 @@ import Place from '../../models/place/Place.ts';
 export class GetPlaceDto {
     private id : Number;
     private name : string;
+    private usr_id? : Number;
     private user? : GetUserDto;
 
     /**
@@ -16,6 +17,18 @@ export class GetPlaceDto {
         $id: Number, 
         $name: string
     );
+
+    /**
+     * 
+     * @param {Number} $id 
+     * @param {string} $name 
+     * @param {Number} $usr_id 
+     */
+    constructor(
+        $id: Number,
+        $name: string,
+        $usr_id: Number
+    )
 
     /**
      * 
@@ -50,7 +63,7 @@ export class GetPlaceDto {
     constructor(
         $idOrObj: Number | Place,
         $name?: string,
-        $user?: User | GetUserDto
+        $user?: User | GetUserDto | Number
     ) {
         if ($idOrObj instanceof Place) {
             this.id = $idOrObj.$id;
@@ -66,6 +79,8 @@ export class GetPlaceDto {
             this.user = $user;
         } else if ($user instanceof User) {
             this.user = new GetUserDto($user);
+        } else if (typeof $user == 'number') {
+            this.usr_id = $user
         }
     }
 
@@ -83,6 +98,14 @@ export class GetPlaceDto {
      */
 	public get $name(): string {
 		return this.name;
+	}
+
+    /**
+     * Getter $usr_id
+     * @return {Number}
+     */
+	public get $usr_id(): Number | undefined {
+		return this.usr_id;
 	}
 
     /**
@@ -107,6 +130,14 @@ export class GetPlaceDto {
      */
 	public set $name(value: string) {
 		this.name = value;
+	}
+
+    /**
+     * Setter $usr_id
+     * @param {Number} value
+     */
+	public set $usr_id(value: Number) {
+		this.usr_id = value;
 	}
 
     /**

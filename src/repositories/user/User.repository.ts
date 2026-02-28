@@ -47,12 +47,12 @@ class UserRepository {
         }
     }
 
-    public async GetAll() : Promise<GetUserDto[] | undefined> {
+    public async GetAll() : Promise<GetUserDto[]> {
         try {
             const response = await SheetsDbContext.get('Users!A:D')
             const values = response.data.values;
 
-            if (!values || values.length <= 1) return undefined;
+            if (!values || values.length < 1) return [];
             values.shift();
 
             const userArray = new Array();

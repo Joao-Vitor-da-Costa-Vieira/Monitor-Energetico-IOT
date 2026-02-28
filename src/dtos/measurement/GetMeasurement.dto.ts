@@ -181,12 +181,28 @@ export class GetMeasurementDto {
 	}
 
     /**
+     * Getter $usr_id
+     * @returns {Number | undefined}
+     */
+    public get $usr_id(): Number | undefined {
+        return this.usr_id;
+    }
+
+    /**
      * Getter $user
      * @return {GetUserDto | undefined}
      */
 	public get $user(): GetUserDto | undefined {
 		return this.user;
 	}
+
+    /**
+     * Getter $plc_id
+     * @returns {Number | undefined}
+     */
+    public get $plc_id(): Number | undefined {
+        return this.plc_id;
+    }
 
     /**
      * Getter $place
@@ -230,17 +246,29 @@ export class GetMeasurementDto {
 
     /**
      * Setter $user
-     * @param {GetUserDto} value
+     * @param {GetUserDto | User} value
      */
-	public set $user(value: GetUserDto) {
-		this.user = value;
+	public set $user(value: GetUserDto | User) {
+        if (value instanceof GetUserDto) {
+		    this.user = value;
+            this.usr_id = value.$id;
+        } else {
+            this.user = new GetUserDto(value);
+            this.usr_id = this.user.$id;
+        }
 	}
     
     /**
      * Setter $place
-     * @param {GetPlaceDto} value
+     * @param {GetPlaceDto | Place} value
      */
-    public set $place(value: GetPlaceDto) {
-        this.place = value
+    public set $place(value: GetPlaceDto | Place) {
+        if (value instanceof GetPlaceDto) {
+            this.place = value;
+            this.plc_id = value.$id;
+        } else {
+            this.place = new GetPlaceDto(value);
+            this.plc_id = this.place.$id;
+        }
     }
 }

@@ -68,8 +68,6 @@ export class PlaceRepository {
                 ))
             })
 
-            console.log(values)
-
             return placesArray;
         } catch (e) {
             console.error(e);

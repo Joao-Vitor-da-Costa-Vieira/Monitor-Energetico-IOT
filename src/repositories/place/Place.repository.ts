@@ -84,22 +84,10 @@ export class PlaceRepository {
 
             const placeDt = response.data.values[0];
 
-            const usrRes = await SheetsDbContext.getByMatch(placeDt[2],'Users','A','A','D');
-
-            if (!usrRes || !usrRes.data.values)
-                throw new Error(`Um usuário com ID ${placeDt[2]} cadastrado no local não foi encontrado.`)
-
-            const usrData = usrRes.data.values[0];
-
             return new GetPlaceDto(
                 placeDt[0],
                 placeDt[1],
-                new GetUserDto(
-                    usrData[0],
-                    usrData[1],
-                    usrData[2],
-                    usrData[3]
-                )
+                placeDt[2]
             )
         } catch (e) {
             console.error(e);

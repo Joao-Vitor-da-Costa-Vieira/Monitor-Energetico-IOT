@@ -51,7 +51,7 @@ export class PlaceRepository {
         }
     }
 
-    public async GetAll() : Promise<GetPlaceDto[]> {
+    public async GetAll() : Promise<Place[]> {
         try {
             const response = await SheetsDbContext.get('Places!A:C')
             const values = response.data.values;
@@ -61,7 +61,7 @@ export class PlaceRepository {
 
             const placesArray = new Array();
             values.forEach(x => {
-                placesArray.push(new GetPlaceDto(
+                placesArray.push(new Place(
                     x[0],
                     x[1],
                     Number(x[2])
@@ -75,7 +75,7 @@ export class PlaceRepository {
         }
     }
 
-    public async GetById(id: Number) : Promise<GetPlaceDto | undefined> {
+    public async GetById(id: Number) : Promise<Place | undefined> {
         try {
             const response = await SheetsDbContext.getByMatch(id, 'Places', 'A', 'A', 'C')
 
@@ -84,10 +84,10 @@ export class PlaceRepository {
 
             const placeDt = response.data.values[0];
 
-            return new GetPlaceDto(
+            return new Place(
                 placeDt[0],
                 placeDt[1],
-                placeDt[2]
+                Number(placeDt[2])
             )
         } catch (e) {
             console.error(e);

@@ -9,7 +9,7 @@ import 'dotenv/config'
 class UserRepository {
     private static instance : UserRepository;
 
-    public static getInstance() {
+    public static GetInstance() {
         if (!UserRepository.instance) {
             UserRepository.instance = new UserRepository();
         }
@@ -47,7 +47,7 @@ class UserRepository {
         }
     }
 
-    public async GetAll() : Promise<GetUserDto[]> {
+    public async GetAll() : Promise<User[]> {
         try {
             const response = await SheetsDbContext.get('Users!A:D')
             const values = response.data.values;
@@ -57,7 +57,7 @@ class UserRepository {
 
             const userArray = new Array();
             values.forEach(x => {
-                userArray.push(new GetUserDto(
+                userArray.push(new User(
                     x[0],
                     x[1],
                     x[2],

@@ -77,10 +77,12 @@ export class GetPlaceDto {
 
         if ($user instanceof GetUserDto) {
             this.user = $user;
+            this.usr_id = $user.$id;
         } else if ($user instanceof User) {
             this.user = new GetUserDto($user);
+            this.usr_id = this.user.$id;
         } else if (typeof $user == 'number') {
-            this.usr_id = $user
+            this.usr_id = $user;
         }
     }
 
@@ -147,8 +149,10 @@ export class GetPlaceDto {
 	public set $user(value: GetUserDto | User) {
 		if (value instanceof GetUserDto) {
             this.user = value;
+            this.usr_id = value.$id;
         } else {
             this.user = new GetUserDto(value);
+            this.usr_id = this.user.$id;
         }
 	}
     

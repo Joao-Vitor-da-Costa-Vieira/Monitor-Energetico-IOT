@@ -1,5 +1,6 @@
 import { SheetsDbContext } from "../../connection/database/SheetsDbContext";
 import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum";
+import { MeasurementTableStruct as TableStruct } from "../../enums/tableStructure/MeasureTableStruct.enum.ts";
 import { CreateMeasurementDto } from "../../dtos/measurement/CreateMeasurement.dto.ts";
 import { UpdateMeasurementDto } from "../../dtos/measurement/UpdateMeasurement.dto.ts";
 import Measurement from "../../models/measurement/Measurement";
@@ -41,7 +42,7 @@ export class MeasurementRepository {
 
             await SheetsDbContext.append(
                 [[id, new Date(measure.$date), measure.$current, measure.$power, measure.$usr_id, measure.$plc_id]],
-                "Measurements!A:F"
+                `${TableStruct.Page}!${TableStruct.ColRange}`
             )
 
             if (!measure.$plc_id) {
@@ -69,7 +70,7 @@ export class MeasurementRepository {
 
     public async GetAll() : Promise<Measurement[]> {
         try {
-            const response = await SheetsDbContext.get("Measurements!A:F");
+            const response = await SheetsDbContext.get(`${TableStruct.Page}!${TableStruct.ColRange}`);
             const values = response.data.values;
 
             if (!values || values.length < 1) return [];
@@ -106,7 +107,7 @@ export class MeasurementRepository {
 
     public async GetById(id: Number) : Promise<Measurement | undefined> {
         try {
-            const response = await SheetsDbContext.getByMatch(id, 'Measurements', 'A', 'A', 'F');
+            const response = await SheetsDbContext.getByMatch(id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol);
 
             if (!response || !response.data.values)
                 return undefined;
@@ -138,7 +139,7 @@ export class MeasurementRepository {
 
     public async Update(measure: UpdateMeasurementDto) : Promise<Measurement> {
         try {
-            const responseGet = await SheetsDbContext.getByMatch(measure.$id, 'Measurements', 'A', 'A', 'F')
+            const responseGet = await SheetsDbContext.getByMatch(measure.$id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol)
 
             if (!responseGet || !responseGet.data.values)
                 throw new Error(`Nenhuma medição cadastrado com o ID ${measure.$id} foi encontrado.`);

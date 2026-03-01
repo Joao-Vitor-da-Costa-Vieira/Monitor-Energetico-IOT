@@ -1,6 +1,6 @@
 import { SheetsDbContext } from "../../connection/database/SheetsDbContext.ts"
 import { CreateUserDto } from "../../dtos/user/CreateUser.dto.ts"
-import { GetUserDto } from "../../dtos/user/GetUser.dto.ts"
+import { UserTableStruct as TableStruct } from "../../enums/tableStructure/UserTableStruct.enum.ts"
 import { UpdateUserDto } from "../../dtos/user/UpdateUser.dto.ts"
 import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum.ts"
 import User from "../../models/user/User.ts"
@@ -37,7 +37,7 @@ class UserRepository {
 
             await SheetsDbContext.append(
                 [[id, user.$name, user.$email, user.$pass]],
-                'Users!A:D'
+                `${TableStruct.Page}!${TableStruct.ColRange}`
             )
 
             return new User(id, user.$name, user.$email, user.$pass);
@@ -49,7 +49,7 @@ class UserRepository {
 
     public async GetAll() : Promise<User[]> {
         try {
-            const response = await SheetsDbContext.get('Users!A:D')
+            const response = await SheetsDbContext.get(`${TableStruct.Page}!${TableStruct.ColRange}`)
             const values = response.data.values;
 
             if (!values || values.length < 1) return [];
@@ -73,7 +73,7 @@ class UserRepository {
     }
 
     public async GetById(id: Number) : Promise<User | undefined> {
-        const response = await SheetsDbContext.getByMatch(id, 'Users', 'A', 'A', 'D');
+        const response = await SheetsDbContext.getByMatch(id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol);
 
         if (!response || !response.data.values) {
             return undefined;
@@ -90,7 +90,7 @@ class UserRepository {
 
     public async Update(user: UpdateUserDto) : Promise<User> {
         try {
-            const responseGet = await SheetsDbContext.getByMatch(user.$id, 'Users', 'A', 'A', 'D')
+            const responseGet = await SheetsDbContext.getByMatch(user.$id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol)
 
             if (!responseGet || !responseGet.data.values)
                 throw new Error(`Nenhum usuário com ID ${user.$id} não foi encontrado.`);

@@ -1,9 +1,10 @@
 export enum PlaceTableStruct {
     Page = 'Places',
-    ColRange = 'A:C',
+    ColRange = 'A:D',
     Id = 'A',
     Name = 'B',
     UserId = 'C',
+    Active = 'D',
     FirstCol = 'A',
-    LastCol = 'C'
+    LastCol = 'D'
 }

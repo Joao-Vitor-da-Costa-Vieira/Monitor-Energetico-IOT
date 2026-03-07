@@ -36,7 +36,7 @@ class UserRepository {
             const id = await this.GetNextId();
 
             await SheetsDbContext.append(
-                [[id, user.$name, user.$email, user.$pass]],
+                [[id, user.$name, user.$email, user.$pass, true]],
                 `${TableStruct.Page}!${TableStruct.ColRange}`
             )
 
@@ -61,7 +61,8 @@ class UserRepository {
                     x[0],
                     x[1],
                     x[2],
-                    x[3]
+                    x[3],
+                    x[4]
                 ))
             });
 
@@ -83,7 +84,8 @@ class UserRepository {
                 userDt[0],
                 userDt[1],
                 userDt[2],
-                userDt[3]
+                userDt[3],
+                userDt[4]
             )
         }
     }
@@ -96,11 +98,11 @@ class UserRepository {
                 throw new Error(`Nenhum usuário com ID ${user.$id} não foi encontrado.`);
 
             await SheetsDbContext.update(
-                [[user.$id, user.$name, user.$email, user.$pass]],
+                [[user.$id, user.$name, user.$email, user.$pass, user.$active]],
                 responseGet.data.range!
             )
 
-            return new User(user.$id, user.$name!, user.$email!, user.$pass!)
+            return new User(user.$id, user.$name!, user.$email!, user.$pass!, user.$active!)
         } catch (e) {
             console.error(e);
             throw e;

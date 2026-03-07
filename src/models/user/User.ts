@@ -3,6 +3,7 @@ class User {
     private name : string;
     private email : string;
     private pass : string;
+    private active : boolean;
 
     /**
      * 
@@ -10,17 +11,20 @@ class User {
      * @param {string} $name 
      * @param {string} $email 
      * @param {string} $pass 
+     * @param {boolean} $active
      */
 	constructor(
         $id: Number, 
         $name: string, 
         $email: string, 
-        $pass: string
+        $pass: string,
+        $active: boolean = true
     ) {
 		this.id = $id;
 		this.name = $name;
 		this.email = $email;
 		this.pass = $pass;
+        this.active = $active;
 	}
 
     /**
@@ -56,6 +60,14 @@ class User {
 	}
 
     /**
+     * Getter $active
+     * @return {boolean}
+     */
+    public get $active(): boolean {
+        return this.active;
+    }
+
+    /**
      * Setter $id
      * @param {Number} value
      */
@@ -87,6 +99,13 @@ class User {
 		this.pass = value;
 	}
 
+    /**
+     * Setter $active
+     * @param {boolean} value
+     */
+    public set $active(value: boolean) {
+        this.active = value;
+    }
 }
 
 export default User;

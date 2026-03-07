@@ -4,6 +4,7 @@ class Place {
     private id : Number;
     private name : string;
     private usr_id : Number;
+    private active : boolean;
 
     private user? : User;
 
@@ -12,24 +13,42 @@ class Place {
      * @param {Number} $id 
      * @param {string} $name 
      * @param {Number} $usr_id 
+     * @param {boolean} $active
      */
-	constructor($id: Number, $name: string, $usr_id: Number);
+	constructor(
+        $id: Number, 
+        $name: string, 
+        $usr_id: Number,
+        $active: boolean
+    );
 
     /**
      * 
      * @param {Number} $id 
      * @param {string} $name 
      * @param {User} $user
+     * @param {boolean} $active
      */
-	constructor($id: Number, $name: string, $user: User);
+	constructor(
+        $id: Number, 
+        $name: string, 
+        $user: User,
+        $active: boolean
+    );
     
     // TODO: constructor DTO
 
-    constructor($id_dto: Number, $name?: string, $user?: Number | User) {
+    constructor(
+        $id_dto: Number, 
+        $name?: string, 
+        $user?: Number | User,
+        $active: boolean = true
+    ) {
         // TODO constructor DTO
         
         this.id = $id_dto;
         this.name = $name!;
+        this.active = $active;
         
         if (typeof $user == 'number') {
             this.usr_id = $user
@@ -64,6 +83,14 @@ class Place {
 	}
 
     /**
+     * Getter $active
+     * @return {boolean}
+     */
+    public get $active(): boolean {
+        return this.active;
+    }
+
+    /**
      * Setter $id
      * @param {Number} value
      */
@@ -86,6 +113,14 @@ class Place {
 	public set $usr_id(value: Number) {
 		this.usr_id = value;
 	}
+
+    /**
+     * Setter $active
+     * @param {boolean} value
+     */
+    public set $active(value: boolean) {
+        this.active = value;
+    }
 
     /**
      * Getter $user

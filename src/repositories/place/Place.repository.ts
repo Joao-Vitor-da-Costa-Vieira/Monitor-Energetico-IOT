@@ -39,11 +39,11 @@ export class PlaceRepository {
             const id = await this.GetNextId();
 
             await SheetsDbContext.append(
-                [[id, place.$name, place.$user_id]],
+                [[id, place.$name, place.$user_id, true]],
                 `${TableStruct.Page}!${TableStruct.ColRange}`
             )
 
-            return new Place(id, place.$name, place.$user_id)
+            return new Place(id, place.$name, place.$user_id, true)
         } catch (e) {
             console.error(e);
             throw e;
@@ -63,7 +63,8 @@ export class PlaceRepository {
                 placesArray.push(new Place(
                     x[0],
                     x[1],
-                    Number(x[2])
+                    Number(x[2]),
+                    x[3]
                 ))
             })
 
@@ -86,7 +87,8 @@ export class PlaceRepository {
             return new Place(
                 placeDt[0],
                 placeDt[1],
-                Number(placeDt[2])
+                Number(placeDt[2]),
+                placeDt[3]
             )
         } catch (e) {
             console.error(e);
@@ -103,11 +105,11 @@ export class PlaceRepository {
                 throw new Error(`Nenhum local cadastrado com o ID ${place.$id} não foi encontrado.`);
 
             await SheetsDbContext.update(
-                [[place.$id, place.$name, place.$user_id]],
+                [[place.$id, place.$name, place.$user_id, place.$active]],
                 responseGet.data.range!
             );
 
-            return new Place(place.$id, place.$name!, place.$user_id!);
+            return new Place(place.$id, place.$name!, place.$user_id!, place.$active!);
         } catch (e) {
             console.error(e);
             throw e;

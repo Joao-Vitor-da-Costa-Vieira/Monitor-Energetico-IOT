@@ -6,27 +6,33 @@ export class GetPlaceDto {
     private id : Number;
     private name : string;
     private usr_id? : Number;
+    private active : boolean;
+
     private user? : GetUserDto;
 
     /**
      * 
      * @param {Number} $id 
      * @param {string} $name
+     * @param {boolean} $active
      */
     constructor(
         $id: Number, 
-        $name: string
+        $name: string,
+        $active: boolean
     );
 
     /**
      * 
      * @param {Number} $id 
      * @param {string} $name 
+     * @param {boolean} $active
      * @param {Number} $usr_id 
      */
     constructor(
         $id: Number,
         $name: string,
+        $active: boolean,
         $usr_id: Number
     )
 
@@ -34,11 +40,13 @@ export class GetPlaceDto {
      * 
      * @param {Number} $id 
      * @param {string} $name 
+     * @param {boolean} $active
      * @param {User} $user 
      */
     constructor(
         $id: Number,
         $name: string,
+        $active: boolean,
         $user: User
     );
 
@@ -46,11 +54,13 @@ export class GetPlaceDto {
      * 
      * @param {Number} $id 
      * @param {string} $name 
+     * @param {boolean} $active
      * @param {GetUserDto} $user 
      */
     constructor(
         $id: Number,
         $name: string,
+        $active: boolean,
         $user: GetUserDto
     );
 
@@ -63,17 +73,20 @@ export class GetPlaceDto {
     constructor(
         $idOrObj: Number | Place,
         $name?: string,
+        $active?: boolean,
         $user?: User | GetUserDto | Number
     ) {
         if ($idOrObj instanceof Place) {
             this.id = $idOrObj.$id;
             this.name = $idOrObj.$name;
+            this.active = $idOrObj.$active;
             this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
             return;
         }
         
         this.id = $idOrObj;
         this.name = $name!;
+        this.active = $active!;
 
         if ($user instanceof GetUserDto) {
             this.user = $user;
@@ -101,6 +114,14 @@ export class GetPlaceDto {
 	public get $name(): string {
 		return this.name;
 	}
+
+    /**
+     * Getter $active
+     * @return {boolean}
+     */
+    public get $active(): boolean {
+        return this.active;
+    }
 
     /**
      * Getter $usr_id
@@ -133,6 +154,14 @@ export class GetPlaceDto {
 	public set $name(value: string) {
 		this.name = value;
 	}
+
+    /**
+     * Setter $active
+     * @param {boolean} value
+     */
+    public set $active(value: boolean) {
+        this.active = value;
+    }
 
     /**
      * Setter $usr_id

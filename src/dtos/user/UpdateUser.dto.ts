@@ -3,17 +3,20 @@ export class UpdateUserDto {
     private name? : string;
     private email? : string;
     private pass? : string;
+    private active? : boolean;
 
 	constructor(
         $id: Number,
         $name?: string, 
         $email?: string, 
-        $pass?: string
+        $pass?: string,
+        $active?: boolean
     ) {
         this.id = $id;
 		this.name = $name;
 		this.email = $email;
 		this.pass = $pass;
+        this.active = $active;
 	}
 
     /**
@@ -57,6 +60,14 @@ export class UpdateUserDto {
 	}
 
     /**
+     * Getter $active
+     * @return {boolean | undefined}
+     */
+    public get $active(): boolean | undefined {
+        return this.active;
+    }
+
+    /**
      * Setter $name
      * @param {string} value
      */
@@ -80,4 +91,11 @@ export class UpdateUserDto {
 		this.pass = value;
 	}
 
+    /**
+     * Setter $active
+     * @param {boolean} value
+     */
+    public set $active(value: boolean) {
+        this.active = value;
+    }
 }

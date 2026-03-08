@@ -171,4 +171,36 @@ export class MeasurementRepository {
             throw e;
         }
     }
+
+    public async Delete(id: Number) {
+        try {
+            const responseGetAll = await SheetsDbContext.get(`${TableStruct.Page}!${TableStruct.Id}:${TableStruct.Id}`);
+
+            if (!responseGetAll || !responseGetAll.data.values)
+                throw new Error(`Nenhuma resposta foi retornada pela API.`)
+
+            const measureValues = responseGetAll.data.values;
+            measureValues.shift();
+
+            console.log(measureValues)
+
+            let rowNum;
+
+            for(let i = 0; i < measureValues.length; i++) {
+                if (measureValues[i][0] == id) {
+                    rowNum = i + 1;
+                    break;
+                }
+            }
+
+            if (!rowNum)
+                throw new Error(`Nenhuma medicação com ID ${id} foi encontrado.`)
+
+            await SheetsDbContext.deleteRow(TableStruct.SheetId, rowNum);
+
+            return true;
+        } catch (e) {
+            throw e;
+        }
+    }
 }

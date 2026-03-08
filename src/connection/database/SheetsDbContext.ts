@@ -84,6 +84,31 @@ class SheetsDbContext {
             undefined : 
             await SheetsDbContext.get(`${$page}!${$colStart}${rowSearch + 1}:${$colEnd}${rowSearch + 1}`);
     }
+
+    public static async deleteRow(
+        $sheetId: number,
+        $rowNumber: number
+    ) {
+        const sheet = await this.getDbContext();
+
+        const response = sheet.batchUpdate({
+            spreadsheetId: process.env.SHEETS_URL,
+            requestBody: {
+                requests: [
+                    {
+                        deleteDimension: {
+                            range: {
+                                sheetId: $sheetId,
+                                dimension: 'ROWS',
+                                startIndex: $rowNumber,
+                                endIndex: $rowNumber + 1
+                            }
+                        }
+                    }
+                ]
+            }
+        })
+    }
 }
 
 export { SheetsDbContext };

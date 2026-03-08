@@ -1,4 +1,5 @@
 export enum PlaceTableStruct {
+    SheetId = 538500095,
     Page = 'Places',
     ColRange = 'A:D',
     Id = 'A',

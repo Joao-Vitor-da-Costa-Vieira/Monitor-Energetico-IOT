@@ -1,4 +1,5 @@
 export enum MeasurementTableStruct {
+    SheetId = 0,
     Page = 'Measurements',
     ColRange = 'A:F',
     Id = 'A',

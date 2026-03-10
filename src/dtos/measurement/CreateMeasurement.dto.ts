@@ -3,7 +3,7 @@ export class CreateMeasurementDto {
     private current : Number;
     private power : Number;
     private usr_id : Number;
-    private loc_id? : Number;
+    private plc_id? : Number;
 
     /**
      * 
@@ -11,20 +11,20 @@ export class CreateMeasurementDto {
      * @param {Number} $current 
      * @param {Number} $power 
      * @param {Number} $usr_id 
-     * @param {Number | undefined} $loc_id 
+     * @param {Number | undefined} $plc_id 
      */
 	constructor(
         $date: string, 
         $current: Number, 
         $power: Number, 
         $usr_id: Number, 
-        $loc_id?: Number
+        $plc_id?: Number
     ) {
         this.date = $date;
         this.current = $current;
         this.power = $power;
         this.usr_id = $usr_id;
-        this.loc_id = $loc_id;
+        this.plc_id = $plc_id;
 	}
 
     /**
@@ -60,11 +60,11 @@ export class CreateMeasurementDto {
 	}
 
     /**
-     * Getter $loc_id
+     * Getter $plc_id
      * @return {Number | undefined}
      */
-	public get $loc_id(): Number | undefined {
-		return this.loc_id;
+	public get $plc_id(): Number | undefined {
+		return this.plc_id;
 	}
 
     /**
@@ -100,11 +100,11 @@ export class CreateMeasurementDto {
 	}
 
     /**
-     * Setter $loc_id
+     * Setter $plc_id
      * @param {Number} value
      */
-	public set $loc_id(value: Number) {
-		this.loc_id = value;
+	public set $plc_id(value: Number) {
+		this.plc_id = value;
 	}
     
 }

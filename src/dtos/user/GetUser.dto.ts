@@ -5,6 +5,7 @@ export class GetUserDto {
     private name : string;
     private email : string;
     private pass : string;
+    private active : boolean;
 
     /**
      * 
@@ -12,8 +13,15 @@ export class GetUserDto {
      * @param {string} $name 
      * @param {string} $email 
      * @param {string} $pass 
+     * @param {boolean} $active
      */
-	constructor($id: Number, $name: string, $email: string, $pass: string);
+	constructor(
+        $id: Number, 
+        $name: string, 
+        $email: string, 
+        $pass: string,
+        $active: boolean
+    );
 
     /**
      * 
@@ -21,17 +29,25 @@ export class GetUserDto {
      */
     constructor($user: User);
 
-    constructor($idOrUser: Number | User, $name?: string, $email?: string, $pass?: string) {
+    constructor(
+        $idOrUser: Number | User, 
+        $name?: string, 
+        $email?: string, 
+        $pass?: string,
+        $active?: boolean
+    ) {
         if ($idOrUser instanceof User) {
             this.id = $idOrUser.$id;
             this.name = $idOrUser.$name;
             this.email = $idOrUser.$email;
             this.pass = $idOrUser.$pass;
+            this.active = $idOrUser.$active;
         } else {
             this.id = $idOrUser;
             this.name = $name!;
             this.email = $email!;
             this.pass = $pass!;
+            this.active = $active!;
         }
     }
 
@@ -68,6 +84,14 @@ export class GetUserDto {
 	}
 
     /**
+     * Getter $active
+     * @return {boolean}
+     */
+    public get $active(): boolean {
+        return this.active;
+    }
+
+    /**
      * Setter $id
      * @param {Number} value
      */
@@ -99,4 +123,11 @@ export class GetUserDto {
 		this.pass = value;
 	}
 
+    /**
+     * Setter $active
+     * @param {boolean} value
+     */
+    public set $active(value: boolean) {
+        this.active = value;
+    }
 }

@@ -2,15 +2,18 @@ export class UpdatePlaceDto {
     private id : Number;
     private name? : string;
     private user_id? : Number;
+    private active? : boolean;
 
 	constructor(
         $id: Number, 
         $name?: string, 
-        $user_id?: Number
+        $user_id?: Number,
+        $active?: boolean
     ) {
         this.id = $id;
         this.name = $name;
         this.user_id = $user_id;
+        this.active = $active;
 	}
 
     /**
@@ -38,6 +41,14 @@ export class UpdatePlaceDto {
 	}
 
     /**
+     * Getter $active
+     * @return {boolean | undefined}
+     */
+    public get $active(): boolean | undefined {
+        return this.active;
+    }
+
+    /**
      * Setter $id
      * @param {Number} value
      */
@@ -60,4 +71,12 @@ export class UpdatePlaceDto {
 	public set $user_id(value: Number) {
 		this.user_id = value;
 	}
+
+    /**
+     * Setter $active
+     * @param {boolean} value
+     */
+    public set $active(value: boolean) {
+        this.active = value;
+    }
 }

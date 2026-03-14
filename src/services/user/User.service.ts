@@ -98,7 +98,7 @@ class UserService {
                         errorMessages += `\n${x};`;
                     })
 
-                    throw new Error(`Senha inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
+                    throw new Error(`Senha nova inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
                 }
             }
             

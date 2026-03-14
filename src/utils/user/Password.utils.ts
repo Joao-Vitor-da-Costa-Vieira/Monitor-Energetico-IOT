@@ -1,6 +1,12 @@
 export abstract class PasswordUtils {
     public static verifyPassword(pass: string) : string[] {
         const errorsList = new Array();
+
+        if (pass.length === 0) {
+            errorsList.push("Nenhuma senha foi inserida.");
+            return errorsList;
+        }
+
         let regex;
         
         if (pass.length < 8)

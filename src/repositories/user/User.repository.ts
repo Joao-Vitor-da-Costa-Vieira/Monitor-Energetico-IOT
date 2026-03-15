@@ -5,6 +5,7 @@ import { UpdateUserDto } from "../../dtos/user/UpdateUser.dto.ts"
 import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum.ts"
 import User from "../../models/user/User.ts"
 import 'dotenv/config'
+import { SheetTypeMapper } from "../../utils/sheets/SheetTypes.mapper.ts"
 
 class UserRepository {
     private static instance : UserRepository;
@@ -62,7 +63,7 @@ class UserRepository {
                     x[1],
                     x[2],
                     x[3],
-                    x[4]
+                    SheetTypeMapper.convertSheetBool(x[4])
                 ))
             });
 
@@ -85,7 +86,7 @@ class UserRepository {
                 userDt[1],
                 userDt[2],
                 userDt[3],
-                userDt[4]
+                SheetTypeMapper.convertSheetBool(userDt[4])
             )
         }
     }
@@ -102,7 +103,13 @@ class UserRepository {
                 responseGet.data.range!
             )
 
-            return new User(user.$id, user.$name!, user.$email!, user.$pass!, user.$active!)
+            return new User(
+                user.$id, 
+                user.$name!, 
+                user.$email!, 
+                user.$pass!, 
+                user.$active!
+            )
         } catch (e) {
             console.error(e);
             throw e;

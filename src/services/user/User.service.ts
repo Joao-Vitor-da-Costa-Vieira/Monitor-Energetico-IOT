@@ -58,6 +58,23 @@ class UserService {
         }
     }
 
+    public async GetAllActive() : Promise<GetUserDto[]> {
+        try {
+            const userModelList = await this.userRepo.GetAll();
+
+            const userDtoList = new Array();
+
+            userModelList.forEach((x) => {
+                if (x.$active)
+                    userDtoList.push(new GetUserDto(x));
+            })
+
+            return userDtoList;
+        } catch (e) {
+            throw e;
+        }
+    }
+
     public async GetById(id: number) : Promise<GetUserDto | undefined> {
         try {
             const user = await this.userRepo.GetById(id);

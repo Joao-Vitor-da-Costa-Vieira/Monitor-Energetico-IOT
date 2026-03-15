@@ -102,7 +102,7 @@ class UserService {
                 }
             }
             
-            if (!userUpdData.$active) 
+            if (userUpdData.$active === undefined) 
                 userUpdData.$active = currUserData.$active;
 
             const userUpdated = await this.userRepo.Update(userUpdData);
@@ -115,20 +115,15 @@ class UserService {
 
     public async Activate(id: number) : Promise<void> {
         try {
-            const user = await this.userRepo.GetById(id);
-
-            if (!user)
-                throw new Error(`Nenhum usuário com ID ${id} foi encontrado para ser ativado.`);
-
             const userUpd = new UpdateUserDto(
-                user.$id,
-                user.$name,
-                user.$email,
-                user.$pass,
+                id,
+                undefined,
+                undefined,
+                undefined,
                 true
             );
 
-            await this.userRepo.Update(userUpd);
+            await this.Update(userUpd);
         } catch (e) {
             throw e;
         }
@@ -136,20 +131,15 @@ class UserService {
 
     public async Deactivate(id: number) : Promise<void> {
         try {
-            const user = await this.userRepo.GetById(id);
-
-            if (!user)
-                throw new Error(`Nenhum usuário com ID ${id} foi encontrado para ser ativado.`);
-
             const userUpd = new UpdateUserDto(
-                user.$id,
-                user.$name,
-                user.$email,
-                user.$pass,
+                id,
+                undefined,
+                undefined,
+                undefined,
                 false
             );
 
-            await this.userRepo.Update(userUpd);
+            await this.Update(userUpd);
         } catch (e) {
             throw e;
         }

@@ -80,6 +80,7 @@ export class GetPlaceDto {
             this.id = $idOrObj.$id;
             this.name = $idOrObj.$name;
             this.active = $idOrObj.$active;
+            this.usr_id = $idOrObj.$usr_id;
             this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
             return;
         }

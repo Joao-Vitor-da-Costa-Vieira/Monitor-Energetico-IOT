@@ -182,8 +182,6 @@ export class MeasurementRepository {
             const measureValues = responseGetAll.data.values;
             measureValues.shift();
 
-            console.log(measureValues)
-
             let rowNum;
 
             for(let i = 0; i < measureValues.length; i++) {

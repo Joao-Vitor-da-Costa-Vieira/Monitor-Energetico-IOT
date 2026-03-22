@@ -18,7 +18,7 @@ class UserRepository {
         return UserRepository.instance;
     }
 
-    private async GetNextId() : Promise<Number> {
+    private async GetNextId() : Promise<number> {
         try {
             const resId = await SheetsDbContext.get(SheetsSeq.UserSequence);
             const currId = Number(resId.data.values![0][0]);
@@ -74,7 +74,7 @@ class UserRepository {
         }
     }
 
-    public async GetById(id: Number) : Promise<User | undefined> {
+    public async GetById(id: number) : Promise<User | undefined> {
         const response = await SheetsDbContext.getByMatch(id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol);
 
         if (!response || !response.data.values) {

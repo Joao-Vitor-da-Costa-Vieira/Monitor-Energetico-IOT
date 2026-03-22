@@ -2,80 +2,80 @@ import Place from "../place/Place.ts";
 import User from "../user/User.ts";
 
 class Measurement {
-    private id : Number;
+    private id : number;
     private date : Date;
-    private current : Number;
-    private power : Number;
-    private usr_id : Number;
-    private plc_id? : Number;
+    private current : number;
+    private power : number;
+    private usr_id : number;
+    private plc_id? : number;
 
     private user? : User;
     private place? : Place;
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power  
-     * @param {Number} $usr_id
+     * @param {number} $current 
+     * @param {number} $power  
+     * @param {number} $usr_id
      */
     constructor(
-        $id: Number, 
+        $id: number, 
         $date: Date, 
-        $current: Number, 
-        $power: Number, 
-        $usr_id: Number
+        $current: number, 
+        $power: number, 
+        $usr_id: number
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power 
+     * @param {number} $current 
+     * @param {number} $power 
      * @param {User} $user 
      */
     constructor(
-        $id: Number, 
+        $id: number, 
         $date: Date, 
-        $current: Number, 
-        $power: Number, 
+        $current: number, 
+        $power: number, 
         $user: User
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power  
-     * @param {Number} $usr_id
-     * @param {Number} $plc_id 
+     * @param {number} $current 
+     * @param {number} $power  
+     * @param {number} $usr_id
+     * @param {number} $plc_id 
      */
     constructor(
-        $id: Number, 
+        $id: number, 
         $date: Date, 
-        $current: Number, 
-        $power: Number, 
-        $usr_id: Number, 
-        $plc_id: Number
+        $current: number, 
+        $power: number, 
+        $usr_id: number, 
+        $plc_id: number
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power 
+     * @param {number} $current 
+     * @param {number} $power 
      * @param {User} $user 
      * @param {Place} $place 
      */
     constructor(
-        $id: Number, 
+        $id: number, 
         $date: Date, 
-        $current: Number, 
-        $power: Number, 
+        $current: number, 
+        $power: number, 
         $user: User, 
         $place: Place
     );
@@ -83,12 +83,12 @@ class Measurement {
     // TODO: constructor DTO
 
     constructor(
-        $id_obj: Number, 
+        $id_obj: number, 
         $date?: Date, 
-        $current?: Number, 
-        $power?: Number, 
-        $user?: User | Number, 
-        $place?: Place | Number
+        $current?: number, 
+        $power?: number, 
+        $user?: User | number, 
+        $place?: Place | number
     ) {
         //TODO: constructor DTO
 
@@ -114,9 +114,9 @@ class Measurement {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
 
@@ -130,33 +130,33 @@ class Measurement {
 
     /**
      * Getter $current
-     * @return {Number}
+     * @return {number}
      */
-	public get $current(): Number {
+	public get $current(): number {
 		return this.current;
 	}
 
     /**
      * Getter $power
-     * @return {Number}
+     * @return {number}
      */
-	public get $power(): Number {
+	public get $power(): number {
 		return this.power;
 	}
 
     /**
      * Getter $plc_id
-     * @return {Number | undefined}
+     * @return {number | undefined}
      */
-	public get $plc_id(): Number | undefined {
+	public get $plc_id(): number | undefined {
 		return this.plc_id;
 	}
 
     /**
      * Getter $usr_id
-     * @return {Number}
+     * @return {number}
      */
-	public get $usr_id(): Number {
+	public get $usr_id(): number {
 		return this.usr_id;
 	}
 
@@ -178,9 +178,9 @@ class Measurement {
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 
@@ -194,33 +194,33 @@ class Measurement {
 
     /**
      * Setter $current
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $current(value: Number) {
+	public set $current(value: number) {
 		this.current = value;
 	}
 
     /**
      * Setter $power
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $power(value: Number) {
+	public set $power(value: number) {
 		this.power = value;
 	}
 
     /**
      * Setter $plc_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $plc_id(value: Number) {
+	public set $plc_id(value: number) {
 		this.plc_id = value;
 	}
 
     /**
      * Setter $usr_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $usr_id(value: Number) {
+	public set $usr_id(value: number) {
 		this.usr_id = value;
 	}
 

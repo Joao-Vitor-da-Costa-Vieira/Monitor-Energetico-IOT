@@ -1,13 +1,13 @@
 export class UpdatePlaceDto {
-    private id : Number;
+    private id : number;
     private name? : string;
-    private user_id? : Number;
+    private user_id? : number;
     private active? : boolean;
 
 	constructor(
-        $id: Number, 
+        $id: number, 
         $name?: string, 
-        $user_id?: Number,
+        $user_id?: number,
         $active?: boolean
     ) {
         this.id = $id;
@@ -18,9 +18,9 @@ export class UpdatePlaceDto {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
     
@@ -34,9 +34,9 @@ export class UpdatePlaceDto {
 
     /**
      * Getter $user_id
-     * @return {Number | undefined}
+     * @return {number | undefined}
      */
-	public get $user_id(): Number | undefined {
+	public get $user_id(): number | undefined {
 		return this.user_id;
 	}
 
@@ -50,9 +50,9 @@ export class UpdatePlaceDto {
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 
@@ -66,9 +66,9 @@ export class UpdatePlaceDto {
 
     /**
      * Setter $user_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $user_id(value: Number) {
+	public set $user_id(value: number) {
 		this.user_id = value;
 	}
 

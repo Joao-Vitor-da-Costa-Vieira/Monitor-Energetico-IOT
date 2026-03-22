@@ -17,7 +17,7 @@ export class PlaceRepository {
         return this.instance;
     }
 
-    private async GetNextId() : Promise<Number> {
+    private async GetNextId() : Promise<number> {
         try {
             const response = await SheetsDbContext.get(SheetsSeq.PlaceSequence);
 
@@ -76,7 +76,7 @@ export class PlaceRepository {
         }
     }
 
-    public async GetById(id: Number) : Promise<Place | undefined> {
+    public async GetById(id: number) : Promise<Place | undefined> {
         try {
             const response = await SheetsDbContext.getByMatch(id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol)
 

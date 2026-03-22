@@ -8,11 +8,11 @@ import UserRepository from "../../repositories/user/User.repository.ts";
 class PlaceService {
     private static instance : PlaceService;
     private placeRepo : PlaceRepository;
-    private userRepo : UserRepository;
+    private userServ : UserRepository;
 
     private constructor() {
         this.placeRepo = PlaceRepository.GetInstance();
-        this.userRepo = UserRepository.GetInstance();
+        this.userServ = UserRepository.GetInstance();
     }
 
     public static GetInstance() : PlaceService {
@@ -25,7 +25,7 @@ class PlaceService {
 
     public async Create(placeData : CreatePlaceDto) : Promise<GetPlaceDto> {
         try {
-            const user = await this.userRepo.GetById(placeData.$user_id);
+            const user = await this.userServ.GetById(placeData.$user_id);
             if (!user)
                 throw new Error(`Nenhum usuário com ID ${placeData.$user_id} foi encontrado.`)
 
@@ -79,7 +79,7 @@ class PlaceService {
             if (!place)
                 return undefined;
 
-            const user = await this.userRepo.GetById(place.$usr_id);
+            const user = await this.userServ.GetById(place.$usr_id);
             if (!user)
                 throw new Error(`Nenhum usuário com ID ${place.$usr_id} foi encontrado.`)
             
@@ -109,7 +109,7 @@ class PlaceService {
                 placeUpdData.$user_id = currPlaceData.$usr_id;
             }
 
-            user = await this.userRepo.GetById(placeUpdData.$id);
+            user = await this.userServ.GetById(placeUpdData.$id);
             if (!user)
                 throw new Error(`Nenhum usuário com ID ${placeUpdData.$id} foi encontrado.`)
 

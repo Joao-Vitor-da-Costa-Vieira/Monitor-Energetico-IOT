@@ -18,7 +18,7 @@ export class MeasurementRepository {
         return this.instance;
     }
 
-    private async GetNextId() : Promise<Number> {
+    private async GetNextId() : Promise<number> {
         try {
             const response = await SheetsDbContext.get(SheetsSeq.MeasureSequence);
 
@@ -105,7 +105,7 @@ export class MeasurementRepository {
         }
     }
 
-    public async GetById(id: Number) : Promise<Measurement | undefined> {
+    public async GetById(id: number) : Promise<Measurement | undefined> {
         try {
             const response = await SheetsDbContext.getByMatch(id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol);
 
@@ -172,7 +172,7 @@ export class MeasurementRepository {
         }
     }
 
-    public async Delete(id: Number) {
+    public async Delete(id: number) {
         try {
             const responseGetAll = await SheetsDbContext.get(`${TableStruct.Page}!${TableStruct.Id}:${TableStruct.Id}`);
 

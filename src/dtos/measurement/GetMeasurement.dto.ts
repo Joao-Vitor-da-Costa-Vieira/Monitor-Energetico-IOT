@@ -5,93 +5,93 @@ import { GetPlaceDto } from "../place/GetPlace.dto.ts"
 import Place from "../../models/place/Place.ts";
 
 export class GetMeasurementDto {
-    private id : Number;
+    private id : number;
     private date : Date;
-    private current : Number;
-    private power : Number;
-    private usr_id? : Number;
+    private current : number;
+    private power : number;
+    private usr_id? : number;
     private user? : GetUserDto;
-    private plc_id ? : Number;
+    private plc_id ? : number;
     private place? : GetPlaceDto;
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power
+     * @param {number} $current 
+     * @param {number} $power
      */
 	constructor(
-        $id: Number,
+        $id: number,
         $date: Date,
-        $current: Number,
-        $power: Number
+        $current: number,
+        $power: number
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power 
-     * @param {Number} $usr_id 
+     * @param {number} $current 
+     * @param {number} $power 
+     * @param {number} $usr_id 
      */
     constructor(
-        $id: Number,
+        $id: number,
         $date: Date,
-        $current: Number,
-        $power: Number,
-        $usr_id: Number
+        $current: number,
+        $power: number,
+        $usr_id: number
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power 
+     * @param {number} $current 
+     * @param {number} $power 
      * @param {GetUserDto | User} $user 
      */
 	constructor(
-        $id: Number,
+        $id: number,
         $date: Date,
-        $current: Number,
-        $power: Number,
+        $current: number,
+        $power: number,
         $user: GetUserDto | User
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power 
-     * @param {Number} $usr_id 
-     * @param {Number} $plc_id
+     * @param {number} $current 
+     * @param {number} $power 
+     * @param {number} $usr_id 
+     * @param {number} $plc_id
      */
     constructor(
-        $id: Number,
+        $id: number,
         $date: Date,
-        $current: Number,
-        $power: Number,
-        $usr_id: Number,
-        $plc_id: Number
+        $current: number,
+        $power: number,
+        $usr_id: number,
+        $plc_id: number
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {Date} $date 
-     * @param {Number} $current 
-     * @param {Number} $power 
+     * @param {number} $current 
+     * @param {number} $power 
      * @param {GetUserDto | User} $user 
      * @param {GetPlaceDto | Place } $place
      */
 	constructor(
-        $id: Number,
+        $id: number,
         $date: Date,
-        $current: Number,
-        $power: Number,
+        $current: number,
+        $power: number,
         $user: GetUserDto | User,
         $place: GetPlaceDto | Place
     );
@@ -105,12 +105,12 @@ export class GetMeasurementDto {
     )
 
     constructor(
-        $idOrObj: Number | Measurement,
+        $idOrObj: number | Measurement,
         $date?: Date,
-        $current?: Number,
-        $power?: Number,
-        $user?: GetUserDto | User | Number,
-        $place?: GetPlaceDto | Place | Number
+        $current?: number,
+        $power?: number,
+        $user?: GetUserDto | User | number,
+        $place?: GetPlaceDto | Place | number
     ) {
         if ($idOrObj instanceof Measurement) {
             this.id = $idOrObj.$id;
@@ -150,9 +150,9 @@ export class GetMeasurementDto {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
 
@@ -166,25 +166,25 @@ export class GetMeasurementDto {
 
     /**
      * Getter $current
-     * @return {Number}
+     * @return {number}
      */
-	public get $current(): Number {
+	public get $current(): number {
 		return this.current;
 	}
 
     /**
      * Getter $power
-     * @return {Number}
+     * @return {number}
      */
-	public get $power(): Number {
+	public get $power(): number {
 		return this.power;
 	}
 
     /**
      * Getter $usr_id
-     * @returns {Number | undefined}
+     * @returns {number | undefined}
      */
-    public get $usr_id(): Number | undefined {
+    public get $usr_id(): number | undefined {
         return this.usr_id;
     }
 
@@ -198,9 +198,9 @@ export class GetMeasurementDto {
 
     /**
      * Getter $plc_id
-     * @returns {Number | undefined}
+     * @returns {number | undefined}
      */
-    public get $plc_id(): Number | undefined {
+    public get $plc_id(): number | undefined {
         return this.plc_id;
     }
 
@@ -214,9 +214,9 @@ export class GetMeasurementDto {
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 
@@ -230,17 +230,17 @@ export class GetMeasurementDto {
 
     /**
      * Setter $current
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $current(value: Number) {
+	public set $current(value: number) {
 		this.current = value;
 	}
 
     /**
      * Setter $power
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $power(value: Number) {
+	public set $power(value: number) {
 		this.power = value;
 	}
 

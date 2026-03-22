@@ -1,8 +1,8 @@
 export class CreatePlaceDto {
     private name : string;
-    private user_id : Number;
+    private user_id : number;
 
-	constructor($name: string, $user_id: Number) {
+	constructor($name: string, $user_id: number) {
 		this.name = $name;
 		this.user_id = $user_id;
 	}
@@ -17,9 +17,9 @@ export class CreatePlaceDto {
 
     /**
      * Getter $user_id
-     * @return {Number}
+     * @return {number}
      */
-	public get $user_id(): Number {
+	public get $user_id(): number {
 		return this.user_id;
 	}
 
@@ -33,9 +33,9 @@ export class CreatePlaceDto {
 
     /**
      * Setter $user_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $user_id(value: Number) {
+	public set $user_id(value: number) {
 		this.user_id = value;
 	}
 

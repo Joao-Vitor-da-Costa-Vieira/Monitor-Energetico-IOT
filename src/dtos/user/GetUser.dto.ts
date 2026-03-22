@@ -1,7 +1,7 @@
 import User from "../../models/user/User";
 
 export class GetUserDto {
-    private id : Number;
+    private id : number;
     private name : string;
     private email : string;
     private pass : string;
@@ -9,14 +9,14 @@ export class GetUserDto {
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name 
      * @param {string} $email 
      * @param {string} $pass 
      * @param {boolean} $active
      */
 	constructor(
-        $id: Number, 
+        $id: number, 
         $name: string, 
         $email: string, 
         $pass: string,
@@ -30,7 +30,7 @@ export class GetUserDto {
     constructor($user: User);
 
     constructor(
-        $idOrUser: Number | User, 
+        $idOrUser: number | User, 
         $name?: string, 
         $email?: string, 
         $pass?: string,
@@ -53,9 +53,9 @@ export class GetUserDto {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
 
@@ -93,9 +93,9 @@ export class GetUserDto {
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 

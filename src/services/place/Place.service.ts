@@ -3,16 +3,16 @@ import { GetPlaceDto } from "../../dtos/place/GetPlace.dto.ts";
 import { UpdatePlaceDto } from "../../dtos/place/UpdatePlace.dto";
 import { GetUserDto } from "../../dtos/user/GetUser.dto.ts";
 import { PlaceRepository } from "../../repositories/place/Place.repository";
-import UserRepository from "../../repositories/user/User.repository.ts";
+import UserService from "../../repositories/user/User.repository.ts";
 
 class PlaceService {
     private static instance : PlaceService;
     private placeRepo : PlaceRepository;
-    private userServ : UserRepository;
+    private userServ : UserService;
 
     private constructor() {
         this.placeRepo = PlaceRepository.GetInstance();
-        this.userServ = UserRepository.GetInstance();
+        this.userServ = UserService.GetInstance();
     }
 
     public static GetInstance() : PlaceService {

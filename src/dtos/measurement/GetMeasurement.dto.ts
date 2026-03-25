@@ -117,6 +117,8 @@ export class GetMeasurementDto {
             this.date = $idOrObj.$date;
             this.current = $idOrObj.$current;
             this.power = $idOrObj.$power;
+            this.usr_id = $idOrObj.$user ? $idOrObj.$user.$id : $idOrObj.$usr_id;
+            this.plc_id = $idOrObj.$place ? $idOrObj.$place.$id : $idOrObj.$plc_id;
             this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
             this.place = $idOrObj.$place ? new GetPlaceDto($idOrObj.$place) : undefined;
             return;

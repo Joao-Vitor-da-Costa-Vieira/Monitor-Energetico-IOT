@@ -1,18 +1,18 @@
 export class UpdateMeasurementDto {
-    private id : Number;
+    private id : number;
     private date? : string;
-    private current? : Number;
-    private power? : Number;
-    private usr_id? : Number;
-    private plc_id? : Number;
+    private current? : number;
+    private power? : number;
+    private usr_id? : number;
+    private plc_id? : number;
 
     constructor(
-        $id: Number,
+        $id: number,
         $date?: string,
-        $current?: Number,
-        $power?: Number,
-        $usr_id?: Number,
-        $plc_id?: Number
+        $current?: number,
+        $power?: number,
+        $usr_id?: number,
+        $plc_id?: number
     ) {
         this.id = $id;
         this.date = $date;
@@ -24,9 +24,9 @@ export class UpdateMeasurementDto {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
 
@@ -40,41 +40,41 @@ export class UpdateMeasurementDto {
 
     /**
      * Getter $current
-     * @return {Number | undefined}
+     * @return {number | undefined}
      */
-	public get $current(): Number | undefined {
+	public get $current(): number | undefined {
 		return this.current;
 	}
 
     /**
      * Getter $power
-     * @return {Number | undefined}
+     * @return {number | undefined}
      */
-	public get $power(): Number | undefined {
+	public get $power(): number | undefined {
 		return this.power;
 	}
 
     /**
      * Getter $usr_id
-     * @return {Number | undefined}
+     * @return {number | undefined}
      */
-	public get $usr_id(): Number | undefined {
+	public get $usr_id(): number | undefined {
 		return this.usr_id;
 	}
 
     /**
      * Getter $plc_id
-     * @return {Number | undefined}
+     * @return {number | undefined}
      */
-	public get $plc_id(): Number | undefined {
+	public get $plc_id(): number | undefined {
 		return this.plc_id;
 	}
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 
@@ -88,33 +88,33 @@ export class UpdateMeasurementDto {
 
     /**
      * Setter $current
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $current(value: Number) {
+	public set $current(value: number) {
 		this.current = value;
 	}
 
     /**
      * Setter $power
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $power(value: Number) {
+	public set $power(value: number) {
 		this.power = value;
 	}
 
     /**
      * Setter $usr_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $usr_id(value: Number) {
+	public set $usr_id(value: number) {
 		this.usr_id = value;
 	}
 
     /**
      * Setter $plc_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $plc_id(value: Number) {
+	public set $plc_id(value: number) {
 		this.plc_id = value;
 	}
 

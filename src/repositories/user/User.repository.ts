@@ -5,6 +5,7 @@ import { UpdateUserDto } from "../../dtos/user/UpdateUser.dto.ts"
 import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum.ts"
 import User from "../../models/user/User.ts"
 import 'dotenv/config'
+import { SheetTypeMapper } from "../../utils/sheets/SheetTypes.mapper.ts"
 
 class UserRepository {
     private static instance : UserRepository;
@@ -17,7 +18,7 @@ class UserRepository {
         return UserRepository.instance;
     }
 
-    private async GetNextId() : Promise<Number> {
+    private async GetNextId() : Promise<number> {
         try {
             const resId = await SheetsDbContext.get(SheetsSeq.UserSequence);
             const currId = Number(resId.data.values![0][0]);
@@ -26,7 +27,6 @@ class UserRepository {
 
             return currId;
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -42,7 +42,6 @@ class UserRepository {
 
             return new User(id, user.$name, user.$email, user.$pass);
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -62,18 +61,17 @@ class UserRepository {
                     x[1],
                     x[2],
                     x[3],
-                    x[4]
+                    SheetTypeMapper.convertSheetBool(x[4])
                 ))
             });
 
             return userArray;
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
 
-    public async GetById(id: Number) : Promise<User | undefined> {
+    public async GetById(id: number) : Promise<User | undefined> {
         const response = await SheetsDbContext.getByMatch(id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol);
 
         if (!response || !response.data.values) {
@@ -85,7 +83,7 @@ class UserRepository {
                 userDt[1],
                 userDt[2],
                 userDt[3],
-                userDt[4]
+                SheetTypeMapper.convertSheetBool(userDt[4])
             )
         }
     }
@@ -102,9 +100,14 @@ class UserRepository {
                 responseGet.data.range!
             )
 
-            return new User(user.$id, user.$name!, user.$email!, user.$pass!, user.$active!)
+            return new User(
+                user.$id, 
+                user.$name!, 
+                user.$email!, 
+                user.$pass!, 
+                user.$active!
+            )
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }

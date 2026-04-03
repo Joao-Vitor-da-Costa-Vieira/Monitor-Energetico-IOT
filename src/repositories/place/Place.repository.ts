@@ -4,6 +4,7 @@ import Place from "../../models/place/Place.ts";
 import { PlaceTableStruct as TableStruct } from "../../enums/tableStructure/PlaceTableStruct.enum.ts";
 import { CreatePlaceDto } from "../../dtos/place/CreatePlace.dto.ts";
 import { UpdatePlaceDto } from "../../dtos/place/UpdatePlace.dto.ts";
+import { SheetTypeMapper } from "../../utils/sheets/SheetTypes.mapper.ts";
 
 export class PlaceRepository {
     private static instance : PlaceRepository;
@@ -16,7 +17,7 @@ export class PlaceRepository {
         return this.instance;
     }
 
-    private async GetNextId() : Promise<Number> {
+    private async GetNextId() : Promise<number> {
         try {
             const response = await SheetsDbContext.get(SheetsSeq.PlaceSequence);
 
@@ -29,7 +30,6 @@ export class PlaceRepository {
 
             return Number(currId);
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -45,7 +45,6 @@ export class PlaceRepository {
 
             return new Place(id, place.$name, place.$user_id, true)
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -64,18 +63,17 @@ export class PlaceRepository {
                     x[0],
                     x[1],
                     Number(x[2]),
-                    x[3]
+                    SheetTypeMapper.convertSheetBool(x[3])
                 ))
             })
 
             return placesArray;
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
 
-    public async GetById(id: Number) : Promise<Place | undefined> {
+    public async GetById(id: number) : Promise<Place | undefined> {
         try {
             const response = await SheetsDbContext.getByMatch(id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol)
 
@@ -88,10 +86,9 @@ export class PlaceRepository {
                 placeDt[0],
                 placeDt[1],
                 Number(placeDt[2]),
-                placeDt[3]
+                SheetTypeMapper.convertSheetBool(placeDt[3])
             )
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -109,9 +106,13 @@ export class PlaceRepository {
                 responseGet.data.range!
             );
 
-            return new Place(place.$id, place.$name!, place.$user_id!, place.$active!);
+            return new Place(
+                place.$id, 
+                place.$name!, 
+                place.$user_id!, 
+                place.$active!
+            );
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }

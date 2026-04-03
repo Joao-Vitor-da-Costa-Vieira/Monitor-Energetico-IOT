@@ -3,48 +3,48 @@ import User from '../../models/user/User.ts'
 import Place from '../../models/place/Place.ts';
 
 export class GetPlaceDto {
-    private id : Number;
+    private id : number;
     private name : string;
-    private usr_id? : Number;
+    private usr_id? : number;
     private active : boolean;
 
     private user? : GetUserDto;
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name
      * @param {boolean} $active
      */
     constructor(
-        $id: Number, 
+        $id: number, 
         $name: string,
         $active: boolean
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name 
      * @param {boolean} $active
-     * @param {Number} $usr_id 
+     * @param {number} $usr_id 
      */
     constructor(
-        $id: Number,
+        $id: number,
         $name: string,
         $active: boolean,
-        $usr_id: Number
+        $usr_id: number
     )
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name 
      * @param {boolean} $active
      * @param {User} $user 
      */
     constructor(
-        $id: Number,
+        $id: number,
         $name: string,
         $active: boolean,
         $user: User
@@ -52,13 +52,13 @@ export class GetPlaceDto {
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name 
      * @param {boolean} $active
      * @param {GetUserDto} $user 
      */
     constructor(
-        $id: Number,
+        $id: number,
         $name: string,
         $active: boolean,
         $user: GetUserDto
@@ -71,15 +71,16 @@ export class GetPlaceDto {
     constructor($place: Place);
 
     constructor(
-        $idOrObj: Number | Place,
+        $idOrObj: number | Place,
         $name?: string,
         $active?: boolean,
-        $user?: User | GetUserDto | Number
+        $user?: User | GetUserDto | number
     ) {
         if ($idOrObj instanceof Place) {
             this.id = $idOrObj.$id;
             this.name = $idOrObj.$name;
             this.active = $idOrObj.$active;
+            this.usr_id = $idOrObj.$usr_id;
             this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
             return;
         }
@@ -101,9 +102,9 @@ export class GetPlaceDto {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
 
@@ -125,9 +126,9 @@ export class GetPlaceDto {
 
     /**
      * Getter $usr_id
-     * @return {Number}
+     * @return {number}
      */
-	public get $usr_id(): Number | undefined {
+	public get $usr_id(): number | undefined {
 		return this.usr_id;
 	}
 
@@ -141,9 +142,9 @@ export class GetPlaceDto {
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 
@@ -165,9 +166,9 @@ export class GetPlaceDto {
 
     /**
      * Setter $usr_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $usr_id(value: Number) {
+	public set $usr_id(value: number) {
 		this.usr_id = value;
 	}
 

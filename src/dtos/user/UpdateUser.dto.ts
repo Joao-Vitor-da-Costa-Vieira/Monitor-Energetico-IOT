@@ -1,12 +1,12 @@
 export class UpdateUserDto {
-    private id : Number;
+    private id : number;
     private name? : string;
     private email? : string;
     private pass? : string;
     private active? : boolean;
 
 	constructor(
-        $id: Number,
+        $id: number,
         $name?: string, 
         $email?: string, 
         $pass?: string,
@@ -21,17 +21,17 @@ export class UpdateUserDto {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 

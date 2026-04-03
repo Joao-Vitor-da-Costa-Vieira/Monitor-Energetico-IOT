@@ -1,5 +1,5 @@
 class User {
-    private id : Number;
+    private id : number;
     private name : string;
     private email : string;
     private pass : string;
@@ -7,14 +7,14 @@ class User {
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name 
      * @param {string} $email 
      * @param {string} $pass 
      * @param {boolean} $active
      */
 	constructor(
-        $id: Number, 
+        $id: number, 
         $name: string, 
         $email: string, 
         $pass: string,
@@ -29,10 +29,10 @@ class User {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
-		return Number(this.id);
+	public get $id(): number {
+		return this.id;
 	}
 
     /**
@@ -69,9 +69,9 @@ class User {
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 

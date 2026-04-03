@@ -1,36 +1,36 @@
 import User from "../user/User.ts";
 
 class Place {
-    private id : Number;
+    private id : number;
     private name : string;
-    private usr_id : Number;
+    private usr_id : number;
     private active : boolean;
 
     private user? : User;
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name 
-     * @param {Number} $usr_id 
+     * @param {number} $usr_id 
      * @param {boolean} $active
      */
 	constructor(
-        $id: Number, 
+        $id: number, 
         $name: string, 
-        $usr_id: Number,
+        $usr_id: number,
         $active: boolean
     );
 
     /**
      * 
-     * @param {Number} $id 
+     * @param {number} $id 
      * @param {string} $name 
      * @param {User} $user
      * @param {boolean} $active
      */
 	constructor(
-        $id: Number, 
+        $id: number, 
         $name: string, 
         $user: User,
         $active: boolean
@@ -39,9 +39,9 @@ class Place {
     // TODO: constructor DTO
 
     constructor(
-        $id_dto: Number, 
+        $id_dto: number, 
         $name?: string, 
-        $user?: Number | User,
+        $user?: number | User,
         $active: boolean = true
     ) {
         // TODO constructor DTO
@@ -60,9 +60,9 @@ class Place {
 
     /**
      * Getter $id
-     * @return {Number}
+     * @return {number}
      */
-	public get $id(): Number {
+	public get $id(): number {
 		return this.id;
 	}
 
@@ -76,9 +76,9 @@ class Place {
 
     /**
      * Getter $usr_id
-     * @return {Number}
+     * @return {number}
      */
-	public get $usr_id(): Number {
+	public get $usr_id(): number {
 		return this.usr_id;
 	}
 
@@ -92,9 +92,9 @@ class Place {
 
     /**
      * Setter $id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $id(value: Number) {
+	public set $id(value: number) {
 		this.id = value;
 	}
 
@@ -108,9 +108,9 @@ class Place {
 
     /**
      * Setter $usr_id
-     * @param {Number} value
+     * @param {number} value
      */
-	public set $usr_id(value: Number) {
+	public set $usr_id(value: number) {
 		this.usr_id = value;
 	}
 

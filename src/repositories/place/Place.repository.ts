@@ -30,7 +30,6 @@ export class PlaceRepository {
 
             return Number(currId);
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -46,7 +45,6 @@ export class PlaceRepository {
 
             return new Place(id, place.$name, place.$user_id, true)
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -71,7 +69,6 @@ export class PlaceRepository {
 
             return placesArray;
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -92,7 +89,6 @@ export class PlaceRepository {
                 SheetTypeMapper.convertSheetBool(placeDt[3])
             )
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -117,7 +113,6 @@ export class PlaceRepository {
                 place.$active!
             );
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }

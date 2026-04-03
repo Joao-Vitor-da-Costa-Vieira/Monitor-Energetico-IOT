@@ -31,7 +31,6 @@ export class MeasurementRepository {
 
             return Number(currId);
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }

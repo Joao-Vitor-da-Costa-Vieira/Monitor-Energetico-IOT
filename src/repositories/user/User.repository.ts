@@ -27,7 +27,6 @@ class UserRepository {
 
             return currId;
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -43,7 +42,6 @@ class UserRepository {
 
             return new User(id, user.$name, user.$email, user.$pass);
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -69,7 +67,6 @@ class UserRepository {
 
             return userArray;
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }
@@ -111,7 +108,6 @@ class UserRepository {
                 user.$active!
             )
         } catch (e) {
-            console.error(e);
             throw e;
         }
     }

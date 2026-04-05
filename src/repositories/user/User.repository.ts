@@ -88,6 +88,23 @@ class UserRepository {
         }
     }
 
+    public async GetByEmail(email: string) : Promise<User | undefined> {
+        const response = await SheetsDbContext.getByMatch(email, TableStruct.Page, TableStruct.Email, TableStruct.FirstCol, TableStruct.LastCol);
+
+        if (!response || !response.data.values) {
+            return undefined;
+        } else {
+            const userDt = response.data.values[0];
+            return new User(
+                userDt[0],
+                userDt[1],
+                userDt[2],
+                userDt[3],
+                SheetTypeMapper.convertSheetBool(userDt[4])
+            )
+        }
+    }
+
     public async Update(user: UpdateUserDto) : Promise<User> {
         try {
             const responseGet = await SheetsDbContext.getByMatch(user.$id, TableStruct.Page, TableStruct.Id, TableStruct.FirstCol, TableStruct.LastCol)

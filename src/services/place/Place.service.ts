@@ -72,6 +72,23 @@ class PlaceService {
         }
     }
 
+    public async GetAllByUserId(id: number) : Promise<GetPlaceDto[]> {
+        try {
+            const placeModelList = await this.placeRepo.GetAll();
+
+            const placeDtoList = new Array();
+
+            placeModelList.forEach((x) => {
+                if (x.$usr_id == id)
+                    placeDtoList.push(new GetPlaceDto(x));
+            })
+
+            return placeDtoList;
+        } catch (e) {
+            throw e;
+        }
+    }
+
     public async GetById(id: number) : Promise<GetPlaceDto | undefined> {
         try {
             const place = await this.placeRepo.GetById(id);

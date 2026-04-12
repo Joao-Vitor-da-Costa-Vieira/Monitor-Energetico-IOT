@@ -1,6 +1,7 @@
 export class LoginSingleton {
     private static instance : LoginSingleton;
-    private userId : number | undefined;
+    private userId? : number;
+    private placeId? : number;
 
     private constructor() {
 
@@ -28,4 +29,21 @@ export class LoginSingleton {
     public set $userId(value: number | undefined) {
         this.userId = value;
     }
+
+    /**
+     * Getter $placeId
+     * @return {number }
+     */
+	public get $placeId(): number | undefined  {
+		return this.placeId;
+	}
+
+    /**
+     * Setter $placeId
+     * @param {number } value
+     */
+	public set $placeId(value: number | undefined ) {
+		this.placeId = value;
+	}
+
 }

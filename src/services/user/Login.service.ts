@@ -52,6 +52,7 @@ export class LoginService {
     public async LogOutUsr() {
         try {
             this.loginSingleton.$userId = undefined;
+            this.ClearCrtMeasurePlaceId();
         } catch (e) {
             throw e;
         }

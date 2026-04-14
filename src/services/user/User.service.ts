@@ -34,6 +34,11 @@ class UserService {
                 throw new Error(`Senha inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
             }
 
+            const userExist = await this.userRepo.GetByEmail(userData.$email);
+
+            if (userExist)
+                throw new Error("Já existe um usuário cadastrado com o e-mail inserido.")
+
             const newUser = await this.userRepo.Create(userData);
 
             return new GetUserDto(newUser);
@@ -78,6 +83,19 @@ class UserService {
     public async GetById(id: number) : Promise<GetUserDto | undefined> {
         try {
             const user = await this.userRepo.GetById(id);
+
+            if (!user)
+                return undefined
+            else
+                return new GetUserDto(user);
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    public async GetByEmail(email: string) : Promise<GetUserDto | undefined> {
+        try {
+            const user = await this.userRepo.GetByEmail(email);
 
             if (!user)
                 return undefined

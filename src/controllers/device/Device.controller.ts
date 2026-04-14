@@ -22,8 +22,6 @@ export class DeviceController {
 
     public SaveMeasureData = async (req: Request, res: Response) => {
         try {
-            console.log(req.body)
-
             const user = await this.loginServ.GetLoggedUsr()
 
             if (!user)

@@ -117,6 +117,9 @@ export class LoginService {
 
     public async GetCrtMeasurePlaceId() : Promise<number | undefined> {
         try {
+            if (!this.loginSingleton.$userId)
+                throw new Error("Um usuário precisa estar logado para ler o local da nova medição.");
+
             return this.loginSingleton.$placeId;
         } catch (e) {
             throw e;
@@ -125,6 +128,9 @@ export class LoginService {
 
     public async ClearCrtMeasurePlaceId() {
         try {
+            if (!this.loginSingleton.$userId)
+                throw new Error("Um usuário precisa estar logado para apagar o local da nova medição.");
+
             this.loginSingleton.$placeId = undefined;
         } catch (e) {
             throw e;

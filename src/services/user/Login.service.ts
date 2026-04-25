@@ -35,6 +35,9 @@ export class LoginService {
 
     public async SetLoggedUsr(loginReq: LoginRequestDto) {
         try {
+            if (this.loginSingleton.$userId)
+                throw new Error("Um usuário já está conectado. É necessário desconectar da conta atual para fazer login.")
+            
             const user = await this.userServ.GetByEmail(loginReq.$email);
 
             if (!user)
@@ -43,7 +46,7 @@ export class LoginService {
             if (user.$pass !== loginReq.$pass)
                 throw new Error(`Senha inserida é diferente da senha cadastrada.`)
 
-            this.loginSingleton.$userId = user.$id;
+            this.loginSingleton.$userId = Number(user.$id);
         } catch (e) {
            throw e; 
         }
@@ -74,7 +77,7 @@ export class LoginService {
                 throw new Error("Para escolher um local para medição, é necessário informar o nome do local ou seu ID.");
             }
             
-            this.loginSingleton.$placeId = placeChoosen.$id;
+            this.loginSingleton.$placeId = Number(placeChoosen.$id);
         } catch (e) {
             throw e;
         }

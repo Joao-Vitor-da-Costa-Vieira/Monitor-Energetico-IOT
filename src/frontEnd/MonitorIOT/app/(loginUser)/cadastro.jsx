@@ -1,33 +1,25 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import {emailInput, passwordInput} from '../components/Inputs'
-import buttons from '../components/buttons'
-import { Link } from 'expo-router'
+import {emailInput, passwordInput} from '../../components/Inputs'
+import buttons from '../../components/buttons'
 
-const Login = () => {
+const cadastro = () => {
   return (
     <View style={styles.container}>
       <Image 
       style={{width: 100, height: 150}} source={require('../assets/adaptive-icon.png')} />
       
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Cadastro</Text>
 
       {emailInput()}
       {passwordInput()}
 
-      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar'}})}
-
-      <View>
-        <Link href="/cadastro" style={styles.link}>Cadastre-se</Link>
-      </View>
-      <View>
-        <Link href="/" style={styles.link}>Esqueci minha senha</Link>
-      </View>
-    </View>   
+      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Cadastrar'}})}
+    </View>
   )
 }
 
-export default Login
+export default cadastro
 
 const styles = StyleSheet.create({
   container:{

@@ -21,14 +21,13 @@ export {emailInput, passwordInput};
 
 const styles = StyleSheet.create({
     padding: {
-        padding: 10
-    },
+        padding: 5},
     input: {
         borderWidth: 5,
         width: 250,
         height: 47,
         borderColor: 'black',
-        padding: 10,
+        padding: 15,
         borderRadius: 10
     }
 })

@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, Image, Scr } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import {emailInput, passwordInput} from '../components/Inputs'
+import buttons from '../components/buttons'
 
 const Login = () => {
   return (
@@ -13,8 +14,13 @@ const Login = () => {
       {emailInput()}
       {passwordInput()}
 
+      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar'}})}
+
       <View>
-        <Text>Esqueci minha senha</Text>
+        <Text style={styles.link}>Cadastre-se</Text>
+      </View>
+      <View>
+        <Text style={styles.link}>Esqueci minha senha</Text>
       </View>
     </View>   
   )
@@ -31,6 +37,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginTop: 20
+    marginTop: 10
+  },
+  link: {
+    color: '#01cfeb',
+    textDecorationLine: 'underline',
+    marginTop: 3
   }
 })

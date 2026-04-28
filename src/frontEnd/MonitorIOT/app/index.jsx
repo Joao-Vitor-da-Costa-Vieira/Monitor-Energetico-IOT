@@ -2,26 +2,20 @@ import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import {emailInput, passwordInput} from '../components/Inputs'
 import buttons from '../components/buttons'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 
 const Login = () => {
   return (
     <View style={styles.container}>
       <Image 
-      style={{width: 100, height: 150}} source={require('../assets/adaptive-icon.png')} />
+      style={{width: 100, height: 150}} source={require('../assets/lampada.png')} />
       
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Entre em sua conta</Text>
 
-      {emailInput()}
-      {passwordInput()}
-
-      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar'}})}
+      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar', onPress: () => router.push('/(loginUser)/login')}})}
 
       <View>
-        <Link href="/cadastro" style={styles.link}>Cadastre-se</Link>
-      </View>
-      <View>
-        <Link href="/" style={styles.link}>Esqueci minha senha</Link>
+        <Link href="/(loginUser)/cadastro" style={styles.link}>Cadastre-se</Link>
       </View>
     </View>   
   )

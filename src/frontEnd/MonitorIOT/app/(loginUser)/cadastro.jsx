@@ -7,12 +7,13 @@ const cadastro = () => {
   return (
     <View style={styles.container}>
       <Image 
-      style={{width: 100, height: 150}} source={require('../assets/adaptive-icon.png')} />
+      style={{width: 100, height: 150}} source={require('../../assets/lampada.png')} />
       
       <Text style={styles.title}>Cadastro</Text>
 
       {emailInput()}
-      {passwordInput()}
+      {passwordInput({placeholder: 'Senha'})}
+      {passwordInput({placeholder: 'Confirmar Senha'})}
 
       {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Cadastrar'}})}
     </View>

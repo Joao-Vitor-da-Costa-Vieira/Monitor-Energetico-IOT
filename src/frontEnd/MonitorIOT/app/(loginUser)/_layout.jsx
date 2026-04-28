@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
 
-const RootLayout = () => {
+const LoginUserLayout = () => {
 
     return (
         <Stack screenOptions={{
@@ -10,13 +10,12 @@ const RootLayout = () => {
             headerTintColor: '#fff',
             headerTitleStyle: {fontWeight: 'bold'}
         }}>
-            <Stack.Screen name="index" options={{title: 'Monitor de Energia IOT'}} />
-            <Stack.Screen name="(loginUser)" options={{headerShown: false}} />
-            <Stack.Screen name="Dashboard" options={{title: 'Dashboard'}} />
+            <Stack.Screen name="cadastro" options={{title: 'Cadastro'}} />
+            <Stack.Screen name="login" options={{title: 'Login'}} />
         </Stack>
     )
 }
 
-export default RootLayout
+export default LoginUserLayout
 
 const styles = StyleSheet.create({})

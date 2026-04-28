@@ -9,10 +9,10 @@ const emailInput = () =>{
     )
 }
 
-const passwordInput = () =>{
+const passwordInput = ( propsInput ) =>{
     return(
         <View style={styles.padding}>
-            <TextInput style={styles.input} placeholder="Senha" secureTextEntry />
+            <TextInput style={styles.input} placeholder={propsInput.placeholder} secureTextEntry />
         </View>
     )
 }
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         width: 250,
         height: 47,
         borderColor: 'black',
-        padding: 15,
+        padding: 10,
         borderRadius: 10
     }
 })

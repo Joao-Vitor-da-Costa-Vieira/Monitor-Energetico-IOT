@@ -170,22 +170,23 @@ class MeasurementService {
             if (!measureUpdData.$plc_id && currMeasureDto.$plc_id)
                 measureUpdData.$plc_id = currMeasureDto.$plc_id;
 
-            if (!measureUpdData.$usr_id)
+            if (!measureUpdData.$usr_id) {
                 measureUpdData.$usr_id = currMeasureDto.$usr_id;
-
-            if (!measureUpdData.$plc_id) {
+            } else {
                 user = await this.userServ.GetById(measureUpdData.$usr_id);
 
                 if (!user)
                     throw new NoDataFoundError(404, `Nenhum usuário com ID ${measureUpdData.$usr_id} foi encontrado.`);
-            } else {
+            }
+
+            if (measureUpdData.$plc_id) {
                 place = await this.placeServ.GetById(measureUpdData.$plc_id);
 
                 if (!place)
                     throw new NoDataFoundError(404, `Nenhum local com ID ${measureUpdData.$plc_id} foi encontrado.`);
 
                 if (place.$usr_id != measureUpdData.$usr_id)
-                    throw new BussinessRuleError(400, `O local "${place.$name}" não está registrado na conta do usuário com ID ${measureUpdData.$usr_id}.`)
+                    throw new BussinessRuleError(400, `O local "${place.$name}" não está registrado na conta do usuário com ID ${measureUpdData.$usr_id}.`);
 
                 user = place.$user;
             }

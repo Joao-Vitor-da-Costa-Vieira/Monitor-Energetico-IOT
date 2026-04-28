@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { LoginService } from "../../services/user/Login.service.ts"
 import { LoginRequestDto } from "../../dtos/user/LoginRequest.dto.ts";
 import { SetPlaceMeasureReqDto } from "../../dtos/place/SetPlaceMeasureReq.dto.ts";
+import { AbstractApiError } from "../../errors/AbstractApi.error.ts";
+import { RequestError } from "../../errors/http/Request.error.ts";
 
 export class LoginController {
     private static instance : LoginController;
@@ -26,6 +28,13 @@ export class LoginController {
                 usrId: loggedUsr
             });
         } catch (e: any) {
+            if (e instanceof AbstractApiError) {
+                console.error(e.$consoleLog);
+                return res.status(e.$statusCode).json({
+                    exception: e.$message
+                });
+            }
+
             console.error(e);
             return res.status(500).json({
                 exception: e.message
@@ -46,6 +55,13 @@ export class LoginController {
                 message: `Usuário conectado com sucesso`
             });
         } catch (e: any) {
+            if (e instanceof AbstractApiError) {
+                console.error(e.$consoleLog);
+                return res.status(e.$statusCode).json({
+                    exception: e.$message
+                });
+            }
+
             console.error(e);
             return res.status(500).json({
                 exception: e.message
@@ -55,17 +71,19 @@ export class LoginController {
 
     public LogOutUser = async (req: Request, res: Response) => {
         try {
-            if (!(await this.loginServ.GetLoggedUsr()))
-                return res.status(200).json({
-                    message: "Nenhum usuário estava conectado."
-                })
-
             await this.loginServ.LogOutUsr();
 
             return res.status(200).json({
                 message: "Usuário desconectado com sucesso."
             });
         } catch (e: any) {
+            if (e instanceof AbstractApiError) {
+                console.error(e.$consoleLog);
+                return res.status(e.$statusCode).json({
+                    exception: e.$message
+                });
+            }
+
             console.error(e);
             return res.status(500).json({
                 exception: e.message
@@ -81,6 +99,13 @@ export class LoginController {
                 placeId: plcId
             })
         } catch (e: any) {
+            if (e instanceof AbstractApiError) {
+                console.error(e.$consoleLog);
+                return res.status(e.$statusCode).json({
+                    exception: e.$message
+                });
+            }
+
             console.error(e);
             return res.status(500).json({
                 exception: e.message
@@ -93,11 +118,17 @@ export class LoginController {
             let value;
 
             if (req.body.type == "id") {
+                if (!Number.isFinite(req.body.value))
+                    throw new RequestError(400, "ID precisa ser um valor numérico.")
+
                 value = new SetPlaceMeasureReqDto(Number(req.body.value));
             } else if (req.body.type == "name") {
+                if (typeof req.body.value !== 'string')
+                    throw new RequestError(400, "Nome precisa ser um valor alfanumérico.")
+
                 value = new SetPlaceMeasureReqDto(req.body.value + "");
             } else {
-                throw new Error("Informar tipo de valor sendo usado para escolha de local de medição (\"id\" ou \"name\").")
+                throw new RequestError(400, "Informar tipo de valor sendo usado para escolha de local de medição ('id' ou 'name').")
             }
 
             await this.loginServ.SetCrtMeasurePlaceId(value);
@@ -106,6 +137,13 @@ export class LoginController {
                 message: "Local para criação de medição definido com sucesso."
             })
         } catch (e: any) {
+            if (e instanceof AbstractApiError) {
+                console.error(e.$consoleLog);
+                return res.status(e.$statusCode).json({
+                    exception: e.$message
+                });
+            }
+
             console.error(e);
             return res.status(500).json({
                 exception: e.message
@@ -121,6 +159,13 @@ export class LoginController {
                 message: "Local para criação de medição apagado com sucesso."
             })
         } catch (e: any) {
+            if (e instanceof AbstractApiError) {
+                console.error(e.$consoleLog);
+                return res.status(e.$statusCode).json({
+                    exception: e.$message
+                });
+            }
+            
             console.error(e);
             return res.status(500).json({
                 exception: e.message

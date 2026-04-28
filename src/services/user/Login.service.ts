@@ -47,6 +47,9 @@ export class LoginService {
             if (!user)
                 throw new NoDataFoundError(404, `O usuário que está tentando logar não foi encontrado.`);
 
+            if (!user.$active)
+                throw new BussinessRuleError(400, `O usuário que está tentando logar não está ativo.`)
+
             if (user.$pass !== loginReq.$pass)
                 throw new AuthorizationError(401, `Senha inserida é diferente da senha cadastrada.`);
 

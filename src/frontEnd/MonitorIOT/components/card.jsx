@@ -13,10 +13,9 @@ const Card = ({style, ...props}) => {
 export default Card
 
 const styles = StyleSheet.create({
-    card: {backgroundColor: 'lightblue', 
+    card: {backgroundColor: '#01cfeb', 
         padding: 10, 
-        margin: 10,
-        borderColor: 'black',
+        borderColor: 'lightblue',
         borderWidth: 1,
         borderRadius: 5,
     }

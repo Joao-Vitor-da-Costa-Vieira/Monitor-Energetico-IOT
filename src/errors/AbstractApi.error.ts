@@ -42,6 +42,6 @@ export abstract class AbstractApiError extends Error {
     }
 
     public get $consoleLog() {
-        return `[${this.statusCode}] - ${this.message}`
+        return `[${this.statusCode}] - ${this.stack}`
     }
 }

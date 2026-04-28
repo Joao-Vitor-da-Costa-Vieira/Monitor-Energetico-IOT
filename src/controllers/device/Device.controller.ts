@@ -2,6 +2,8 @@ import { LoginService } from "../../services/user/Login.service.ts";
 import MeasurementService from "../../services/measurement/Measurement.service.ts";
 import { CreateMeasurementDto } from "../../dtos/measurement/CreateMeasurement.dto.ts";
 import { Request, Response } from "express";
+import { AbstractApiError } from "../../errors/AbstractApi.error.ts";
+import { RequestError } from "../../errors/http/Request.error.ts";
 
 export class DeviceController {
     private static instance : DeviceController;
@@ -25,7 +27,7 @@ export class DeviceController {
             const user = await this.loginServ.GetLoggedUsr()
 
             if (!user)
-                throw new Error("Usuário não está conectado.")
+                throw new RequestError(400, "Usuário não está conectado.")
 
             const measureDto = new CreateMeasurementDto(
                 new Date(Date.now()).toISOString(),
@@ -38,12 +40,17 @@ export class DeviceController {
             if (placeId)
                 measureDto.$plc_id = placeId;
 
-            const createdMeasure = this.measureServ.Create(measureDto);
+            await this.measureServ.Create(measureDto);
 
-            res.send(createdMeasure);
-        } catch (e) {
-            console.error(e);
-            res.send(e)
+            return res.status(200).send("sucess");
+        } catch (e: any) {
+            if (e instanceof AbstractApiError) {
+                console.error(e.$consoleLog);
+                return res.status(e.$statusCode).send(e.$message);
+            } else {
+                console.error(e);
+                return res.status(500).send(e.message);
+            }
         }
     }
 }

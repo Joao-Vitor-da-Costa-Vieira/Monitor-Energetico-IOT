@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import {emailInput, passwordInput} from '../../components/Inputs'
 import buttons from '../../components/buttons'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 
 const Login = () => {
   return (
@@ -15,7 +15,7 @@ const Login = () => {
       {emailInput()}
        {passwordInput({placeholder: 'Senha'})}
 
-      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar'}})}
+      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar', onPress: () => router.push('/home')}})}
     </View>   
   )
 }

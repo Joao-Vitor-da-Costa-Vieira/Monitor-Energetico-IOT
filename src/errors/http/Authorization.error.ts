@@ -1,6 +1,6 @@
-import { ResponseError } from "../response/Response.error";
+import { AbstractApiError } from "../AbstractApi.error.ts";
 
-export class AuthorizationError extends ResponseError {
+export class AuthorizationError extends AbstractApiError {
     public constructor(
         $statusCode: number,
         $message: string

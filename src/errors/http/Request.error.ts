@@ -1,6 +1,6 @@
-import { ResponseError } from "../response/Response.error.ts";
+import { AbstractApiError } from "../AbstractApi.error.ts";
 
-export class RequestError extends ResponseError {
+export class RequestError extends AbstractApiError {
     public constructor(
         $statusCode: number,
         $message: string

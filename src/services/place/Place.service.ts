@@ -2,6 +2,7 @@ import { CreatePlaceDto } from "../../dtos/place/CreatePlace.dto";
 import { GetPlaceDto } from "../../dtos/place/GetPlace.dto.ts";
 import { UpdatePlaceDto } from "../../dtos/place/UpdatePlace.dto";
 import { GetUserDto } from "../../dtos/user/GetUser.dto.ts";
+import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
 import { PlaceRepository } from "../../repositories/place/Place.repository";
 import UserService from "../../repositories/user/User.repository.ts";
 
@@ -27,7 +28,7 @@ class PlaceService {
         try {
             const user = await this.userServ.GetById(placeData.$user_id);
             if (!user)
-                throw new Error(`Nenhum usuário com ID ${placeData.$user_id} foi encontrado.`)
+                throw new NoDataFoundError(404, `Nenhum usuário com ID ${placeData.$user_id} foi encontrado.`)
 
             const newPlace = await this.placeRepo.Create(placeData);
 
@@ -98,7 +99,7 @@ class PlaceService {
 
             const user = await this.userServ.GetById(place.$usr_id);
             if (!user)
-                throw new Error(`Nenhum usuário com ID ${place.$usr_id} foi encontrado.`)
+                throw new NoDataFoundError(404, `Nenhum usuário com ID ${place.$usr_id} foi encontrado.`)
             
             place.$user = user;
 
@@ -114,7 +115,7 @@ class PlaceService {
             let user;
 
             if (!currPlaceData)
-                throw new Error(`Nenhum local com ID ${placeUpdData.$id} foi encontrado para atualizar.`)
+                throw new NoDataFoundError(404, `Nenhum local com ID ${placeUpdData.$id} foi encontrado para atualizar.`)
 
             if (!placeUpdData.$name)
                 placeUpdData.$name = currPlaceData.$name;
@@ -128,7 +129,7 @@ class PlaceService {
 
             user = await this.userServ.GetById(placeUpdData.$id);
             if (!user)
-                throw new Error(`Nenhum usuário com ID ${placeUpdData.$id} foi encontrado.`)
+                throw new NoDataFoundError(404, `Nenhum usuário com ID ${placeUpdData.$user_id} foi encontrado.`)
 
             const placeUpdated = await this.placeRepo.Update(placeUpdData);
             placeUpdated.$user = user;

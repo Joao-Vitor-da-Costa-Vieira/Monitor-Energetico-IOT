@@ -27,8 +27,20 @@ const buttonCancel = ({ buttonCancelProps }) => {
   )
 }
 
+const buttonOptions = ({ buttonOptionsProps }) => {
+  return (
+    <View>
+      <TouchableOpacity 
+        onPress={buttonOptionsProps.onPress}
+        style={styles.buttonOptions}
+      >
+        <Text style={styles.buttonText}>{buttonOptionsProps.title}</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
 export default buttons
-export { buttonCancel }
+export { buttonCancel, buttonOptions }
 
 const styles = StyleSheet.create({
   button: {
@@ -48,6 +60,19 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginTop: 11,
     height: 35,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonOptions: { 
+    backgroundColor: 'gray',
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 9,
+    paddingRight: 9,
+    marginTop: 11,
+    height: 35,
+    borderRadius: 5,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',

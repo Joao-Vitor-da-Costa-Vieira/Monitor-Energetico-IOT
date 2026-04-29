@@ -3,6 +3,8 @@ import { GetUserDto } from '../../dtos/user/GetUser.dto.ts';
 import { CreateUserDto } from '../../dtos/user/CreateUser.dto.ts';
 import { UpdateUserDto } from '../../dtos/user/UpdateUser.dto.ts';
 import { PasswordUtils } from '../../utils/user/Password.utils.ts';
+import { BussinessRuleError } from '../../errors/mvc/BussinessRule.error.ts';
+import { NoDataFoundError } from '../../errors/mvc/NoDataFound.error.ts';
 
 class UserService {
     private static instance : UserService;
@@ -31,13 +33,13 @@ class UserService {
                     errorMessages += `\n${x};`;
                 })
 
-                throw new Error(`Senha inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
+                throw new BussinessRuleError(400, `Senha inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
             }
 
             const userExist = await this.userRepo.GetByEmail(userData.$email);
 
             if (userExist)
-                throw new Error("Já existe um usuário cadastrado com o e-mail inserido.")
+                throw new BussinessRuleError(400, "Já existe um usuário cadastrado com o e-mail inserido.")
 
             const newUser = await this.userRepo.Create(userData);
 
@@ -111,14 +113,20 @@ class UserService {
             const currUserData = await this.userRepo.GetById(userUpdData.$id);
 
             if (!currUserData)
-                throw new Error(`Nenhum usuário com ID ${userUpdData.$id} foi encontrado para atualizar.`);
+                throw new NoDataFoundError(404, `Nenhum usuário com ID ${userUpdData.$id} foi encontrado para atualizar.`);
 
             if (!userUpdData.$name) 
                 userUpdData.$name = currUserData.$name;
            
-            if (!userUpdData.$email) 
+            if (!userUpdData.$email) {
                 userUpdData.$email = currUserData.$email;
-            
+            } else {
+                let emailExists = await this.GetByEmail(userUpdData.$email);
+
+                if (emailExists)
+                    throw new BussinessRuleError(400, "Já existe um usuário cadastrado com o e-mail inserido.")
+            }
+
             if (!userUpdData.$pass) 
                 userUpdData.$pass = currUserData.$pass;
             else {
@@ -133,7 +141,7 @@ class UserService {
                         errorMessages += `\n${x};`;
                     })
 
-                    throw new Error(`Senha nova inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
+                    throw new BussinessRuleError(400, `Senha nova inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
                 }
             }
             

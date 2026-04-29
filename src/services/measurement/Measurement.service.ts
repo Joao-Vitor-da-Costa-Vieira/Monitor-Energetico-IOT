@@ -1,7 +1,9 @@
 import { CreateMeasurementDto } from '../../dtos/measurement/CreateMeasurement.dto.ts';
 import { GetMeasurementDto } from '../../dtos/measurement/GetMeasurement.dto.ts';
 import { UpdateMeasurementDto } from '../../dtos/measurement/UpdateMeasurement.dto.ts';
-import { GetUserDto } from '../../dtos/user/GetUser.dto.ts';
+import { RequestError } from '../../errors/http/Request.error.ts';
+import { BussinessRuleError } from '../../errors/mvc/BussinessRule.error.ts';
+import { NoDataFoundError } from '../../errors/mvc/NoDataFound.error.ts';
 import { MeasurementRepository } from '../../repositories/measurement/Measurement.repository.ts';
 import PlaceService from '../../services/place/Place.service.ts';
 import UserService from '../../services/user/User.service.ts';
@@ -29,20 +31,28 @@ class MeasurementService {
 
     public async Create(measure: CreateMeasurementDto) : Promise<GetMeasurementDto> {
         try {
+            if (!Number.isFinite(measure.$current)) {
+                throw new RequestError(400, "Corrente precisa ser um valor numérico.")
+            }
+
+            if (!Number.isFinite(measure.$power)) {
+                throw new RequestError(400, "Energia precisa ser um valor numérico.")
+            }
+
             const user = await this.userServ.GetById(measure.$usr_id);
             let place;
 
             if (!user)
-                throw new Error(`Nenhum usuário com ID ${measure.$usr_id} foi encontrado.`);
+                throw new NoDataFoundError(404, `Nenhum usuário com ID ${measure.$usr_id} foi encontrado.`);
 
             if (measure.$plc_id) {
                 place = await this.placeServ.GetById(measure.$plc_id);
 
                 if (!place)
-                    throw new Error(`Nenhum local com ID ${measure.$plc_id} foi encontrado;`);
+                    throw new NoDataFoundError(404, `Nenhum local com ID ${measure.$plc_id} foi encontrado.`);
 
                 if (place.$usr_id != measure.$usr_id)
-                    throw new Error(`O local "${place.$name}" não está registrado na conta do usuário ${user.$name}`)
+                    throw new BussinessRuleError(400, `O local "${place.$name}" não está registrado na conta do usuário ${user.$name}.`)
             }
 
             const newMeasure = new GetMeasurementDto(await this.measureRepo.Create(measure));
@@ -123,14 +133,14 @@ class MeasurementService {
                 user = await this.userServ.GetById(measure.$usr_id)
 
                 if (!user)
-                    throw new Error(`Nenhum usuário com ID ${measure.$usr_id} foi encontrado.`);
+                    throw new NoDataFoundError(404, `Nenhum usuário com ID ${measure.$usr_id} foi encontrado.`);
 
                 measureDto.$user = user;
             } else {
                 place = await this.placeServ.GetById(measureDto.$plc_id);
 
                 if (!place)
-                    throw new Error(`Nenhum local com ID ${measureDto.$plc_id} foi encontrado.`);
+                    throw new NoDataFoundError(404, `Nenhum local com ID ${measureDto.$plc_id} foi encontrado.`);
 
                 measureDto.$place = place;
                 measureDto.$user = place.$user!;
@@ -149,7 +159,7 @@ class MeasurementService {
             let user;
 
             if (!currMeasureDto)
-                throw new Error(`Nenhuma medição com ID ${measureUpdData.$id} foi encontrada para atualizar`);
+                throw new NoDataFoundError(404, `Nenhuma medição com ID ${measureUpdData.$id} foi encontrada para atualizar`);
 
             if (!measureUpdData.$power)
                 measureUpdData.$power = currMeasureDto.$power;
@@ -160,22 +170,23 @@ class MeasurementService {
             if (!measureUpdData.$plc_id && currMeasureDto.$plc_id)
                 measureUpdData.$plc_id = currMeasureDto.$plc_id;
 
-            if (!measureUpdData.$usr_id)
+            if (!measureUpdData.$usr_id) {
                 measureUpdData.$usr_id = currMeasureDto.$usr_id;
-
-            if (!measureUpdData.$plc_id) {
+            } else {
                 user = await this.userServ.GetById(measureUpdData.$usr_id);
 
                 if (!user)
-                    throw new Error(`Nenhum usuário com ID ${measureUpdData.$usr_id} foi encontrado.`);
-            } else {
+                    throw new NoDataFoundError(404, `Nenhum usuário com ID ${measureUpdData.$usr_id} foi encontrado.`);
+            }
+
+            if (measureUpdData.$plc_id) {
                 place = await this.placeServ.GetById(measureUpdData.$plc_id);
 
                 if (!place)
-                    throw new Error(`Nenhum local com ID ${measureUpdData.$plc_id} foi encontrado.`);
+                    throw new NoDataFoundError(404, `Nenhum local com ID ${measureUpdData.$plc_id} foi encontrado.`);
 
                 if (place.$usr_id != measureUpdData.$usr_id)
-                    throw new Error(`O local "${place.$name}" não está registrado na conta do usuário com ID ${measureUpdData.$usr_id}.`)
+                    throw new BussinessRuleError(400, `O local "${place.$name}" não está registrado na conta do usuário com ID ${measureUpdData.$usr_id}.`);
 
                 user = place.$user;
             }

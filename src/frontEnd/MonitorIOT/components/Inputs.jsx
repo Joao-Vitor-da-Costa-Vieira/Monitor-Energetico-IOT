@@ -1,6 +1,14 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
 
+const TextoInputs = (propsTextInput) => {
+  return (
+    <View style={styles.padding}>
+      <TextInput style={styles.input} placeholder={propsTextInput.placeholder} />
+    </View>
+  )
+}
+
 const emailInput = () =>{
     return(
         <View style={styles.padding}>
@@ -9,15 +17,15 @@ const emailInput = () =>{
     )
 }
 
-const passwordInput = ( propsInput ) =>{
+const passwordInput = ( propsSenhaInput ) =>{
     return(
         <View style={styles.padding}>
-            <TextInput style={styles.input} placeholder={propsInput.placeholder} secureTextEntry />
+            <TextInput style={styles.input} placeholder={propsSenhaInput.placeholder} secureTextEntry />
         </View>
     )
 }
 
-export {emailInput, passwordInput};
+export {emailInput, passwordInput, TextoInputs};
 
 const styles = StyleSheet.create({
     padding: {

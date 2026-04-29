@@ -86,6 +86,9 @@ export class LoginService {
             } else {
                 throw new BussinessRuleError(400, "Para escolher um local para medição, é necessário informar o nome do local ou seu ID.");
             }
+
+            if (!placeChoosen.$active)
+                throw new RequestError(400, `O local com ID ${placeChoosen.$id} não está ativo.`);
             
             this.loginSingleton.$placeId = Number(placeChoosen.$id);
         } catch (e) {
@@ -116,9 +119,11 @@ export class LoginService {
         try {
             const placeChoosen = await this.placeServ.GetById(plc_id);
 
+            console.log(placeChoosen)
+
             if (!placeChoosen)
                 throw new NoDataFoundError(404, `Nenhum local com ID ${plc_id} foi encontrado.`);
-            else if (placeChoosen.$usr_id !== usr_id) {
+            else if (placeChoosen.$usr_id != usr_id) {
                 throw new RequestError(400, `O local com ID ${plc_id} está registrado na conta de um usuário diferente do atual.`)
             }
 

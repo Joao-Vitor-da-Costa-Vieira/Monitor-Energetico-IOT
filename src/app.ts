@@ -8,7 +8,6 @@ dotenv.config();
 const APP = express();
 const PORT = 3000;
 
-
 APP.use(express.json())
 APP.use("/device", deviceRouter);
 APP.use("/login", loginRouter);

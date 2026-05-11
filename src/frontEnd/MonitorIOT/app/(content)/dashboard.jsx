@@ -8,6 +8,7 @@ import Card from '../../components/card'
 import buttons, { buttonCancel } from '../../components/buttons'
 import DatePickerComponent from '../../components/DataPicker'
 import DeviceFilter from '../../components/deviceFilter'
+import MeasurementTypeSelector from '../../components/seletorTipoMedicao' 
 
 // hooks e utils
 import { useDashboard } from '../../hooks/useDashboard'
@@ -52,41 +53,10 @@ const Dashboard = () => {
           deviceOptions={deviceOptions}
         />
 
-        {/* Seletor de Tipo de Medição */}
-        <Card style={styles.measurementTypeCard}>
-          <Text style={styles.measurementTypeTitle}>Tipo de Medição:</Text>
-          <View style={styles.measurementTypeButtons}>
-            <TouchableOpacity 
-              style={[
-                styles.measurementButton,
-                measurementType === 'current' && styles.measurementButtonActive
-              ]}
-              onPress={() => handleMeasurementTypeChange('current')}
-            >
-              <Text style={[
-                styles.measurementButtonText,
-                measurementType === 'current' && styles.measurementButtonTextActive
-              ]}>
-                Corrente (A)
-              </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity 
-              style={[
-                styles.measurementButton,
-                measurementType === 'power' && styles.measurementButtonActive
-              ]}
-              onPress={() => handleMeasurementTypeChange('power')}
-            >
-              <Text style={[
-                styles.measurementButtonText,
-                measurementType === 'power' && styles.measurementButtonTextActive
-              ]}>
-                Potência (W)
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Card>
+        <MeasurementTypeSelector 
+          measurementType={measurementType}
+          onMeasurementTypeChange={handleMeasurementTypeChange}
+        />
 
         <DatePickerComponent
           startDate={startDate}
@@ -176,41 +146,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '90%',
     marginBottom: 10,
-  },
-  measurementTypeCard: {
-    padding: 15,
-    marginHorizontal: 20,
-    marginBottom: 15,
-    width: '90%',
-  },
-  measurementTypeTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 10,
-    color: '#333',
-  },
-  measurementTypeButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 10,
-  },
-  measurementButton: {
-    flex: 1,
-    padding: 10,
-    borderRadius: 8,
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
-  },
-  measurementButtonActive: {
-    backgroundColor: '#01cfeb',
-  },
-  measurementButtonText: {
-    fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
-  },
-  measurementButtonTextActive: {
-    color: '#fff',
   },
   summaryCard: {
     padding: 15,

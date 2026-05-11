@@ -5,6 +5,7 @@ import { UpdateUserDto } from '../../dtos/user/UpdateUser.dto.ts';
 import { PasswordUtils } from '../../utils/user/Password.utils.ts';
 import { BussinessRuleError } from '../../errors/mvc/BussinessRule.error.ts';
 import { NoDataFoundError } from '../../errors/mvc/NoDataFound.error.ts';
+import { RequestError } from '../../errors/http/Request.error.ts';
 
 class UserService {
     private static instance : UserService;
@@ -30,13 +31,16 @@ class UserService {
                 let errorMessages = "";
 
                 passErrors.forEach((x) => {
-                    errorMessages += `\n${x};`;
+                    errorMessages += `\n${x}`;
                 })
 
                 throw new BussinessRuleError(400, `Senha inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
             }
 
             const userExist = await this.userRepo.GetByEmail(userData.$email);
+
+            if (!userData.$name)
+                throw new RequestError(400, "O nome do usuário não foi fornecido.")
 
             if (userExist)
                 throw new BussinessRuleError(400, "Já existe um usuário cadastrado com o e-mail inserido.")
@@ -145,8 +149,18 @@ class UserService {
                 }
             }
             
-            if (userUpdData.$active === undefined) 
+            if (userUpdData.$active === undefined) {
                 userUpdData.$active = currUserData.$active;
+            } else if (userUpdData.$active === currUserData.$active) {
+                let errorMsg = `Usuário ${userUpdData.$name} já está `;
+                
+                if (userUpdData.$active)
+                    errorMsg += `ativo`;
+                else
+                    errorMsg += `inativo`;
+
+                throw new BussinessRuleError(400, errorMsg);
+            }
 
             const userUpdated = await this.userRepo.Update(userUpdData);
 

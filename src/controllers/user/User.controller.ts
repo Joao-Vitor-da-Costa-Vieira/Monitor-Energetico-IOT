@@ -72,7 +72,9 @@ export class UserController {
             if (!userDto) {
                 throw new NoDataFoundError(404, `Nenhum usuário com ID ${searchId} foi encontrado.`);
             } else {
-                return res.status(200).send(userDto);
+                const userRes = new UserResponseDto(userDto);
+
+                return res.status(200).send(userRes);
             }
         } catch (e: any) {
             if (e instanceof AbstractApiError) {

@@ -79,7 +79,7 @@ const Dispositivo = () => {
                     </View>
                   </View>
                   <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 5}}>
-                    {buttonOptions({buttonOptionsProps: {onPress: () => console.log('Opções', item.id), title: '...'}})}
+                    {buttonOptions({buttonOptionsProps: {onPress: () => router.push({ pathname: '/altDispositivo', params: { id: item.id, title: item.name, place: item.place.name } }), title: '...'}})}
                     {buttonCancel({buttonCancelProps: {onPress: () => console.log('Excluir', item.id), title: 'X'}})}
                   </View>
                 </View>

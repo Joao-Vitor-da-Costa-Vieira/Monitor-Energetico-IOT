@@ -57,7 +57,7 @@ export const measurementsData = [
     { id: 37, date: new Date(2024, 8, 17), current: 40.4, power: 8540, usr_id: 1, plc_id: 2 },
     { id: 38, date: new Date(2024, 9, 18), current: 42.2, power: 8840, usr_id: 1, plc_id: 2 },
     { id: 39, date: new Date(2024, 9, 19), current: 44.9, power: 9300, usr_id: 1, plc_id: 2 },
-    { id: 40, date: new Date(2024, 10, 20), current: 46.5, power: 9620, usr_id: 1, plc_id: 2 },
+    { id: 40, date: new Date(2026, 5, 13), current: 46.5, power: 9620, usr_id: 1, plc_id: 2 },
 
     // Medições para PLC 3 (Dispositivo 3 - Loja BH)
     { id: 41, date: new Date(2024, 1, 1), current: 8.2, power: 1840, usr_id: 2, plc_id: 3 },

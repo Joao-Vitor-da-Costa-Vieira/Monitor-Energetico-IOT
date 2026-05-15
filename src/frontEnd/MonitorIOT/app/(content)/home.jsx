@@ -9,6 +9,8 @@ import { calculateHomeStats } from '../../utils/homeUtils'
 
 const Home = () => {
   const [lastConsumption, setLastConsumption] = useState(0)
+  const [lastConsumptionPlace, setLastConsumptionPlace] = useState('')
+  const [lastConsumptionDevice, setLastConsumptionDevice] = useState('')
   const [weeklyAverage, setWeeklyAverage] = useState(0)
   const [highestConsumptionPlace, setHighestConsumptionPlace] = useState('')
 
@@ -19,6 +21,8 @@ const Home = () => {
   const loadStats = () => {
     const stats = calculateHomeStats()
     setLastConsumption(stats.lastConsumption)
+    setLastConsumptionPlace(stats.lastMeasurementPlace)
+    setLastConsumptionDevice(stats.lastMeasurementDevice)
     setWeeklyAverage(stats.weeklyAverage)
     setHighestConsumptionPlace(stats.highestConsumptionPlace)
   }
@@ -40,11 +44,19 @@ const Home = () => {
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Último Consumo Medido</Text>
           <Text style={styles.cardDescription}>{formatPower(lastConsumption)}</Text>
+          {lastConsumptionDevice && (
+            <Text style={styles.cardDescription}>📱 {lastConsumptionDevice}</Text>
+          )}
+          {lastConsumptionPlace && (
+            <Text style={styles.cardDescription}>📍 {lastConsumptionPlace}</Text>
+          )}  
         </Card>
+        
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Média de Consumo da Semana</Text>
           <Text style={styles.cardDescription}>{formatPower(weeklyAverage)}</Text>
         </Card>
+        
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Local com maior consumo</Text>
           <Text style={styles.cardDescription}>{highestConsumptionPlace}</Text>
@@ -62,10 +74,12 @@ const styles = StyleSheet.create({
     card: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 80,
+        height: 'auto',
+        minHeight: 80,
         width: ('90%'),
         marginTop: 20,
         marginBottom: 10,
+        padding: 15,
     },
     cardTitle: {
         justifyContent: 'center',

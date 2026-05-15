@@ -6,10 +6,27 @@ export const getAllMeasurements = () => {
   return Object.values(devicesData).flatMap(device => device.measurements)
 }
 
-// Função para obter a última medição de todos os dispositivos
+// Função para obter a última medição com informações do local e dispositivo
 export const getLastMeasurement = () => {
-  const allMeasurements = getAllMeasurements()
+  const allMeasurements = []
+  
+  // Percorre todos os dispositivos e coleta as medições com referência ao dispositivo
+  Object.values(devicesData).forEach(device => {
+    device.measurements.forEach(measurement => {
+      allMeasurements.push({
+        ...measurement,
+        deviceId: device.id,
+        deviceName: device.name,
+        placeId: device.place?.id,
+        placeName: device.place?.name,
+        userName: device.user?.name
+      })
+    })
+  })
+  
+  // Ordena por data e pega a mais recente
   const lastMeasurement = [...allMeasurements].sort((a, b) => b.date - a.date)[0]
+  
   return lastMeasurement || null
 }
 
@@ -54,6 +71,10 @@ export const calculateHomeStats = () => {
   
   return {
     lastConsumption: lastMeasurement?.power || 0,
+    lastMeasurementDate: lastMeasurement?.date || null,
+    lastMeasurementPlace: lastMeasurement?.placeName || 'Nenhum local',
+    lastMeasurementDevice: lastMeasurement?.deviceName || 'Nenhum dispositivo',
+    lastMeasurementValue: lastMeasurement?.power || 0,
     weeklyAverage: weeklyAverage,
     highestConsumptionPlace: highestPlace || 'Nenhum dado'
   }

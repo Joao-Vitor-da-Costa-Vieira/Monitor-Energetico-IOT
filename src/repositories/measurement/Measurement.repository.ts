@@ -1,9 +1,9 @@
-import { SheetsDbContext } from "../../connection/database/SheetsDbContext";
-import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum";
+import { SheetsDbContext } from "../../connection/database/SheetsDbContext.ts";
+import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum.ts";
 import { MeasurementTableStruct as TableStruct } from "../../enums/tableStructure/MeasureTableStruct.enum.ts";
 import { CreateMeasurementDto } from "../../dtos/measurement/CreateMeasurement.dto.ts";
 import { UpdateMeasurementDto } from "../../dtos/measurement/UpdateMeasurement.dto.ts";
-import Measurement from "../../models/measurement/Measurement";
+import Measurement from "../../models/measurement/Measurement.ts";
 
 export class MeasurementRepository {
     private static instance : MeasurementRepository;
@@ -77,7 +77,7 @@ export class MeasurementRepository {
             values.shift();
 
             const measuresArray = new Array();
-            values.forEach((x) => {
+            values.forEach((x: Array<any>) => {
                 if (x.length < 6) {
                     measuresArray.push(new Measurement(
                         Number(x[0]),

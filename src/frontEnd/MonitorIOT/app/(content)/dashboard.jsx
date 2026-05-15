@@ -68,10 +68,6 @@ const Dashboard = () => {
         />
 
         <View style={styles.buttonContainer}>
-          {buttons({buttonProps: {onPress: applyFilter, title: 'Consultar'}})}
-        </View>
-
-        <View style={styles.buttonContainer}>
           {buttonCancel({buttonCancelProps: {onPress: clearFilter, title: 'Limpar Filtro'}})}
         </View>
 

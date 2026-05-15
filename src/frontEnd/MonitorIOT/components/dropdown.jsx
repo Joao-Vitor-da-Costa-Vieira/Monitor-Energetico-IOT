@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 1,
+    width: 250,
     borderColor: '#ccc',
     borderRadius: 8,
     padding: 12,

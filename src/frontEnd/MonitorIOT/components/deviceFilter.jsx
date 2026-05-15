@@ -20,13 +20,9 @@ const DeviceFilter = ({  selectedDevice, onDeviceChange, deviceInfo, deviceOptio
       {deviceInfo && (
         <View style={styles.infoBox}>
           <View style={styles.infoRow}>
-            <Text style={styles.infoIcon}>{deviceInfo.icon}</Text>
             <Text style={styles.infoName}>{deviceInfo.name}</Text>
           </View>
-          <Text style={styles.infoDescription}>{deviceInfo.description}</Text>
-          <Text style={styles.infoTotal}>
-            Total de registros: {deviceInfo.totalRecords}
-          </Text>
+          <Text style={styles.infoDescription}>{deviceInfo.description}{deviceInfo.place && ` - ${deviceInfo.place.name}`}</Text>
         </View>
       )}
     </Card>
@@ -64,7 +60,6 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
   },
   infoIcon: {
     fontSize: 18,
@@ -78,12 +73,6 @@ const styles = StyleSheet.create({
   infoDescription: {
     fontSize: 12,
     color: '#666',
-    marginBottom: 5,
-  },
-  infoTotal: {
-    fontSize: 12,
-    color: '#28a745',
-    fontWeight: '500',
   },
 })
 

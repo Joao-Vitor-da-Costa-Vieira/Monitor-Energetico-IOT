@@ -4,15 +4,27 @@ import React from 'react'
 const TextoInputs = (propsTextInput) => {
   return (
     <View style={styles.padding}>
-      <TextInput style={styles.input} placeholder={propsTextInput.placeholder} />
+      <TextInput 
+        style={styles.input} 
+        placeholder={propsTextInput.placeholder}
+        value={propsTextInput.value}
+        onChangeText={propsTextInput.onChangeText}
+      />
     </View>
   )
 }
 
-const emailInput = () =>{
+const emailInput = (props) => {
     return(
         <View style={styles.padding}>
-            <TextInput style={styles.input} placeholder="Email" />
+            <TextInput 
+                style={styles.input} 
+                placeholder="Email"
+                value={props?.value}
+                onChangeText={props?.onChangeText}
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
         </View>
     )
 }
@@ -20,7 +32,13 @@ const emailInput = () =>{
 const passwordInput = ( propsSenhaInput ) =>{
     return(
         <View style={styles.padding}>
-            <TextInput style={styles.input} placeholder={propsSenhaInput.placeholder} secureTextEntry />
+            <TextInput 
+                style={styles.input} 
+                placeholder={propsSenhaInput.placeholder} 
+                secureTextEntry
+                value={propsSenhaInput.value}
+                onChangeText={propsSenhaInput.onChangeText}
+            />
         </View>
     )
 }

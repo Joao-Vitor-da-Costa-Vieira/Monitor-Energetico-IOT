@@ -1,11 +1,34 @@
-import { StyleSheet, Text, View, SafeAreaViewBase } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
 
 //componentes
-import  SafeView  from '../../components/safeView'
+import SafeView from '../../components/safeView'
 import Card from '../../components/card'
+import buttons from '../../components/buttons'
+import { calculateHomeStats } from '../../utils/homeUtils'
 
-const home = () => {
+const Home = () => {
+  const [lastConsumption, setLastConsumption] = useState(0)
+  const [weeklyAverage, setWeeklyAverage] = useState(0)
+  const [highestConsumptionPlace, setHighestConsumptionPlace] = useState('')
+
+  useEffect(() => {
+    loadStats()
+  }, [])
+
+  const loadStats = () => {
+    const stats = calculateHomeStats()
+    setLastConsumption(stats.lastConsumption)
+    setWeeklyAverage(stats.weeklyAverage)
+    setHighestConsumptionPlace(stats.highestConsumptionPlace)
+  }
+
+  const formatPower = (watts) => {
+    if (watts >= 1000) {
+      return `${(watts / 1000).toFixed(0)} kWh`
+    }
+    return `${watts} W`
+  }
 
   return (
     <SafeView>
@@ -16,22 +39,24 @@ const home = () => {
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Último Consumo Medido</Text>
-          <Text style={styles.cardDescription}>100 kWh</Text>
+          <Text style={styles.cardDescription}>{formatPower(lastConsumption)}</Text>
         </Card>
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Média de Consumo da Semana</Text>
-          <Text style={styles.cardDescription}>80 kWh</Text>
+          <Text style={styles.cardDescription}>{formatPower(weeklyAverage)}</Text>
         </Card>
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Local com maior consumo</Text>
-          <Text style={styles.cardDescription}>Sala de Reuniões</Text>
+          <Text style={styles.cardDescription}>{highestConsumptionPlace}</Text>
         </Card>
+
+        {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Sair da Sessão'}})}
       </View>
     </SafeView>
   )
 }
 
-export default home
+export default Home
 
 const styles = StyleSheet.create({
     card: {
@@ -50,5 +75,10 @@ const styles = StyleSheet.create({
     cardContent: {
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    cardDescription: {
+        fontSize: 14,
+        color: '#666',
+        marginTop: 5,
     }
 })

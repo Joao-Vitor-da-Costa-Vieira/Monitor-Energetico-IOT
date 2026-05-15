@@ -15,5 +15,5 @@ APP.use("/device", deviceRouter);
 APP.use("/login", loginRouter);
 APP.use("/user", userRouter);
 
-APP.listen(PORT, () => {console.log(`Sistema rondando em http://localhost:${PORT}`);})
-//export default APP;
+//APP.listen(PORT, () => {console.log(`Sistema rondando em http://localhost:${PORT}`);})
+export default APP;

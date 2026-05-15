@@ -16,5 +16,5 @@ APP.use("/login", loginRouter);
 APP.use("/user", userRouter);
 
 APP.listen(PORT, () => {console.log(`Sistema rondando em http://localhost:${PORT}`);})
-
+//a
 //export default APP;

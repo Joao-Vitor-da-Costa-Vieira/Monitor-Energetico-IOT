@@ -1,5 +1,5 @@
 import { LoginRequestDto } from "../../dtos/user/LoginRequest.dto.ts";
-import { LoginSingleton } from "../../singleton/user/login.sigleton";
+import { LoginSingleton } from "../../singleton/user/login.sigleton.ts";
 import { SetPlaceMeasureReqDto } from "../../dtos/place/SetPlaceMeasureReq.dto.ts";
 import UserService from "./User.service.ts";
 import PlaceService from "../place/Place.service.ts";

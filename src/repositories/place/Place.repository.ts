@@ -1,5 +1,5 @@
-import { SheetsDbContext } from "../../connection/database/SheetsDbContext";
-import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum";
+import { SheetsDbContext } from "../../connection/database/SheetsDbContext.ts";
+import { SheetsSeq } from "../../enums/sheets/SheetsSeq.enum.ts";
 import Place from "../../models/place/Place.ts";
 import { PlaceTableStruct as TableStruct } from "../../enums/tableStructure/PlaceTableStruct.enum.ts";
 import { CreatePlaceDto } from "../../dtos/place/CreatePlace.dto.ts";
@@ -58,7 +58,7 @@ export class PlaceRepository {
             values.shift();
 
             const placesArray = new Array();
-            values.forEach(x => {
+            values.forEach((x: Array<any>) => {
                 placesArray.push(new Place(
                     x[0],
                     x[1],

@@ -13,6 +13,7 @@ const RootLayout = () => {
             <Stack.Screen name="index" options={{title: 'Monitor de Energia IOT'}} />
             <Stack.Screen name="(loginUser)" options={{headerShown: false}} />
             <Stack.Screen name="(content)" options={{headerShown: false}} />
+            <Stack.Screen name="addDispositivo" options={{title: 'Adicionar Dispositivo'}} />
         </Stack>
     )
 }

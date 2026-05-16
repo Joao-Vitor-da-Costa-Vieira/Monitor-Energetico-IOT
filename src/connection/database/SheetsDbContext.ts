@@ -1,6 +1,7 @@
 import { google, sheets_v4 } from "googleapis";
 import path from "node:path";
 import { GoogleSheetsError } from "../../errors/sheets/GoogleSheets.error.ts"
+import { env } from "node:process";
 
 class SheetsDbContext {
     private static api: sheets_v4.Sheets;
@@ -22,8 +23,11 @@ class SheetsDbContext {
 
     private static async init() {
         try {
+            const credentials = JSON.parse(env.GOOGLE_CREDENTIALS);
+            credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+
             const auth = new google.auth.GoogleAuth({
-                keyFile: path.resolve(process.cwd(), "environment", "credenciais.json"),
+                credentials,
                 scopes: ["https://www.googleapis.com/auth/spreadsheets"]
             });
 

@@ -1,5 +1,5 @@
-import User from "../../models/user/User";
-import { GetUserDto } from "./GetUser.dto";
+import User from "../../models/user/User.ts";
+import { GetUserDto } from "./GetUser.dto.ts";
 
 export class UserResponseDto {
     private id : number;

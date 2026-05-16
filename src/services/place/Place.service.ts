@@ -1,9 +1,10 @@
-import { CreatePlaceDto } from "../../dtos/place/CreatePlace.dto";
+import { CreatePlaceDto } from "../../dtos/place/CreatePlace.dto.ts";
 import { GetPlaceDto } from "../../dtos/place/GetPlace.dto.ts";
-import { UpdatePlaceDto } from "../../dtos/place/UpdatePlace.dto";
+import { UpdatePlaceDto } from "../../dtos/place/UpdatePlace.dto.ts";
 import { GetUserDto } from "../../dtos/user/GetUser.dto.ts";
 import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
-import { PlaceRepository } from "../../repositories/place/Place.repository";
+import Place from "../../models/place/Place.ts";
+import { PlaceRepository } from "../../repositories/place/Place.repository.ts";
 import UserService from "../../repositories/user/User.repository.ts";
 
 class PlaceService {
@@ -46,7 +47,7 @@ class PlaceService {
 
             const placeDtoList = new Array();
 
-            placeModelList.forEach((x) => {
+            placeModelList.forEach((x: Place) => {
                 placeDtoList.push(new GetPlaceDto(x));
             })
 
@@ -62,7 +63,7 @@ class PlaceService {
 
             const placeDtoList = new Array();
 
-            placeModelList.forEach((x) => {
+            placeModelList.forEach((x: Place) => {
                 if (x.$active)
                     placeDtoList.push(new GetPlaceDto(x));
             })
@@ -79,7 +80,7 @@ class PlaceService {
 
             const placeDtoList = new Array();
 
-            placeModelList.forEach((x) => {
+            placeModelList.forEach((x: Place) => {
                 if (x.$usr_id == id)
                     placeDtoList.push(new GetPlaceDto(x));
             })

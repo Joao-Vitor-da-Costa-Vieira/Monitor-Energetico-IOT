@@ -4,6 +4,13 @@ const isValidEmailFormat = (email) => {
   return emailRegex.test(email)
 }
 
+const validateTextInput = (text) => {
+  if (!text || !text.trim()) {
+    return { isValid: false, message: 'Este(s) campo(s) é obrigatório' }
+  }
+  return { isValid: true, message: null }
+}
+
 // Validação completa de email 
 const validateEmail = (email) => {
   if (!email || !email.trim()) {
@@ -38,7 +45,7 @@ const validatePasswordsMatch = (password, confirmPassword) => {
   return { isValid: true, message: null }
 }
 
-const validateAllFields = (email, password, confirmPassword) => {
+const validateAllLoginFields = (email, password, confirmPassword) => {
   // Valida email
   const emailValidation = validateEmail(email)
   if (!emailValidation.isValid) {
@@ -88,11 +95,12 @@ const getEmailValidationStatus = (email) => {
 }
 
 export {
+  validateTextInput,
   validateEmail,
   validatePassword,
   validateConfirmPassword,
   validatePasswordsMatch,
-  validateAllFields,
+  validateAllLoginFields,
   getFormData,
   isValidEmailFormat,
   getEmailValidationStatus

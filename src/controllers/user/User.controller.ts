@@ -36,13 +36,6 @@ export class UserController {
 
             const createdUser = await this.userServ.Create(createUserDto);
 
-            const loginReq = new LoginRequestDto(
-                createdUser.$email,
-                createdUser.$pass
-            )
-
-            await this.loginServ.SetLoggedUsr(loginReq);
-
             const resUserDto = new UserResponseDto(createdUser);
 
             return res.status(200).send(resUserDto);

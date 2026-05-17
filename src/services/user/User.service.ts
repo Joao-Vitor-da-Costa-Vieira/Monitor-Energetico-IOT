@@ -6,6 +6,7 @@ import { PasswordUtils } from '../../utils/user/Password.utils.ts';
 import { BussinessRuleError } from '../../errors/mvc/BussinessRule.error.ts';
 import { NoDataFoundError } from '../../errors/mvc/NoDataFound.error.ts';
 import { RequestError } from '../../errors/http/Request.error.ts';
+import { EncryptionUtils } from '../../utils/encryption/Encryption.utils.ts';
 
 class UserService {
     private static instance : UserService;
@@ -44,6 +45,8 @@ class UserService {
 
             if (userExist)
                 throw new BussinessRuleError(400, "Já existe um usuário cadastrado com o e-mail inserido.")
+
+            userData.$pass = EncryptionUtils.encryptHash(userData.$pass);
 
             const newUser = await this.userRepo.Create(userData);
 
@@ -134,9 +137,7 @@ class UserService {
             if (!userUpdData.$pass) 
                 userUpdData.$pass = currUserData.$pass;
             else {
-                PasswordUtils.verifyPassword(userUpdData.$pass)
-
-                const passErrors = PasswordUtils.verifyPassword(userUpdData.$pass)
+                const passErrors = PasswordUtils.verifyPassword(userUpdData.$pass);
 
                 if (passErrors.length > 0) {
                     let errorMessages = "";
@@ -147,6 +148,8 @@ class UserService {
 
                     throw new BussinessRuleError(400, `Senha nova inserida é inválida. Ela contém os seguinte(s) erro(s): ${errorMessages}`)
                 }
+
+                userUpdData.$pass = EncryptionUtils.encryptHash(userUpdData.$pass);
             }
             
             if (userUpdData.$active === undefined) {

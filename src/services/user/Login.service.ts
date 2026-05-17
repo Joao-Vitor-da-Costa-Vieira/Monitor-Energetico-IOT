@@ -9,6 +9,7 @@ import { RequestError } from "../../errors/http/Request.error.ts";
 import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
 import { AuthorizationError } from "../../errors/http/Authorization.error.ts";
 import { BussinessRuleError } from "../../errors/mvc/BussinessRule.error.ts";
+import { EncryptionUtils } from "../../utils/encryption/Encryption.utils.ts";
 
 export class LoginService {
     private static instance : LoginService;
@@ -50,6 +51,7 @@ export class LoginService {
             if (!user.$active)
                 throw new BussinessRuleError(400, `O usuário que está tentando logar não está ativo.`)
 
+            loginReq.$pass = EncryptionUtils.encryptHash(loginReq.$pass);
             if (user.$pass !== loginReq.$pass)
                 throw new AuthorizationError(401, `Senha inserida é diferente da senha cadastrada.`);
 

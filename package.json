@@ -20,12 +20,14 @@
     "dev": "node --watch --loader ts-node/esm src/app.ts"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "googleapis": "^171.2.0"
   },
   "devDependencies": {
     "@tsconfig/node-ts": "^23.6.4",
+    "@types/crypto-js": "^4.2.2",
     "@types/express": "^5.0.6",
     "@types/node": "^25.2.1",
     "typescript": "^5.9.3"

@@ -1,5 +1,4 @@
 import CryptoJS from 'crypto-js';
-import { env } from 'node:process';
 
 export abstract class EncryptionUtils {
     /**

@@ -1,5 +1,4 @@
 import { google, sheets_v4 } from "googleapis";
-import path from "node:path";
 import { GoogleSheetsError } from "../../errors/sheets/GoogleSheets.error.ts"
 import { env } from "node:process";
 

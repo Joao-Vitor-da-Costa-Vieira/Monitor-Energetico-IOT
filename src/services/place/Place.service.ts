@@ -1,7 +1,6 @@
 import { CreatePlaceDto } from "../../dtos/place/CreatePlace.dto.ts";
 import { GetPlaceDto } from "../../dtos/place/GetPlace.dto.ts";
 import { UpdatePlaceDto } from "../../dtos/place/UpdatePlace.dto.ts";
-import { GetUserDto } from "../../dtos/user/GetUser.dto.ts";
 import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
 import Place from "../../models/place/Place.ts";
 import { PlaceRepository } from "../../repositories/place/Place.repository.ts";

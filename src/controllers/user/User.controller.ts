@@ -1,7 +1,6 @@
 import { Response, Request } from "express"
 import { CreateUserDto } from "../../dtos/user/CreateUser.dto.ts";
 import UserService from "../../services/user/User.service.ts";
-import { LoginService } from "../../services/user/Login.service.ts";
 import { RequestError } from "../../errors/http/Request.error.ts";
 import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
 import { UpdateUserDto } from "../../dtos/user/UpdateUser.dto.ts";
@@ -11,10 +10,8 @@ import { AbstractApiError } from "../../errors/AbstractApi.error.ts";
 export class UserController {
     private static instance : UserController;
     private userServ : UserService;
-    private loginServ : LoginService;
 
     private constructor() {
-        this.loginServ = LoginService.GetInstance();
         this.userServ = UserService.GetInstance();
     }
 

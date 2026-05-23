@@ -1,20 +1,31 @@
 import { StyleSheet, Text, View, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
-import {emailInput, passwordInput} from '../../components/Inputs'
+
+//componentes
+import {emailInput, passwordInput, TextoInputs} from '../../components/Inputs'
 import buttons from '../../components/buttons'
-import { validateAllFields, getFormData } from '../../utils/validationInputUtils'
+
+//utils
+import { validateAllLoginFields,   validateTextInput, getFormData } from '../../utils/validationInputUtils'
 
 const cadastro = () => {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
+  const [nome, setNome] = useState('')
 
   const handleCadastro = () => {
     // Valida todos os campos
-    const validation = validateAllFields(email, senha, confirmarSenha)
+    const validation = validateAllLoginFields(email, senha, confirmarSenha)
     
     if (!validation.isValid) {
       Alert.alert('Erro', validation.message)
+      return
+    }
+
+    const nomeValidation = validateTextInput(nome, 'nome')
+    if (!nomeValidation.isValid) {
+      Alert.alert('Erro', nomeValidation.message)
       return
     }
     
@@ -22,6 +33,7 @@ const cadastro = () => {
     const formData = getFormData(email, senha, confirmarSenha)
     
     console.log('Dados do cadastro:')
+    console.log('Nome:', nome.trim())
     console.log('Email:', formData.email)
     console.log('Senha:', formData.password)
     console.log('Confirmar Senha:', formData.confirmPassword)
@@ -36,6 +48,7 @@ const cadastro = () => {
       
       <Text style={styles.title}>Cadastro</Text>
 
+      <TextoInputs placeholder="Nome" value={nome} onChangeText={setNome} />
       {emailInput({value: email, onChangeText: setEmail})}
       {passwordInput({placeholder: 'Senha', value: senha, onChangeText: setSenha})}
       {passwordInput({placeholder: 'Confirmar Senha', value: confirmarSenha, onChangeText: setConfirmarSenha})}

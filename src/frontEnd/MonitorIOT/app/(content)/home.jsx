@@ -34,6 +34,11 @@ const Home = () => {
     return `${watts} W`
   }
 
+  const handleLogout = () => {
+    // Lógica de logout (ex: limpar dados, redirecionar para login, etc.)
+    console.log('Logout realizado')
+  }
+
   return (
     <SafeView>
       <Card style={styles.cardTitle}>
@@ -62,7 +67,7 @@ const Home = () => {
           <Text style={styles.cardDescription}>{highestConsumptionPlace}</Text>
         </Card>
 
-        {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Sair da Sessão'}})}
+        {buttons({buttonProps: {onPress: handleLogout, title: 'Sair da Sessão'}})}
       </View>
     </SafeView>
   )

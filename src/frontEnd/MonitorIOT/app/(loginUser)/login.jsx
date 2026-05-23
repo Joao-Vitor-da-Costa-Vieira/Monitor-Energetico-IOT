@@ -43,7 +43,6 @@ const Login = () => {
       style={{width: 100, height: 150}} source={require('../../assets/lampada.png')} />
       
       <Text style={styles.title}>Login</Text>
-
       {emailInput({value: email, onChangeText: setEmail})}
       {passwordInput({placeholder: 'Senha', value: senha, onChangeText: setSenha})}
 

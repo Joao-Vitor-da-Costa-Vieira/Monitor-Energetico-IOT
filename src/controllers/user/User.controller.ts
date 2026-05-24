@@ -1,20 +1,18 @@
 import { Response, Request } from "express"
 import { CreateUserDto } from "../../dtos/user/CreateUser.dto.ts";
 import UserService from "../../services/user/User.service.ts";
-import { LoginService } from "../../services/user/Login.service.ts";
 import { RequestError } from "../../errors/http/Request.error.ts";
 import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
 import { UpdateUserDto } from "../../dtos/user/UpdateUser.dto.ts";
 import { UserResponseDto } from "../../dtos/user/UserResponse.dto.ts";
 import { AbstractApiError } from "../../errors/AbstractApi.error.ts";
+import { ResponseUtils } from "../../utils/response/Response.utils.ts";
 
 export class UserController {
     private static instance : UserController;
     private userServ : UserService;
-    private loginServ : LoginService;
 
     private constructor() {
-        this.loginServ = LoginService.GetInstance();
         this.userServ = UserService.GetInstance();
     }
 
@@ -37,15 +35,11 @@ export class UserController {
 
             const resUserDto = new UserResponseDto(createdUser);
 
-            return res.status(200).send(resUserDto);
+            return ResponseUtils.returnObjectResponse(res, resUserDto)
         } catch (e: any) {
-            if (e instanceof AbstractApiError) {
-                console.error(e.$consoleLog);
-                return res.status(e.$statusCode).send(e.$message);
-            } else {
-                console.error(e);
-                return res.status(500).send(e.message);
-            }
+            return e instanceof AbstractApiError ?
+                ResponseUtils.returnApiErrorResponse(res, e) :
+                ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
 
@@ -66,16 +60,12 @@ export class UserController {
             } else {
                 const userRes = new UserResponseDto(userDto);
 
-                return res.status(200).send(userRes);
+                return ResponseUtils.returnObjectResponse(res, userRes);
             }
         } catch (e: any) {
-            if (e instanceof AbstractApiError) {
-                console.error(e.$consoleLog);
-                return res.status(e.$statusCode).send(e.$message);
-            } else {
-                console.error(e);
-                return res.status(500).send(e.message);
-            }
+            return e instanceof AbstractApiError ?
+                ResponseUtils.returnApiErrorResponse(res, e) :
+                ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
 
@@ -100,15 +90,11 @@ export class UserController {
 
             const resUserDto = new UserResponseDto(userDto);
 
-            return res.status(200).send(resUserDto);
+            return ResponseUtils.returnObjectResponse(res, resUserDto)
         } catch (e: any) {
-            if (e instanceof AbstractApiError) {
-                console.error(e.$consoleLog);
-                return res.status(e.$statusCode).send(e.$message);
-            } else {
-                console.error(e);
-                return res.status(500).send(e.message);
-            }
+            return e instanceof AbstractApiError ?
+                ResponseUtils.returnApiErrorResponse(res, e) :
+                ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
 
@@ -124,17 +110,11 @@ export class UserController {
 
             await this.userServ.Deactivate(searchId);
 
-            return res.status(200).send({
-                message: "Conta desativada com sucesso."
-            });
+            return ResponseUtils.returnObjectResponse(res, {"message": "Conta desativada com sucesso."});
         } catch (e: any) {
-            if (e instanceof AbstractApiError) {
-                console.error(e.$consoleLog);
-                return res.status(e.$statusCode).send(e.$message);
-            } else {
-                console.error(e);
-                return res.status(500).send(e.message);
-            }
+            return e instanceof AbstractApiError ?
+                ResponseUtils.returnApiErrorResponse(res, e) :
+                ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
 
@@ -150,17 +130,11 @@ export class UserController {
 
             await this.userServ.Activate(searchId);
 
-            return res.status(200).send({
-                message: "Conta desativada com sucesso."
-            });
+            return ResponseUtils.returnObjectResponse(res, {"message": "Conta ativada com sucesso."});
         } catch (e: any) {
-            if (e instanceof AbstractApiError) {
-                console.error(e.$consoleLog);
-                return res.status(e.$statusCode).send(e.$message);
-            } else {
-                console.error(e);
-                return res.status(500).send(e.message);
-            }
+            return e instanceof AbstractApiError ?
+                ResponseUtils.returnApiErrorResponse(res, e) :
+                ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
 }

@@ -25,10 +25,10 @@ export class LoginController {
         try {
             const loggedUsr = await this.loginServ.GetLoggedUsr();
 
-            return ResponseUtils.ReturnObjectResponse(res, {usrId: loggedUsr});
+            return ResponseUtils.returnObjectResponse(res, {usrId: loggedUsr});
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -42,10 +42,10 @@ export class LoginController {
 
             await this.loginServ.SetLoggedUsr(loginReq);
 
-            return ResponseUtils.ReturnObjectResponse(res, {message: `Usuário conectado com sucesso`});
+            return ResponseUtils.returnObjectResponse(res, {message: `Usuário conectado com sucesso`});
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -54,10 +54,10 @@ export class LoginController {
         try {
             await this.loginServ.LogOutUsr();
 
-            return ResponseUtils.ReturnObjectResponse(res, {message: "Usuário desconectado com sucesso."});
+            return ResponseUtils.returnObjectResponse(res, {message: "Usuário desconectado com sucesso."});
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -66,10 +66,10 @@ export class LoginController {
         try {
             const plcId = await this.loginServ.GetCrtMeasurePlaceId();
 
-            return ResponseUtils.ReturnObjectResponse(res, {placeId: plcId})
+            return ResponseUtils.returnObjectResponse(res, {placeId: plcId})
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -94,10 +94,10 @@ export class LoginController {
 
             await this.loginServ.SetCrtMeasurePlaceId(value);
 
-            return ResponseUtils.ReturnObjectResponse(res, {message: "Local para criação de medição definido com sucesso."})
+            return ResponseUtils.returnObjectResponse(res, {message: "Local para criação de medição definido com sucesso."})
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -106,10 +106,10 @@ export class LoginController {
         try {
             await this.loginServ.ClearCrtMeasurePlaceId();
 
-            return ResponseUtils.ReturnObjectResponse(res, {message: "Local para criação de medição apagado com sucesso."});
+            return ResponseUtils.returnObjectResponse(res, {message: "Local para criação de medição apagado com sucesso."});
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }

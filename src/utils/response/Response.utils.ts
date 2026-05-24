@@ -6,7 +6,7 @@ export abstract class ResponseUtils {
      * ReturnErrorResponse
      * @param {AbstractApiError} e
      */
-    public static ReturnApiErrorResponse(res: Response, e: AbstractApiError) {
+    public static returnApiErrorResponse(res: Response, e: AbstractApiError) {
         console.error(e.$consoleLog);
         return res.status(e.$statusCode).send({"message": e.$message});
     }
@@ -24,7 +24,7 @@ export abstract class ResponseUtils {
      * @param {number} httpCode
      * @param {Object} obj
      */
-    public static ReturnObjectResponse(res: Response, obj: Object, httpCode: number = 200) {
+    public static returnObjectResponse(res: Response, obj: Object, httpCode: number = 200) {
         return res.status(200).send(obj);
     }
 }

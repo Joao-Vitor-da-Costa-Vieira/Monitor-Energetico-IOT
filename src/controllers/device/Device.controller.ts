@@ -43,10 +43,10 @@ export class DeviceController {
 
             await this.measureServ.Create(measureDto);
 
-            return ResponseUtils.ReturnObjectResponse(res, {message: "sucess"});
+            return ResponseUtils.returnObjectResponse(res, {message: "sucess"});
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }

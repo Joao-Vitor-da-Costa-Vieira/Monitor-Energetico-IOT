@@ -35,10 +35,10 @@ export class UserController {
 
             const resUserDto = new UserResponseDto(createdUser);
 
-            return ResponseUtils.ReturnObjectResponse(res, resUserDto)
+            return ResponseUtils.returnObjectResponse(res, resUserDto)
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -60,11 +60,11 @@ export class UserController {
             } else {
                 const userRes = new UserResponseDto(userDto);
 
-                return ResponseUtils.ReturnObjectResponse(res, userRes);
+                return ResponseUtils.returnObjectResponse(res, userRes);
             }
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -90,10 +90,10 @@ export class UserController {
 
             const resUserDto = new UserResponseDto(userDto);
 
-            return ResponseUtils.ReturnObjectResponse(res, resUserDto)
+            return ResponseUtils.returnObjectResponse(res, resUserDto)
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -110,10 +110,10 @@ export class UserController {
 
             await this.userServ.Deactivate(searchId);
 
-            return ResponseUtils.ReturnObjectResponse(res, {"message": "Conta desativada com sucesso."});
+            return ResponseUtils.returnObjectResponse(res, {"message": "Conta desativada com sucesso."});
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
@@ -130,10 +130,10 @@ export class UserController {
 
             await this.userServ.Activate(searchId);
 
-            return ResponseUtils.ReturnObjectResponse(res, {"message": "Conta ativada com sucesso."});
+            return ResponseUtils.returnObjectResponse(res, {"message": "Conta ativada com sucesso."});
         } catch (e: any) {
             return e instanceof AbstractApiError ?
-                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnApiErrorResponse(res, e) :
                 ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }

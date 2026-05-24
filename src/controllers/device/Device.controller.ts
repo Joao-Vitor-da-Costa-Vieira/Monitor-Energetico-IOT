@@ -4,6 +4,7 @@ import { CreateMeasurementDto } from "../../dtos/measurement/CreateMeasurement.d
 import { Request, Response } from "express";
 import { AbstractApiError } from "../../errors/AbstractApi.error.ts";
 import { RequestError } from "../../errors/http/Request.error.ts";
+import { ResponseUtils } from "../../utils/response/Response.utils.ts";
 
 export class DeviceController {
     private static instance : DeviceController;
@@ -42,15 +43,11 @@ export class DeviceController {
 
             await this.measureServ.Create(measureDto);
 
-            return res.status(200).send("sucess");
+            return ResponseUtils.ReturnObjectResponse(res, {message: "sucess"});
         } catch (e: any) {
-            if (e instanceof AbstractApiError) {
-                console.error(e.$consoleLog);
-                return res.status(e.$statusCode).send(e.$message);
-            } else {
-                console.error(e);
-                return res.status(500).send(e.message);
-            }
+            return e instanceof AbstractApiError ?
+                ResponseUtils.ReturnApiErrorResponse(res, e) :
+                ResponseUtils.returnGenericErrorResponse(res, e);
         }
     }
 }

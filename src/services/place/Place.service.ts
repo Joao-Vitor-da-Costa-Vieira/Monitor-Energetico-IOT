@@ -1,6 +1,7 @@
 import { CreatePlaceDto } from "../../dtos/place/CreatePlace.dto.ts";
 import { GetPlaceDto } from "../../dtos/place/GetPlace.dto.ts";
 import { UpdatePlaceDto } from "../../dtos/place/UpdatePlace.dto.ts";
+import { RequestError } from "../../errors/http/Request.error.ts";
 import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
 import Place from "../../models/place/Place.ts";
 import { PlaceRepository } from "../../repositories/place/Place.repository.ts";
@@ -26,6 +27,9 @@ class PlaceService {
 
     public async Create(placeData : CreatePlaceDto) : Promise<GetPlaceDto> {
         try {
+            if (!placeData.$name)
+                throw new RequestError(400, "O nome do novo local não foi fornecido.")
+
             const user = await this.userServ.GetById(placeData.$user_id);
             if (!user)
                 throw new NoDataFoundError(404, `Nenhum usuário com ID ${placeData.$user_id} foi encontrado.`)
@@ -90,6 +94,23 @@ class PlaceService {
         }
     }
 
+    public async GetAllActiveByUserId(id: number) : Promise<GetPlaceDto[]> {
+        try {
+            const placeModelList = await this.placeRepo.GetAll();
+
+            const placeDtoList = new Array();
+
+            placeModelList.forEach((x: Place) => {
+                if (x.$usr_id == id && x.$active)
+                    placeDtoList.push(new GetPlaceDto(x));
+            })
+            
+            return placeDtoList;
+        } catch (e) {
+            throw e;
+        }
+    }
+
     public async GetById(id: number) : Promise<GetPlaceDto | undefined> {
         try {
             const place = await this.placeRepo.GetById(id);
@@ -125,9 +146,11 @@ class PlaceService {
 
             if (!placeUpdData.$user_id) {
                 placeUpdData.$user_id = currPlaceData.$usr_id;
+            } else if (typeof placeUpdData.$user_id != "number") {
+                throw new RequestError(400, "ID do usuário precisa ser um valor numérico.");
             }
 
-            user = await this.userServ.GetById(placeUpdData.$id);
+            user = await this.userServ.GetById(placeUpdData.$user_id);
             if (!user)
                 throw new NoDataFoundError(404, `Nenhum usuário com ID ${placeUpdData.$user_id} foi encontrado.`)
 

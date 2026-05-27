@@ -143,6 +143,46 @@ class SheetsDbContext {
         }
         
     }
+
+    public static async deleteMultRows(
+        $sheetId: number,
+        $rows: Array<number>
+    ) {
+        try {
+            const requests = this.getRequestsForDel($sheetId, $rows);
+            const sheet = await this.getDbContext();
+
+            console.log("Iniciado requisição pela API")
+            sheet.batchUpdate({
+                spreadsheetId: process.env.SHEETS_URL,
+                requestBody: {
+                    requests
+                }
+            });
+        } catch (e: any) {
+            throw new GoogleSheetsError(500, e.message);
+        }
+    } 
+
+    public static getRequestsForDel(
+        $sheetId: number,
+        $rows: Array<number>
+    ) {
+        const requests = $rows
+        .sort((a, b) => b - a)
+        .map(row => ({
+            deleteDimension: {
+                range: {
+                    sheetId: $sheetId,
+                    dimension: "ROWS",
+                    startIndex: row, // Sheets usa índice base 0
+                    endIndex: row + 1
+                }
+            }
+        }));
+
+        return requests;
+    }
 }
 
 export { SheetsDbContext };

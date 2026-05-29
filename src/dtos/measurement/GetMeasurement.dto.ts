@@ -113,12 +113,12 @@ export class GetMeasurementDto {
         $place?: GetPlaceDto | Place | number
     ) {
         if ($idOrObj instanceof Measurement) {
-            this.id = $idOrObj.$id;
+            this.id = Number($idOrObj.$id);
             this.date = $idOrObj.$date;
             this.current = $idOrObj.$current;
             this.power = $idOrObj.$power;
-            this.usr_id = $idOrObj.$user ? $idOrObj.$user.$id : $idOrObj.$usr_id;
-            this.plc_id = $idOrObj.$place ? $idOrObj.$place.$id : $idOrObj.$plc_id;
+            this.usr_id = $idOrObj.$user ? Number($idOrObj.$user.$id) : Number($idOrObj.$usr_id);
+            this.plc_id = $idOrObj.$place ? Number($idOrObj.$place.$id) : Number($idOrObj.$plc_id);
             this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
             this.place = $idOrObj.$place ? new GetPlaceDto($idOrObj.$place) : undefined;
             return;
@@ -253,11 +253,11 @@ export class GetMeasurementDto {
 	public set $user(value: GetUserDto | User) {
         if (value instanceof GetUserDto) {
 		    this.user = value;
-            this.usr_id = value.$id;
         } else {
             this.user = new GetUserDto(value);
-            this.usr_id = this.user.$id;
         }
+        
+        this.usr_id = Number(this.user.$id);
 	}
     
     /**
@@ -267,10 +267,10 @@ export class GetMeasurementDto {
     public set $place(value: GetPlaceDto | Place) {
         if (value instanceof GetPlaceDto) {
             this.place = value;
-            this.plc_id = value.$id;
         } else {
             this.place = new GetPlaceDto(value);
-            this.plc_id = this.place.$id;
         }
+        
+        this.plc_id = Number(this.place.$id);
     }
 }

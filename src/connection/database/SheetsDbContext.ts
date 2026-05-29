@@ -114,37 +114,7 @@ class SheetsDbContext {
         }
     }
 
-    public static async deleteRow(
-        $sheetId: number,
-        $rowNumber: number
-    ) {
-        try {
-            const sheet = await this.getDbContext();
-
-            const response = sheet.batchUpdate({
-                spreadsheetId: process.env.SHEETS_URL,
-                requestBody: {
-                    requests: [
-                        {
-                            deleteDimension: {
-                                range: {
-                                    sheetId: $sheetId,
-                                    dimension: 'ROWS',
-                                    startIndex: $rowNumber,
-                                    endIndex: $rowNumber + 1
-                                }
-                            }
-                        }
-                    ]
-                }
-            })
-        } catch (e: any) {
-            throw new GoogleSheetsError(500, e.message);
-        }
-        
-    }
-
-    public static async deleteMultRows(
+    public static async deleteRows(
         $sheetId: number,
         $rows: Array<number>
     ) {
@@ -152,7 +122,6 @@ class SheetsDbContext {
             const requests = this.getRequestsForDel($sheetId, $rows);
             const sheet = await this.getDbContext();
 
-            console.log("Iniciado requisição pela API")
             sheet.batchUpdate({
                 spreadsheetId: process.env.SHEETS_URL,
                 requestBody: {
@@ -164,7 +133,7 @@ class SheetsDbContext {
         }
     } 
 
-    public static getRequestsForDel(
+    private static getRequestsForDel(
         $sheetId: number,
         $rows: Array<number>
     ) {

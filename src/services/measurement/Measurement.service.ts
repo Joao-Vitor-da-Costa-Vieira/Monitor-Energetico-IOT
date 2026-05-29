@@ -1,6 +1,7 @@
 import { CreateMeasurementDto } from '../../dtos/measurement/CreateMeasurement.dto.ts';
 import { GetMeasurementDto } from '../../dtos/measurement/GetMeasurement.dto.ts';
 import { UpdateMeasurementDto } from '../../dtos/measurement/UpdateMeasurement.dto.ts';
+import { GetPlaceDto } from '../../dtos/place/GetPlace.dto.ts';
 import { RequestError } from '../../errors/http/Request.error.ts';
 import { BussinessRuleError } from '../../errors/mvc/BussinessRule.error.ts';
 import { NoDataFoundError } from '../../errors/mvc/NoDataFound.error.ts';
@@ -85,13 +86,27 @@ class MeasurementService {
 
     public async GetAllByUserId(id: number) : Promise<GetMeasurementDto[]> {
         try {
+            const user = await this.userServ.GetById(id);
+
+            if (!user)
+                throw new NoDataFoundError(404, "Não foi encontrado um usuário com o ID informado.")
+
             const measureList = await this.measureRepo.GetAll();
+            const placeList = await this.placeServ.GetAllByUserId(id);
 
             const measureDtoList = new Array();
 
             measureList.forEach((x) => {
-                if (x.$usr_id === id)
-                    measureDtoList.push(new GetMeasurementDto(x));
+                if (x.$usr_id === id) {
+                    const measureDto = new GetMeasurementDto(x);
+
+                    const placeDto = placeList.find((y) => y.$id == measureDto.$plc_id);
+                    console.log(placeDto);
+
+                    if (placeDto) measureDto.$place = placeDto;
+
+                    measureDtoList.push(measureDto);
+                }
             })
 
             return measureDtoList;
@@ -102,13 +117,24 @@ class MeasurementService {
 
     public async GetAllByPlaceId(id: number) : Promise<GetMeasurementDto[]> {
         try {
+            const place = await this.placeServ.GetById(id);
+
+            if (!place)
+                throw new NoDataFoundError(404, "Não foi encontrado um local com o ID informado.")
+
+            const placeDto = new GetPlaceDto(place.$id, place.$name, place.$active);
+
             const measureList = await this.measureRepo.GetAll();
 
             const measureDtoList = new Array();
 
             measureList.forEach((x) => {
-                if (x.$plc_id && x.$plc_id == id)
-                    measureDtoList.push(new GetMeasurementDto(x));
+                if (x.$plc_id && x.$plc_id == id) {
+                    const measureDto = new GetMeasurementDto(x);
+                    measureDto.$place = placeDto;
+
+                    measureDtoList.push(measureDto);
+                }
             })
 
             return measureDtoList;
@@ -201,9 +227,12 @@ class MeasurementService {
         }
     }
 
-    public async Delete(id: number) {
+    public async Delete(ids: Array<number>) {
         try {
-            this.measureRepo.Delete(id);
+            if (ids.length < 1)
+                throw new RequestError(400, "Nenhum ID foi informado na lista de exclusão.")
+
+            this.measureRepo.Delete(ids);
         } catch (e) {
             throw e;
         }

@@ -3,16 +3,19 @@ import { GetUserDto } from "../user/GetUser.dto.ts";
 import User from "../../models/user/User.ts";
 import { GetPlaceDto } from "../place/GetPlace.dto.ts"
 import Place from "../../models/place/Place.ts";
+import { UserResponseDto } from "../user/UserResponse.dto.ts";
+import { PlaceResponseDto } from "../place/PlaceResponse.dto.ts";
+import { GetMeasurementDto } from "./GetMeasurement.dto.ts";
 
-export class GetMeasurementDto {
+export class MeasurementResponseDto {
     private id : number;
     private date : Date;
     private current : number;
     private power : number;
     private usr_id? : number;
-    private user? : GetUserDto;
+    private user? : UserResponseDto;
     private plc_id ? : number;
-    private place? : GetPlaceDto;
+    private place? : PlaceResponseDto;
 
     /**
      * 
@@ -104,46 +107,66 @@ export class GetMeasurementDto {
         $measurement: Measurement
     )
 
+    /**
+     * 
+     * @param {GetMeasurementDto} $measurement 
+     */
     constructor(
-        $idOrObj: number | Measurement,
+        $measurement: GetMeasurementDto
+    )
+
+    constructor(
+        $idOrObjorDto: number | Measurement | GetMeasurementDto,
         $date?: Date,
         $current?: number,
         $power?: number,
         $user?: GetUserDto | User | number,
         $place?: GetPlaceDto | Place | number
     ) {
-        if ($idOrObj instanceof Measurement) {
-            this.id = Number($idOrObj.$id);
-            this.date = $idOrObj.$date;
-            this.current = $idOrObj.$current;
-            this.power = $idOrObj.$power;
-            this.usr_id = $idOrObj.$user ? Number($idOrObj.$user.$id) : Number($idOrObj.$usr_id);
-            this.plc_id = $idOrObj.$place ? Number($idOrObj.$place.$id) : Number($idOrObj.$plc_id);
-            this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
-            this.place = $idOrObj.$place ? new GetPlaceDto($idOrObj.$place) : undefined;
+        if ($idOrObjorDto instanceof Measurement) {
+            this.id = $idOrObjorDto.$id;
+            this.date = $idOrObjorDto.$date;
+            this.current = $idOrObjorDto.$current;
+            this.power = $idOrObjorDto.$power;
+            this.usr_id = $idOrObjorDto.$user ? $idOrObjorDto.$user.$id : $idOrObjorDto.$usr_id;
+            this.plc_id = $idOrObjorDto.$place ? $idOrObjorDto.$place.$id : $idOrObjorDto.$plc_id;
+            this.user = $idOrObjorDto.$user ? new UserResponseDto($idOrObjorDto.$user) : undefined;
+            this.place = $idOrObjorDto.$place ? new PlaceResponseDto($idOrObjorDto.$place) : undefined;
             return;
         }
 
-        this.id = $idOrObj;
+        if ($idOrObjorDto instanceof GetMeasurementDto) {
+            this.id = $idOrObjorDto.$id;
+            this.date = $idOrObjorDto.$date;
+            this.current = $idOrObjorDto.$current;
+            this.power = $idOrObjorDto.$power;
+            this.usr_id = $idOrObjorDto.$usr_id;
+            this.plc_id = $idOrObjorDto.$plc_id;
+            this.user = $idOrObjorDto.$user ? new UserResponseDto($idOrObjorDto.$user) : undefined;
+            this.place = $idOrObjorDto.$place ? new PlaceResponseDto($idOrObjorDto.$place) : undefined;
+            return;
+        }
+
+        this.id = $idOrObjorDto;
         this.date = $date!;
         this.current = $current!;
         this.power = $power!;
         
         if ($user instanceof GetUserDto) {
-            this.user = $user;
+            this.user = new UserResponseDto($user);
             this.usr_id = $user.$id;
         } else if ($user instanceof User) {
-            this.user = new GetUserDto($user);
+            this.user = new UserResponseDto($user);
             this.usr_id = this.user.$id;
         } else if (typeof $user == 'number') {
             this.usr_id = $user;
         }
 
         if ($place instanceof GetPlaceDto) {
-            this.place = $place;
+            this.place = new PlaceResponseDto($place);
             this.plc_id = $place.$id;
         } else if ($place instanceof Place) {
-            this.place = new GetPlaceDto($place);
+            this.place = new PlaceResponseDto($place);
             this.plc_id = this.place.$id;
         } else if (typeof $place == 'number') {
             this.plc_id = $place;
@@ -192,9 +215,9 @@ export class GetMeasurementDto {
 
     /**
      * Getter $user
-     * @return {GetUserDto | undefined}
+     * @return {UserResponseDto | undefined}
      */
-	public get $user(): GetUserDto | undefined {
+	public get $user(): UserResponseDto | undefined {
 		return this.user;
 	}
 
@@ -208,9 +231,9 @@ export class GetMeasurementDto {
 
     /**
      * Getter $place
-     * @returns {GetPlaceDto | undefined}
+     * @returns {PlaceResponseDto | undefined}
      */
-    public get $place(): GetPlaceDto | undefined {
+    public get $place(): PlaceResponseDto | undefined {
         return this.place;
     }
 
@@ -248,29 +271,33 @@ export class GetMeasurementDto {
 
     /**
      * Setter $user
-     * @param {GetUserDto | User} value
+     * @param {UserResponseDto | GetUserDto | User} value
      */
-	public set $user(value: GetUserDto | User) {
+	public set $user(value: UserResponseDto | GetUserDto | User) {
         if (value instanceof GetUserDto) {
-		    this.user = value;
+		    this.user = new UserResponseDto(value);
+        } else if (value instanceof User) {
+            this.user = new UserResponseDto(value);
         } else {
-            this.user = new GetUserDto(value);
+            this.user = value;
         }
         
-        this.usr_id = Number(this.user.$id);
+        this.usr_id = this.user.$id;
 	}
     
     /**
      * Setter $place
-     * @param {GetPlaceDto | Place} value
+     * @param {PlaceResponseDto | GetPlaceDto | Place} value
      */
-    public set $place(value: GetPlaceDto | Place) {
+    public set $place(value: PlaceResponseDto | GetPlaceDto | Place) {
         if (value instanceof GetPlaceDto) {
-            this.place = value;
+            this.place = new PlaceResponseDto(value);
+        } else if (value instanceof Place) {
+            this.place = new PlaceResponseDto(value);
         } else {
-            this.place = new GetPlaceDto(value);
+            this.place = value;
         }
         
-        this.plc_id = Number(this.place.$id);
+        this.plc_id = this.place.$id;
     }
 }

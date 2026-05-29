@@ -229,6 +229,9 @@ class MeasurementService {
 
     public async Delete(ids: Array<number>) {
         try {
+            if (ids.length < 1)
+                throw new RequestError(400, "Nenhum ID foi informado na lista de exclusão.")
+
             this.measureRepo.Delete(ids);
         } catch (e) {
             throw e;

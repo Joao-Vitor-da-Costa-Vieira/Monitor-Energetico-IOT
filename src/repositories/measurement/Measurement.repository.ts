@@ -173,37 +173,7 @@ export class MeasurementRepository {
         }
     }
 
-    public async Delete(id: number) {
-        try {
-            const responseGetAll = await SheetsDbContext.get(`${TableStruct.Page}!${TableStruct.Id}:${TableStruct.Id}`);
-
-            if (!responseGetAll || !responseGetAll.data.values)
-                throw new GoogleSheetsError(500, `Nenhuma resposta foi retornada pela API.`)
-
-            const measureValues = responseGetAll.data.values;
-            measureValues.shift();
-
-            let rowNum;
-
-            for(let i = 0; i < measureValues.length; i++) {
-                if (measureValues[i][0] == id) {
-                    rowNum = i + 1;
-                    break;
-                }
-            }
-
-            if (!rowNum)
-                throw new NoDataFoundError(404, `Nenhuma medicação com ID ${id} foi encontrado.`)
-
-            await SheetsDbContext.deleteRow(TableStruct.SheetId, rowNum);
-
-            return true;
-        } catch (e) {
-            throw e;
-        }
-    }
-
-    public async DeleteMultiple(ids: Array<number>) {
+    public async Delete(ids: Array<number>) {
         try {
             const responseGetAll = await SheetsDbContext.get(`${TableStruct.Page}!${TableStruct.Id}:${TableStruct.Id}`);
 
@@ -226,7 +196,7 @@ export class MeasurementRepository {
             if (rowsList.length < 1)
                 throw new NoDataFoundError(404, `Nenhuma medicação com os IDs informados foram encontrados.`)
 
-            await SheetsDbContext.deleteMultRows(TableStruct.SheetId, rowsList);
+            await SheetsDbContext.deleteRows(TableStruct.SheetId, rowsList);
 
             return true;
         } catch (e) {

@@ -201,9 +201,9 @@ class MeasurementService {
         }
     }
 
-    public async Delete(id: number) {
+    public async Delete(ids: Array<number>) {
         try {
-            this.measureRepo.Delete(id);
+            this.measureRepo.Delete(ids);
         } catch (e) {
             throw e;
         }

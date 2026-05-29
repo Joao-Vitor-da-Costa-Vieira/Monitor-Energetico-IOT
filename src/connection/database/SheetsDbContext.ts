@@ -133,7 +133,7 @@ class SheetsDbContext {
         }
     } 
 
-    public static getRequestsForDel(
+    private static getRequestsForDel(
         $sheetId: number,
         $rows: Array<number>
     ) {

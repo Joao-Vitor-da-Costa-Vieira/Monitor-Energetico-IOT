@@ -4,6 +4,7 @@ import { Response } from "express";
 export abstract class ResponseUtils {
     /**
      * ReturnErrorResponse
+     * @param {Response} res
      * @param {AbstractApiError} e
      */
     public static returnApiErrorResponse(res: Response, e: AbstractApiError) {
@@ -13,6 +14,9 @@ export abstract class ResponseUtils {
 
     /**
      * returnGenericErrorResponse
+     * @param {Response} res 
+     * @param {Error} e 
+     * @param {number} httpCode 
      */
     public static returnGenericErrorResponse(res: Response, e: Error, httpCode: number = 500) {
         console.error(e);
@@ -20,9 +24,10 @@ export abstract class ResponseUtils {
     }
 
     /**
-     * FormatSucessResponse
-     * @param {number} httpCode
+     * returnObjectResponse
+     * @param {Response} res
      * @param {Object} obj
+     * @param {number} httpCode
      */
     public static returnObjectResponse(res: Response, obj: Object, httpCode: number = 200) {
         return res.status(200).send(obj);

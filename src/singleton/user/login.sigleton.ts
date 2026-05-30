@@ -3,10 +3,6 @@ export class LoginSingleton {
     private userId? : number;
     private placeId? : number;
 
-    private constructor() {
-
-    }
-
     public static GetInstance() : LoginSingleton {
         if (!this.instance)
             this.instance = new LoginSingleton();

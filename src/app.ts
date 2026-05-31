@@ -19,5 +19,4 @@ APP.use("/user", userRouter);
 APP.use("/place", placeRouter);
 APP.use("/measure", measureRouter);
 
-//APP.listen(PORT, () => {console.log(`Sistema rondando em http://localhost:${PORT}`);})
 export default APP;

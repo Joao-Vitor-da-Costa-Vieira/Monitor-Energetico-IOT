@@ -35,7 +35,7 @@ const Home = () => {
   }
 
   const handleLogout = () => {
-    // Lógica de logout (ex: limpar dados, redirecionar para login, etc.)
+    // Lógica de logout
     console.log('Logout realizado')
   }
 
@@ -65,6 +65,11 @@ const Home = () => {
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Local com maior consumo</Text>
           <Text style={styles.cardDescription}>{highestConsumptionPlace}</Text>
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.cardContent}>Usuário:</Text>
+          <Text style={styles.cardDescription}>UserName</Text>
         </Card>
 
         {buttons({buttonProps: {onPress: handleLogout, title: 'Sair da Sessão'}})}

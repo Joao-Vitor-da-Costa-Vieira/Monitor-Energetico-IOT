@@ -6,8 +6,8 @@ import { RequestError } from '../../errors/http/Request.error.ts';
 import { BussinessRuleError } from '../../errors/mvc/BussinessRule.error.ts';
 import { NoDataFoundError } from '../../errors/mvc/NoDataFound.error.ts';
 import { MeasurementRepository } from '../../repositories/measurement/Measurement.repository.ts';
-import PlaceService from '../../services/place/Place.service.ts';
-import UserService from '../../services/user/User.service.ts';
+import PlaceService from '../place/Place.service.ts';
+import UserService from '../user/User.service.ts';
 
 class MeasurementService {
     private static instance : MeasurementService;

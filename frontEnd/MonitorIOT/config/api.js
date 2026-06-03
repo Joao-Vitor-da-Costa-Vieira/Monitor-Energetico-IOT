@@ -11,7 +11,9 @@ export const API_CONFIG = {
     DEACTIVATE_ACCOUNT: '/user/DeactivateAccount/',
     ACTIVATE_ACCOUNT: '/user/ActivateAccount/',
     GET_LOGGED_USER: '/login/GetLoggedUser/',
-    UPDATE_ACCOUNT: '/login/UpdateAccount/'
+    UPDATE_ACCOUNT: '/login/UpdateAccount/',
+    LOGIN_AS_USER: '/login/LoginAsUser',
+    LOGGOUT_USER: '/login/LogOutUser'
   }
 };
 

@@ -20,21 +20,26 @@ export const UserProvider = ({ children }) => {
   const loadUser = async () => {
     try {
       setIsLoading(true);
+      console.log('Buscando usuário logado...');
+      
       const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GET_LOGGED_USER}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        },
-        credentials: 'include'
+        }
       });
+
+      console.log('Resposta GET_LOGGED_USER status:', response.status);
 
       if (response.ok) {
         const userData = await response.json();
+        console.log('Usuário encontrado:', userData);
         setUser(userData);
         setIsAuthenticated(true);
         return true;
       } else {
+        console.log('Nenhum usuário logado');
         setUser(null);
         setIsAuthenticated(false);
         return false;
@@ -52,8 +57,8 @@ export const UserProvider = ({ children }) => {
   // Função para fazer logout
   const logout = async () => {
     try {
-      await fetch(`${API_CONFIG.BASE_URL}/Logout`, {
-        method: 'POST',
+      await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.LOGGOUT_USER}`, {
+        method: 'PUT',
         credentials: 'include'
       });
     } catch (error) {

@@ -10,10 +10,10 @@ export const API_CONFIG = {
     UPDATE_ACCOUNT: '/user/UpdateAccount/',
     DEACTIVATE_ACCOUNT: '/user/DeactivateAccount/',
     ACTIVATE_ACCOUNT: '/user/ActivateAccount/',
-    GET_LOGGED_USER: '/login/GetLoggedUser/',
+    GET_LOGGED_USER: '/login/GetLoggedUsr/',
     UPDATE_ACCOUNT: '/login/UpdateAccount/',
     LOGIN_AS_USER: '/login/LoginAsUser',
-    LOGGOUT_USER: '/login/LogOutUser'
+    LOGOUT_USER: '/login/LogOutUser'
   }
 };
 

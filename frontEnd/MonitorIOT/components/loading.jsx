@@ -19,5 +19,6 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     color: '#01cfeb',
+    marginTop: 20
   },
 })

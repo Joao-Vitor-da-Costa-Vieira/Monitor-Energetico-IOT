@@ -2,7 +2,7 @@ const getApiUrl = () => {
   return 'https://monitor-energetico-iot.vercel.app';
 };
 
-export default {
+export const API_CONFIG = {
   BASE_URL: getApiUrl(),
   ENDPOINTS: {
     CREATE_ACCOUNT: '/user/CreateAccount',
@@ -12,3 +12,5 @@ export default {
     ACTIVATE_ACCOUNT: '/user/ActivateAccount'
   }
 };
+
+export default API_CONFIG;

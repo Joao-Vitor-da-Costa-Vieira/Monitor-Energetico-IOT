@@ -1,27 +1,54 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
+import { useEffect } from 'react'
+
+// Context
+import { useUser } from '../../context/UserContext'
+
+// Componentes
 import {emailInput, passwordInput} from '../components/Inputs'
 import buttons from '../components/buttons'
 import { Link, router } from 'expo-router'
 
-const Login = () => {
-  return (
-    <View style={styles.container}>
-      <Image 
-      style={{width: 100, height: 150}} source={require('../assets/lampada.png')} />
-      
-      <Text style={styles.title}>Entre em sua conta</Text>
+const Index = () => {
+  const { isAuthenticated, isLoading, loadUser } = useUser();
 
-      {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar', onPress: () => router.push('/(loginUser)/login')}})}
+  useEffect(() => {
+    const checkUser = async () => {
+      const userExists = await loadUser();
+      if (userExists) {
+        router.replace('/home');
+      }
+    };
+    
+    checkUser();
+  }, []);
 
-      <View>
-        <Link href="/(loginUser)/cadastro" style={styles.link}>Cadastre-se</Link>
-      </View>
-    </View>   
-  )
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <View style={styles.container}>
+        <Image 
+        style={{width: 100, height: 150}} source={require('../assets/lampada.png')} />
+        
+        <Text style={styles.title}>Entre em sua conta</Text>
+
+        {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar', onPress: () => router.push('/(loginUser)/login')}})}
+
+        <View>
+          <Link href="/(loginUser)/cadastro" style={styles.link}>Cadastre-se</Link>
+        </View>
+      </View>   
+    )
+  }
+
+  return <Loading />;
 }
 
-export default Login
+export default Index
 
 const styles = StyleSheet.create({
   container:{

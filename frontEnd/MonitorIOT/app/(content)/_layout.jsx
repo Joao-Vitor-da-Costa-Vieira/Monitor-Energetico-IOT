@@ -3,10 +3,14 @@ import React from 'react'
 import { Stack, Tabs } from 'expo-router'
 import {Ionicons} from '@expo/vector-icons'
 
+//context
+import { UserProvider } from '../../context/UserContext'
+
 const ContentLayout = () => {
 
     return (
 
+        <UserProvider>
         <Tabs screenOptions={{
             headerShown: false, 
             tabBarActiveBackgroundColor: '#01cfeb', 
@@ -25,6 +29,7 @@ const ContentLayout = () => {
             <Tabs.Screen name="dashboard" 
             options={{title: 'Dashboard', tabBarIcon: ({focused}) => <Ionicons name="analytics" size={20} color={focused ? '#fff' : '#888888'} />}} />
         </Tabs>
+        </UserProvider>
     )
 }
 

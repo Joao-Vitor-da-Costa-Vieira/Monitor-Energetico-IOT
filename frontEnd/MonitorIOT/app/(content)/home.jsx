@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
+import { router } from 'expo-router'
 
 //context
 import { useUser } from '../../context/UserContext'
@@ -13,7 +14,7 @@ import buttons from '../../components/buttons'
 import { calculateHomeStats } from '../../utils/homeUtils'
 
 const Home = () => {
-  const { user, logout } = useUser()
+  const { user, logout, loadUser } = useUser()
   const [lastConsumption, setLastConsumption] = useState(0)
   const [lastConsumptionPlace, setLastConsumptionPlace] = useState('')
   const [lastConsumptionDevice, setLastConsumptionDevice] = useState('')
@@ -21,8 +22,19 @@ const Home = () => {
   const [highestConsumptionPlace, setHighestConsumptionPlace] = useState('')
 
   useEffect(() => {
+    const loadData = async () => {
+      if (!user) {
+        await loadUser()
+      }
+    }
+    
+    loadData()
     loadStats()
   }, [])
+
+   useEffect(() => {
+    console.log('Dados do usuário na home:', user)
+  }, [user])
 
   const loadStats = () => {
     const stats = calculateHomeStats()
@@ -52,7 +64,7 @@ const Home = () => {
           onPress: async () => {
             try {
               await logout()
-              router.replace('/index')
+              router.replace('/')
             } catch (error) {
               console.error('Erro ao fazer logout:', error)
               Alert.alert('Erro', 'Não foi possível fazer logout')

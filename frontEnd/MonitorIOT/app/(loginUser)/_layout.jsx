@@ -2,9 +2,13 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
 
+//context
+import { UserProvider } from '../../context/UserContext'
+
 const LoginUserLayout = () => {
 
     return (
+        <UserProvider>
         <Stack screenOptions={{
             headerStyle: {backgroundColor: '#01cfeb'},
             headerTintColor: '#fff',
@@ -13,6 +17,7 @@ const LoginUserLayout = () => {
             <Stack.Screen name="cadastro" options={{title: 'Cadastro'}} />
             <Stack.Screen name="login" options={{title: 'Login'}} />
         </Stack>
+        </UserProvider>
     )
 }
 

@@ -59,8 +59,8 @@ const Login = () => {
       console.log('Resposta do login:', data)
 
       if (response.ok) {
-        // Após login bem-sucedido, tente obter os dados do usuário logado
-        const userResponse = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GET_LOGGED_USER}`, {
+        // Após login bem-sucedido, buscar os dados do usuário logado
+        const loggedUserResponse = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GET_LOGGED_USER}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -68,31 +68,48 @@ const Login = () => {
           }
         });
 
-        if (userResponse.ok) {
-          const userDataFromServer = await userResponse.json();
-          console.log('Dados do usuário logado:', userDataFromServer);
+        if (loggedUserResponse.ok) {
+          const loggedUserData = await loggedUserResponse.json();
+          console.log('ID do usuário logado:', loggedUserData);
           
-          // Salva os dados do usuário no contexto global
-          setUser(userDataFromServer);
-          setIsAuthenticated(true);
-          
-          Alert.alert(
-            'Sucesso', 
-            `Bem-vindo, ${userDataFromServer.name}!`,
-            [
-              { 
-                text: 'OK', 
-                onPress: () => router.replace('/home') 
+          if (loggedUserData && loggedUserData.usrId) {
+            const userResponse = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GET_USER}${loggedUserData.usrId}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
               }
-            ]
-          )
+            });
+            
+            if (userResponse.ok) {
+              const completeUserData = await userResponse.json();
+              console.log('Dados completos do usuário:', completeUserData);
+              
+              // Salvar os dados do usuário no contexto
+              setUser(completeUserData);
+              setIsAuthenticated(true);
+              
+              Alert.alert(
+                'Sucesso', 
+                `Bem-vindo, ${completeUserData.name}!`,
+                [
+                  { 
+                    text: 'OK', 
+                    onPress: () => {
+                      router.replace('/home') 
+                    }
+                  }
+                ]
+              )
+            } else {
+              Alert.alert('Erro', 'Não foi possível carregar os dados do usuário')
+            }
+          } else {
+            Alert.alert('Erro', 'Não foi possível identificar o usuário')
+          }
         } else {
-          // If can't fetch user data, show error
           Alert.alert('Erro', 'Não foi possível carregar os dados do usuário')
         }
-      } else {
-        // Login failed
-        Alert.alert('Erro no Login', data.message || 'Email ou senha inválidos')
       }
     } catch (error) {
       console.error('Erro na requisição:', error)
@@ -106,7 +123,7 @@ const Login = () => {
   }
 
   if (isLoading) {
-    return <Loading />
+    return loading();
   }
 
   return (

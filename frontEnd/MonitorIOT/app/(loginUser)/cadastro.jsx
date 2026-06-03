@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
+import { Link, router } from 'expo-router'
 
 //api
 import {API_CONFIG} from '../../config/api'
@@ -19,7 +20,7 @@ const cadastro = () => {
   const [nome, setNome] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleCadastro = () => {
+  const handleCadastro = async () => {
     // Valida todos os campos
     const validation = validateAllLoginFields(email, senha, confirmarSenha)
     
@@ -38,11 +39,10 @@ const cadastro = () => {
     
     // Se todos os campos estiverem preenchidos e válidos
     try{
-      const useData = {
+      const userData = {
         name: nome.trim(),
         email: email.trim(),
-        password: senha,
-        confirmPassword: confirmarSenha
+        pass: senha
       }
 
       const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CREATE_ACCOUNT}`, {

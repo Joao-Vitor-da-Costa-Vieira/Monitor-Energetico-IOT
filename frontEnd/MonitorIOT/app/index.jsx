@@ -3,12 +3,13 @@ import React from 'react'
 import { useEffect } from 'react'
 
 // Context
-import { useUser } from '../../context/UserContext'
+import { useUser } from '../context/UserContext'
 
 // Componentes
 import {emailInput, passwordInput} from '../components/Inputs'
 import buttons from '../components/buttons'
 import { Link, router } from 'expo-router'
+import loading from '../components/loading'
 
 const Index = () => {
   const { isAuthenticated, isLoading, loadUser } = useUser();
@@ -25,7 +26,7 @@ const Index = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return loading();
   }
 
   if (!isAuthenticated) {
@@ -45,7 +46,7 @@ const Index = () => {
     )
   }
 
-  return <Loading />;
+  return loading();
 }
 
 export default Index

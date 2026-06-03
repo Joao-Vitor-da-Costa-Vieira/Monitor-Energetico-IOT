@@ -1,13 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
+
+//context
+import { useUser } from '../../context/UserContext'
 
 //componentes
 import SafeView from '../../components/safeView'
 import Card from '../../components/card'
 import buttons from '../../components/buttons'
+
+//utils
 import { calculateHomeStats } from '../../utils/homeUtils'
 
 const Home = () => {
+  const { user, logout } = useUser()
   const [lastConsumption, setLastConsumption] = useState(0)
   const [lastConsumptionPlace, setLastConsumptionPlace] = useState('')
   const [lastConsumptionDevice, setLastConsumptionDevice] = useState('')
@@ -34,9 +40,27 @@ const Home = () => {
     return `${watts} W`
   }
 
-  const handleLogout = () => {
-    // Lógica de logout
-    console.log('Logout realizado')
+    const handleLogout = async () => {
+    Alert.alert(
+      'Sair',
+      'Tem certeza que deseja sair?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { 
+          text: 'Sair', 
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await logout()
+              router.replace('/index')
+            } catch (error) {
+              console.error('Erro ao fazer logout:', error)
+              Alert.alert('Erro', 'Não foi possível fazer logout')
+            }
+          }
+        }
+      ]
+    )
   }
 
   return (
@@ -69,7 +93,7 @@ const Home = () => {
 
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Usuário:</Text>
-          <Text style={styles.cardDescription}>UserName</Text>
+          <Text style={styles.cardDescription}>{user?.name || 'Nome do Usuário'}</Text>
         </Card>
 
         {buttons({buttonProps: {onPress: handleLogout, title: 'Sair da Sessão'}})}

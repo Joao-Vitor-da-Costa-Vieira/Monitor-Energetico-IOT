@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 
 //api
-import API_CONFIG from '../../config/api'
+import {API_CONFIG} from '../../config/api'
 
 //componentes
 import {emailInput, passwordInput, TextoInputs} from '../../components/Inputs'
@@ -68,13 +68,11 @@ const cadastro = () => {
             {
               text: 'OK',
               onPress: () => {
+                router.back()
                 setNome('')
                 setEmail('')
                 setSenha('')
                 setConfirmarSenha('')
-                if (navigation?.goBack) {
-                  navigation.goBack()
-                }
               }
             }
           ]

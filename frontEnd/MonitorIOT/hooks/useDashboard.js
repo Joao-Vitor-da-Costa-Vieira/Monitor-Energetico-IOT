@@ -19,7 +19,7 @@ export const useDashboard = () => {
   const [startDateText, setStartDateText] = useState('')
   const [endDateText, setEndDateText] = useState('')
   const [selectedPlace, setSelectedPlace] = useState(null)
-  const [measurementType, setMeasurementType] = useState('power') // Começar com power já que tem 500W
+  const [measurementType, setMeasurementType] = useState('power')
   const [measuresData, setMeasuresData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 

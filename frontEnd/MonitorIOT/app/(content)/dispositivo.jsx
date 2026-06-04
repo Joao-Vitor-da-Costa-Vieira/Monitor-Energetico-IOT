@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native'
-import React from 'react'
-import { router } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { router, useFocusEffect } from 'expo-router'
 
 //componentes
 import SafeView from '../../components/safeView'
@@ -8,20 +8,43 @@ import Card from '../../components/card'
 import buttons from '../../components/buttons'
 import { buttonCancel, buttonOptions } from '../../components/buttons'
 
-// dados
-import { devicesData } from '../../constants/dummyData'
+// context
+import { usePlace } from '../../context/PlaceContext'
+import { useMeasure } from '../../context/MeasureContext'
+import { useUser } from '../../context/UserContext'
+import Loading from '../../components/loading'
 
 const Dispositivo = () => {
-  // Converter o objeto devicesData em array para o FlatList
-  const devicesList = Object.values(devicesData)
+  const { places, loadPlaces } = usePlace()
+  const { measures, loadMeasureUser } = useMeasure()
+  const { user } = useUser()
+  const [placesList, setPlacesList] = useState([])
 
-  // Função para determinar o status do dispositivo baseado na última medição
-  const getDeviceStatus = (device) => {
-    if (!device.measurements || device.measurements.length === 0) {
+  useFocusEffect(
+    React.useCallback(() => {
+      if (user?.usrId) {
+        loadPlaces(user.usrId)
+        loadMeasureUser(user.usrId)
+      }
+    }, [user])
+  )
+
+  useEffect(() => {
+    // Usa os places diretamente da API e associa as medidas
+    const placesWithMeasures = places.map(place => ({
+      ...place,
+      measurements: measures.filter(m => m.place?.id === place.id)
+    }))
+    setPlacesList(placesWithMeasures)
+  }, [places, measures])
+
+  // Função para determinar o status baseado na última medição
+  const getPlaceStatus = (place) => {
+    if (!place.measurements || place.measurements.length === 0) {
       return 'Status: Sem dados'
     }
     
-    const lastMeasurement = [...device.measurements].sort((a, b) => b.date - a.date)[0]
+    const lastMeasurement = [...place.measurements].sort((a, b) => new Date(b.date) - new Date(a.date))[0]
     const now = new Date()
     const lastMeasurementDate = new Date(lastMeasurement.date)
     const hoursDiff = (now - lastMeasurementDate) / (1000 * 60 * 60)
@@ -42,21 +65,29 @@ const Dispositivo = () => {
     return '#F44336'
   }
 
+  if (places.length === 0) {
+    return (
+      <SafeView>
+        <Loading />
+      </SafeView>
+    )
+  }
+
   return (
     <SafeView>
       <Card style={styles.cardTitle}>
-        <Text style={styles.cardContent}>Dispositivos</Text>
+        <Text style={styles.cardContent}>Locais</Text>
       </Card>
 
       <View style={{justifyContent: 'center', alignItems: 'center', marginBottom: 10}}>
-        {buttons({buttonProps: {onPress: () => router.push('/addDispositivo'), title: 'Adicionar Dispositivo'}})}
+        {buttons({buttonProps: {onPress: () => router.push('/addDispositivo'), title: 'Adicionar Local'}})}
       </View>
 
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <FlatList 
-          data={devicesList}
+          data={placesList}
           renderItem={({item}) => {
-            const status = getDeviceStatus(item)
+            const status = getPlaceStatus(item)
             const statusColor = getStatusColor(status)
             
             return (
@@ -70,16 +101,13 @@ const Dispositivo = () => {
                       <Text style={[styles.cardDescription, {color: statusColor}]}>
                         {status}
                       </Text>
-                      <Text style={styles.locationText}>
-                         {item.place?.name || 'Local não definido'}
-                      </Text>
                       <Text style={styles.measurementsText}>
                         📊 {item.measurements?.length || 0} medições
                       </Text>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 5}}>
-                    {buttonOptions({buttonOptionsProps: {onPress: () => router.push({ pathname: '/altDispositivo', params: { id: item.id, title: item.name, place: item.place.name } }), title: '...'}})}
+                    {buttonOptions({buttonOptionsProps: {onPress: () => router.push({ pathname: '/altDispositivo', params: { id: item.id, title: item.name, place: item.name } }), title: '...'}})}
                     {buttonCancel({buttonCancelProps: {onPress: () => console.log('Excluir', item.id), title: 'X'}})}
                   </View>
                 </View>

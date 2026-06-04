@@ -1,81 +1,59 @@
-// utils/homeUtils.js
-import { devicesData } from '../constants/dummyData'
-
-// Função para obter todas as medições de todos os dispositivos
-export const getAllMeasurements = () => {
-  return Object.values(devicesData).flatMap(device => device.measurements)
-}
-
-// Função para obter a última medição com informações do local e dispositivo
-export const getLastMeasurement = () => {
-  const allMeasurements = []
+export const calculateHomeStatsFromAPI = (measures, places) => {
   
-  // Percorre todos os dispositivos e coleta as medições com referência ao dispositivo
-  Object.values(devicesData).forEach(device => {
-    device.measurements.forEach(measurement => {
-      allMeasurements.push({
-        ...measurement,
-        deviceId: device.id,
-        deviceName: device.name,
-        placeId: device.place?.id,
-        placeName: device.place?.name,
-        userName: device.user?.name
-      })
-    })
+  if (!measures || measures.length === 0) {
+    console.log('Nenhuma medida encontrada')
+    return {
+      lastConsumption: 0,
+      lastMeasurementPlace: 'Nenhum local',
+      lastMeasurementDevice: 'Nenhum dispositivo',
+      weeklyAverage: 0,
+      highestConsumptionPlace: 'Nenhum dado'
+    }
+  }
+
+  // Ordenar medidas por data (mais recente primeiro)
+  const sortedMeasures = [...measures].sort((a, b) => {
+    const dateA = new Date(a.date)
+    const dateB = new Date(b.date)
+    return dateB - dateA
   })
   
-  // Ordena por data e pega a mais recente
-  const lastMeasurement = [...allMeasurements].sort((a, b) => b.date - a.date)[0]
-  
-  return lastMeasurement || null
-}
+  const lastMeasurement = sortedMeasures[0]
 
-// Função para calcular a média de consumo da última semana
-export const getWeeklyAverageConsumption = () => {
-  const allMeasurements = getAllMeasurements()
-  const oneWeekAgo = new Date()
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-  
-  const lastWeekMeasurements = allMeasurements.filter(m => m.date >= oneWeekAgo)
-  
-  if (lastWeekMeasurements.length === 0) return 0
-  
-  const avgPower = lastWeekMeasurements.reduce((sum, m) => sum + m.power, 0) / lastWeekMeasurements.length
-  return Math.round(avgPower)
-}
+  // Calcular média de TODAS as medidas (não apenas última semana)
+  let weeklyAverage = 0
+  if (measures.length > 0) {
+    const totalPower = measures.reduce((sum, m) => sum + (m.power || 0), 0)
+    weeklyAverage = Math.round(totalPower / measures.length)
+  }
 
-// Função para encontrar o local com maior consumo
-export const getHighestConsumptionPlace = () => {
-  let maxConsumption = { place: '', value: 0 }
+  // Encontrar local com maior consumo (baseado em todas as medidas ou na mais recente por local)
+  let highestConsumptionPlace = 'Nenhum dado'
+  let highestValue = 0
+
+  // Criar um mapa para armazenar o maior consumo de cada local
+  const highestByPlace = new Map()
   
-  Object.values(devicesData).forEach(device => {
-    const deviceMeasurements = [...device.measurements].sort((a, b) => b.date - a.date)
-    const lastDeviceMeasurement = deviceMeasurements[0]
+  measures.forEach(measure => {
+    const placeName = measure.place?.name || `Local ${measure.plc_id}`
+    const power = measure.power || 0
     
-    if (lastDeviceMeasurement && lastDeviceMeasurement.power > maxConsumption.value) {
-      maxConsumption = {
-        place: device.place?.name || device.name,
-        value: lastDeviceMeasurement.power
-      }
+    if (!highestByPlace.has(placeName) || power > highestByPlace.get(placeName)) {
+      highestByPlace.set(placeName, power)
+    }
+    
+    // Também atualiza o maior valor geral
+    if (power > highestValue) {
+      highestValue = power
+      highestConsumptionPlace = placeName
     }
   })
-  
-  return maxConsumption.place
-}
 
-// Função principal que calcula todas as estatísticas de uma vez
-export const calculateHomeStats = () => {
-  const lastMeasurement = getLastMeasurement()
-  const weeklyAverage = getWeeklyAverageConsumption()
-  const highestPlace = getHighestConsumptionPlace()
-  
   return {
     lastConsumption: lastMeasurement?.power || 0,
-    lastMeasurementDate: lastMeasurement?.date || null,
-    lastMeasurementPlace: lastMeasurement?.placeName || 'Nenhum local',
-    lastMeasurementDevice: lastMeasurement?.deviceName || 'Nenhum dispositivo',
-    lastMeasurementValue: lastMeasurement?.power || 0,
+    lastMeasurementPlace: lastMeasurement?.place?.name || 'Nenhum local',
+    lastMeasurementDevice: 'Desconhecido',
     weeklyAverage: weeklyAverage,
-    highestConsumptionPlace: highestPlace || 'Nenhum dado'
+    highestConsumptionPlace: highestConsumptionPlace || 'Nenhum dado'
   }
 }

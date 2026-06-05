@@ -32,7 +32,8 @@ export const PlaceProvider = ({ children }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                }
+                },
+                credentials: 'include'
             });
             
             console.log('Resposta GET_PLACE_USER status:', response.status);

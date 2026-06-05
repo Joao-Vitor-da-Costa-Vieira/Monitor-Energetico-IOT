@@ -1,6 +1,6 @@
+// context/MeasureContext.js
 import React, { createContext, useState, useContext } from 'react';
 import { Alert } from 'react-native';
-import { router } from 'expo-router';
 import { API_CONFIG } from '../config/api';
 
 const MeasureContext = createContext({});
@@ -23,7 +23,7 @@ export const MeasureProvider = ({ children }) => {
         setMeasures([]);
     };
     
-    // Função para carregar as medidas do lugar selecionado
+    // Função para carregar as medidas do usuário
     const loadMeasureUser = async (usrId) => {
         try {
             setIsLoading(true);
@@ -32,7 +32,8 @@ export const MeasureProvider = ({ children }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                }
+                },
+                credentials: 'include' // Adicione isso para manter a sessão
             });
             
             console.log('Resposta GET_MEASURE_USER status:', response.status);

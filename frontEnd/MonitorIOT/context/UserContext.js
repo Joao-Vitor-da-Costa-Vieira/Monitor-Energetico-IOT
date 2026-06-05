@@ -1,6 +1,6 @@
-import React, { createContext, useState, useContext } from 'react';
+// context/UserContext.js
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
-import { router } from 'expo-router';
 import { API_CONFIG } from '../config/api';
 
 const UserContext = createContext({});
@@ -17,6 +17,14 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userLoaded, setUserLoaded] = useState(false);
+
+  // Carregar o usuário automaticamente quando o provider for montado
+  useEffect(() => {
+    if (!userLoaded) {
+      loadUser();
+    }
+  }, []);
 
   // Função para carregar o usuário logado
   const loadUser = async () => {
@@ -29,7 +37,8 @@ export const UserProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        }
+        },
+        credentials: 'include'
       });
 
       console.log('Resposta GET_LOGGED_USER status:', response.status);
@@ -38,47 +47,38 @@ export const UserProvider = ({ children }) => {
         const loggedUserData = await response.json();
         console.log('ID do usuário logado:', loggedUserData);
         
-        // Verifica se tem usrId (não id)
         if (loggedUserData && loggedUserData.usrId) {
-          // Busca os dados completos do usuário usando o usrId
           const userResponse = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GET_USER}${loggedUserData.usrId}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json'
-            }
+            },
+            credentials: 'include'
           });
           
           if (userResponse.ok) {
             const completeUserData = await userResponse.json();
             console.log('Dados completos do usuário:', completeUserData);
             
-            // Salva os dados do usuário no context
             setUser(completeUserData);
             setIsAuthenticated(true);
+            setUserLoaded(true);
             return true;
-          } else {
-            console.log('Erro ao buscar dados completos do usuário');
-            setUser(null);
-            setIsAuthenticated(false);
-            return false;
           }
-        } else {
-          console.log('Nenhum usrId encontrado - usuário não está logado');
-          setUser(null);
-          setIsAuthenticated(false);
-          return false;
         }
-      } else {
-        console.log('Usuário não está logado');
-        setUser(null);
-        setIsAuthenticated(false);
-        return false;
       }
+      
+      // Se chegou aqui, não está logado
+      setUser(null);
+      setIsAuthenticated(false);
+      setUserLoaded(true);
+      return false;
     } catch (error) {
       console.error('Erro ao obter usuário logado:', error);
       setUser(null);
       setIsAuthenticated(false);
+      setUserLoaded(true);
       return false;
     } finally {
       setIsLoading(false);
@@ -99,6 +99,7 @@ export const UserProvider = ({ children }) => {
     } finally {
       setUser(null);
       setIsAuthenticated(false);
+      setUserLoaded(false);
     }
   };
 

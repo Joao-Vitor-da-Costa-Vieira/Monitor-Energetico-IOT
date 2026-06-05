@@ -1,5 +1,6 @@
+// app/(content)/home.jsx
 import { StyleSheet, Text, View, Alert } from 'react-native'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { router, useFocusEffect } from 'expo-router'
 
 //context
@@ -17,7 +18,6 @@ import buttons from '../../components/buttons'
 import { calculateHomeStatsFromAPI } from '../../utils/homeUtils'
 
 const Home = () => {
-  // Hooks chamados no topo do componente
   const { user, loadUser, logout } = useUser()
   const { measures, loadMeasureUser, isLoading: measuresLoading, clearMeasures } = useMeasure()
   const { places, loadPlaces, isLoading: placesLoading, clearPlaces } = usePlace()
@@ -27,7 +27,8 @@ const Home = () => {
   const [lastConsumptionDevice, setLastConsumptionDevice] = useState('')
   const [weeklyAverage, setWeeklyAverage] = useState(0)
   const [highestConsumptionPlace, setHighestConsumptionPlace] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
+  const [isFirstLoading, setIsFirstLoading] = useState(true) 
+  const hasLoadedOnce = useRef(false)
 
   // Carregar usuário inicial
   useEffect(() => {
@@ -40,37 +41,46 @@ const Home = () => {
   }, [])
 
   // Função para carregar dados do usuário
-  const loadUserData = async () => {
+  const loadUserData = async (forceReload = false) => {
     if (!user?.id) return
     
-    setIsLoading(true)
+    if (hasLoadedOnce.current && !forceReload) {
+      console.log('Home: usando dados em cache')
+      return
+    }
+    
+    console.log('Home: carregando dados da API')
+    
     try {
       await Promise.all([
         loadPlaces(user.id),
         loadMeasureUser(user.id)
       ])
+      hasLoadedOnce.current = true
     } catch (error) {
       console.error('Erro ao carregar dados:', error)
       Alert.alert('Erro', 'Não foi possível carregar os dados')
     } finally {
-      setIsLoading(false)
+      setIsFirstLoading(false)
     }
   }
 
-  // useFocusEffect - recarrega dados sempre que a tela ganhar foco
   useFocusEffect(
     useCallback(() => {
       if (user?.id) {
-        loadUserData()
+        if (!hasLoadedOnce.current) {
+          loadUserData()
+        }
       } else if (!user) {
         loadUser().then(() => {
-          if (user?.id) loadUserData()
+          if (user?.id && !hasLoadedOnce.current) loadUserData()
         })
       }
+      
+      return () => {}
     }, [user?.id])
   )
 
-  // Calcular estatísticas quando medidas ou lugares mudarem
   useEffect(() => {
     if (measures.length > 0) {
       const stats = calculateHomeStatsFromAPI(measures, places)
@@ -91,40 +101,37 @@ const Home = () => {
     return `${watts} W`
   }
 
-  // Função handleLogout corrigida
   const handleLogout = () => {
-    Alert.alert(
-      'Sair',
-      'Tem certeza que deseja sair?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Sair', 
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              // Limpar dados dos contexts antes do logout
-              if (clearMeasures) clearMeasures()
-              if (clearPlaces) clearPlaces()
-              
-              // Usar o logout do hook
-              await logout()
+  Alert.alert(
+    'Sair',
+    'Tem certeza que deseja sair?',
+    [
+      { text: 'Cancelar', style: 'cancel' },
+      { 
+        text: 'Sair', 
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            if (clearMeasures) clearMeasures()
+            if (clearPlaces) clearPlaces()
+            hasLoadedOnce.current = false
+            await logout()
+            // Pequeno delay para garantir que o estado foi atualizado
+            setTimeout(() => {
               router.replace('/')
-            } catch (error) {
-              console.error('Erro ao fazer logout:', error)
-              Alert.alert('Erro', 'Não foi possível fazer logout')
-            }
+            }, 50)
+          } catch (error) {
+            console.error('Erro ao fazer logout:', error)
+            Alert.alert('Erro', 'Não foi possível fazer logout')
           }
         }
-      ]
-    )
-  }
+      }
+    ]
+  )
+}
 
-  // Mostrar loading enquanto carrega os dados
-  if (isLoading || measuresLoading || placesLoading) {
-    return (
-        <Loading />
-    )
+  if (isFirstLoading) {
+    return <Loading />
   }
 
   return (

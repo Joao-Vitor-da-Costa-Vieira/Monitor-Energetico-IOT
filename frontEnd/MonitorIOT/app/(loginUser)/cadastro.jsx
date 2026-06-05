@@ -1,9 +1,14 @@
 import { StyleSheet, Text, View, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
+import { Link, router } from 'expo-router'
+
+//api
+import {API_CONFIG} from '../../config/api'
 
 //componentes
 import {emailInput, passwordInput, TextoInputs} from '../../components/Inputs'
 import buttons from '../../components/buttons'
+import loading from '../../components/loading'
 
 //utils
 import { validateAllLoginFields,   validateTextInput, getFormData } from '../../utils/validationInputUtils'
@@ -13,8 +18,9 @@ const cadastro = () => {
   const [senha, setSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
   const [nome, setNome] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleCadastro = () => {
+  const handleCadastro = async () => {
     // Valida todos os campos
     const validation = validateAllLoginFields(email, senha, confirmarSenha)
     
@@ -28,16 +34,66 @@ const cadastro = () => {
       Alert.alert('Erro', nomeValidation.message)
       return
     }
+
+    setIsLoading(true)
     
     // Se todos os campos estiverem preenchidos e válidos
-    const formData = getFormData(email, senha, confirmarSenha)
+    try{
+      const userData = {
+        name: nome.trim(),
+        email: email.trim(),
+        pass: senha
+      }
+
+      const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CREATE_ACCOUNT}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      })
+
+      console.log('Status da resposta:', response.status)
+
+      const data = await response.json()
+      console.log('Resposta do servidor:', data)
+
+            if (response.ok) {
+        // Success case - account created
+        Alert.alert(
+          'Sucesso', 
+          'Cadastro realizado com sucesso!',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                router.back()
+                setNome('')
+                setEmail('')
+                setSenha('')
+                setConfirmarSenha('')
+              }
+            }
+          ]
+        )
+      } else {
+        const errorMessage = data.message || data.error || 'Falha ao realizar cadastro. Tente novamente.'
+        Alert.alert('Erro no Cadastro', errorMessage)
+      }
+    }
+    catch(error){
+      console.error('Erro na requisição:', error)
     
-    console.log('Dados do cadastro:')
-    console.log('Nome:', nome.trim())
-    console.log('Email:', formData.email)
-    console.log('Senha:', formData.password)
-    console.log('Confirmar Senha:', formData.confirmPassword)
-    
+      Alert.alert(
+        'Erro de Conexão', 
+        `Não foi possível conectar ao servidor em:\n${API_CONFIG.BASE_URL}\n\nVerifique se o backend está rodando e o endereço está correto.\n\nDetalhes: ${error.message}`
+      )
+    }
+    finally{
+      setIsLoading(false)
+    }
+
     Alert.alert('Sucesso', 'Cadastro realizado com sucesso!')
   }
 
@@ -53,7 +109,9 @@ const cadastro = () => {
       {passwordInput({placeholder: 'Senha', value: senha, onChangeText: setSenha})}
       {passwordInput({placeholder: 'Confirmar Senha', value: confirmarSenha, onChangeText: setConfirmarSenha})}
 
-      {buttons({buttonProps: {onPress: handleCadastro, title: 'Cadastrar'}})}
+      {isLoading ? loading() : 
+      (buttons({buttonProps: {onPress: handleCadastro, title: 'Cadastrar'}}))
+      }
     </View>
   )
 }

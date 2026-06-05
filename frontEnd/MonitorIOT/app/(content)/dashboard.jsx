@@ -7,7 +7,7 @@ import SafeView from '../../components/safeView'
 import Card from '../../components/card'
 import buttons, { buttonCancel } from '../../components/buttons'
 import DatePickerComponent from '../../components/DataPicker'
-import DeviceFilter from '../../components/deviceFilter'
+import PlaceFilter from '../../components/placeFilter'
 import MeasurementTypeSelector from '../../components/seletorTipoMedicao' 
 
 // hooks e utils
@@ -22,15 +22,15 @@ const Dashboard = () => {
     endDateText,
     chartData,
     filteredData,
-    selectedDevice,
-    selectedDeviceInfo,
+    selectedPlace,
+    selectedPlaceInfo,
     measurementType,
-    deviceOptions,
+    placeOptions,
     applyFilter,
     clearFilter,
     handleStartDateChange,
     handleEndDateChange,
-    handleDeviceChange,
+    handlePlaceChange,
     handleMeasurementTypeChange,
   } = useDashboard()
 
@@ -45,12 +45,12 @@ const Dashboard = () => {
           
       <View style={styles.container}>
         
-        {/* Filtro de Dispositivo */}
-        <DeviceFilter 
-          selectedDevice={selectedDevice}
-          onDeviceChange={handleDeviceChange}
-          deviceInfo={selectedDeviceInfo}
-          deviceOptions={deviceOptions}
+        {/* Filtro de Lugar */}
+        <PlaceFilter 
+          selectedPlace={selectedPlace}
+          onPlaceChange={handlePlaceChange}
+          deviceInfo={selectedPlaceInfo}
+          placeOptions={placeOptions}
         />
 
         <MeasurementTypeSelector 
@@ -101,8 +101,8 @@ const Dashboard = () => {
             yAxisTextStyle={{ color: '#666', fontSize: 10 }}
             xAxisLabelTextStyle={{ color: '#666', fontSize: 9 }}
             noOfSections={4}
-            maxValue={measurementType === 'current' ? 120 : 20000}
-            stepValue={measurementType === 'current' ? 30 : 5000}
+            maxValue={measurementType === 'current' ? 2500 : 4500}
+            stepValue={measurementType === 'current' ? 500 : 900}
             showValuesAsTopLabel={false}
             rotateLabel={true}
             xAxisLabelsVertical={true}
@@ -113,7 +113,7 @@ const Dashboard = () => {
               ⚠️ Nenhum dado encontrado
             </Text>
             <Text style={styles.noDataSubText}>
-              {selectedDeviceInfo?.name} - Período selecionado: {startDateText} a {endDateText}
+              {selectedPlaceInfo?.name} - Período selecionado: {startDateText} a {endDateText}
             </Text>
           </Card>
         )}

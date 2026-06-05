@@ -22,7 +22,7 @@ const SafeView = ({ style, safe = false, scrollable = true, children, ...props }
       <ScrollView 
         style={containerStyle}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent, { paddingBottom: 100 }}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: 100 }]}
         {...props}
       >
         {children}

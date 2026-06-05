@@ -1,31 +1,98 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState, useEffect } from 'react'
+// app/(content)/home.jsx
+import { StyleSheet, Text, View, Alert } from 'react-native'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
+import { router, useFocusEffect } from 'expo-router'
+
+//context
+import { useUser } from '../../context/UserContext'
+import { useMeasure } from '../../context/MeasureContext'
+import { usePlace } from '../../context/PlaceContext'
 
 //componentes
 import SafeView from '../../components/safeView'
 import Card from '../../components/card'
+import Loading from '../../components/loading'
 import buttons from '../../components/buttons'
-import { calculateHomeStats } from '../../utils/homeUtils'
+
+//utils
+import { calculateHomeStatsFromAPI } from '../../utils/homeUtils'
 
 const Home = () => {
+  const { user, loadUser, logout } = useUser()
+  const { measures, loadMeasureUser, isLoading: measuresLoading, clearMeasures } = useMeasure()
+  const { places, loadPlaces, isLoading: placesLoading, clearPlaces } = usePlace()
+  
   const [lastConsumption, setLastConsumption] = useState(0)
   const [lastConsumptionPlace, setLastConsumptionPlace] = useState('')
   const [lastConsumptionDevice, setLastConsumptionDevice] = useState('')
   const [weeklyAverage, setWeeklyAverage] = useState(0)
   const [highestConsumptionPlace, setHighestConsumptionPlace] = useState('')
+  const [isFirstLoading, setIsFirstLoading] = useState(true) 
+  const hasLoadedOnce = useRef(false)
 
+  // Carregar usuário inicial
   useEffect(() => {
-    loadStats()
+    const loadInitialUser = async () => {
+      if (!user) {
+        await loadUser()
+      }
+    }
+    loadInitialUser()
   }, [])
 
-  const loadStats = () => {
-    const stats = calculateHomeStats()
-    setLastConsumption(stats.lastConsumption)
-    setLastConsumptionPlace(stats.lastMeasurementPlace)
-    setLastConsumptionDevice(stats.lastMeasurementDevice)
-    setWeeklyAverage(stats.weeklyAverage)
-    setHighestConsumptionPlace(stats.highestConsumptionPlace)
+  // Função para carregar dados do usuário
+  const loadUserData = async (forceReload = false) => {
+    if (!user?.id) return
+    
+    if (hasLoadedOnce.current && !forceReload) {
+      console.log('Home: usando dados em cache')
+      return
+    }
+    
+    console.log('Home: carregando dados da API')
+    
+    try {
+      await Promise.all([
+        loadPlaces(user.id),
+        loadMeasureUser(user.id)
+      ])
+      hasLoadedOnce.current = true
+    } catch (error) {
+      console.error('Erro ao carregar dados:', error)
+      Alert.alert('Erro', 'Não foi possível carregar os dados')
+    } finally {
+      setIsFirstLoading(false)
+    }
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      if (user?.id) {
+        if (!hasLoadedOnce.current) {
+          loadUserData()
+        }
+      } else if (!user) {
+        loadUser().then(() => {
+          if (user?.id && !hasLoadedOnce.current) loadUserData()
+        })
+      }
+      
+      return () => {}
+    }, [user?.id])
+  )
+
+  useEffect(() => {
+    if (measures.length > 0) {
+      const stats = calculateHomeStatsFromAPI(measures, places)
+      setLastConsumption(stats.lastConsumption)
+      setLastConsumptionPlace(stats.lastMeasurementPlace)
+      setLastConsumptionDevice(stats.lastMeasurementDevice)
+      setWeeklyAverage(stats.weeklyAverage)
+      setHighestConsumptionPlace(stats.highestConsumptionPlace)
+    } else if (places.length > 0 && measures.length === 0) {
+      setHighestConsumptionPlace(places[0]?.name || 'Nenhum dado')
+    }
+  }, [measures, places])
 
   const formatPower = (watts) => {
     if (watts >= 1000) {
@@ -35,8 +102,36 @@ const Home = () => {
   }
 
   const handleLogout = () => {
-    // Lógica de logout
-    console.log('Logout realizado')
+  Alert.alert(
+    'Sair',
+    'Tem certeza que deseja sair?',
+    [
+      { text: 'Cancelar', style: 'cancel' },
+      { 
+        text: 'Sair', 
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            if (clearMeasures) clearMeasures()
+            if (clearPlaces) clearPlaces()
+            hasLoadedOnce.current = false
+            await logout()
+            // Pequeno delay para garantir que o estado foi atualizado
+            setTimeout(() => {
+              router.replace('/')
+            }, 50)
+          } catch (error) {
+            console.error('Erro ao fazer logout:', error)
+            Alert.alert('Erro', 'Não foi possível fazer logout')
+          }
+        }
+      }
+    ]
+  )
+}
+
+  if (isFirstLoading) {
+    return <Loading />
   }
 
   return (
@@ -45,20 +140,17 @@ const Home = () => {
         <Text style={styles.cardContent}>Home</Text>
       </Card>
 
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.container}>
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Último Consumo Medido</Text>
           <Text style={styles.cardDescription}>{formatPower(lastConsumption)}</Text>
-          {lastConsumptionDevice && (
-            <Text style={styles.cardDescription}>📱 {lastConsumptionDevice}</Text>
-          )}
-          {lastConsumptionPlace && (
+          {lastConsumptionPlace && lastConsumptionPlace !== 'Nenhum local' && (
             <Text style={styles.cardDescription}>📍 {lastConsumptionPlace}</Text>
           )}  
         </Card>
         
         <Card style={styles.card}>
-          <Text style={styles.cardContent}>Média de Consumo da Semana</Text>
+          <Text style={styles.cardContent}>Média de Consumo</Text>
           <Text style={styles.cardDescription}>{formatPower(weeklyAverage)}</Text>
         </Card>
         
@@ -69,7 +161,7 @@ const Home = () => {
 
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Usuário:</Text>
-          <Text style={styles.cardDescription}>UserName</Text>
+          <Text style={styles.cardDescription}>{user?.name || 'Nome do Usuário'}</Text>
         </Card>
 
         {buttons({buttonProps: {onPress: handleLogout, title: 'Sair da Sessão'}})}
@@ -81,6 +173,10 @@ const Home = () => {
 export default Home
 
 const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     card: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -99,10 +195,11 @@ const styles = StyleSheet.create({
     cardContent: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: '#fff',
     },
     cardDescription: {
         fontSize: 14,
-        color: '#666',
+        color: '#fff',
         marginTop: 5,
     }
 })

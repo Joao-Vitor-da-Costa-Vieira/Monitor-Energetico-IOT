@@ -124,6 +124,7 @@ export const useHome = () => {
   }
 
   return {
+    user,
     lastConsumption,
     lastConsumptionPlace,
     lastConsumptionDevice,
@@ -131,7 +132,6 @@ export const useHome = () => {
     highestConsumptionPlace,
     isFirstLoading,
     formatPower,
-    handleLogout,
-    user
+    handleLogout
   }
 }

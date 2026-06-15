@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 // Context
 import { useUser } from '../context/UserContext'
@@ -12,41 +11,49 @@ import { Link, router } from 'expo-router'
 import loading from '../components/loading'
 
 const Index = () => {
-  const { isAuthenticated, isLoading, loadUser } = useUser();
+  const { isAuthenticated, isLoading: userLoading, loadUser } = useUser();
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     const checkUser = async () => {
-      const userExists = await loadUser();
-      if (userExists) {
-        router.replace('/home');
+      try {
+        // Força uma verificação nova no servidor
+        const userExists = await loadUser();
+        console.log('Verificação de usuário:', userExists ? 'Logado' : 'Não logado');
+        
+        if (userExists) {
+          router.replace('/home');
+        }
+      } catch (error) {
+        console.error('Erro ao verificar usuário:', error);
+      } finally {
+        setIsChecking(false);
       }
     };
     
     checkUser();
   }, []);
 
-  if (isLoading) {
+  // Mostra loading enquanto verifica
+  if (isChecking || userLoading) {
     return loading();
   }
 
-  if (!isAuthenticated) {
-    return (
-      <View style={styles.container}>
-        <Image 
+  // Se não está autenticado, mostra tela de login
+  return (
+    <View style={styles.container}>
+      <Image 
         style={{width: 100, height: 150}} source={require('../assets/lampada.png')} />
-        
-        <Text style={styles.title}>Entre em sua conta</Text>
+      
+      <Text style={styles.title}>Entre em sua conta</Text>
 
-        {buttons({buttonProps: {onPress: () => console.log('Pressed'), title: 'Entrar', onPress: () => router.push('/(loginUser)/login')}})}
+      {buttons({buttonProps: {onPress: () => router.push('/(loginUser)/login'), title: 'Entrar'}})}
 
-        <View>
-          <Link href="/(loginUser)/cadastro" style={styles.link}>Cadastre-se</Link>
-        </View>
-      </View>   
-    )
-  }
-
-  return loading();
+      <View>
+        <Link href="/(loginUser)/cadastro" style={styles.link}>Cadastre-se</Link>
+      </View>
+    </View>   
+  )
 }
 
 export default Index

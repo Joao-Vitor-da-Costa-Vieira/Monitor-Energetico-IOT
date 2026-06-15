@@ -9,6 +9,7 @@ import { useHome } from '../../hooks/useHome'
 
 const Home = () => {
   const { 
+    user,
     lastConsumption,
     lastConsumptionPlace,
     lastConsumptionDevice,

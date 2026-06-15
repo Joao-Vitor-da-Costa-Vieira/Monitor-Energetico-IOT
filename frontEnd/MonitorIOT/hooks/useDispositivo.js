@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react'
-import { router } from 'expo-router'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
+import { useFocusEffect } from 'expo-router'
 
 // context
 import { usePlace } from '../context/PlaceContext'
@@ -45,7 +45,7 @@ export const useDispositivo = () => {
 
   // Recarregar quando a tela ganhar foco (após adicionar/editar)
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       console.log('Tela Dispositivo em foco')
       if (user?.id && hasLoadedData.current) {
         loadAllData()

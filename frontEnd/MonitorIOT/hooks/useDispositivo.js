@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
-import { useFocusEffect } from 'expo-router'
+import { useFocusEffect, router } from 'expo-router'
 
 // context
 import { usePlace } from '../context/PlaceContext'
@@ -53,6 +53,14 @@ export const useDispositivo = () => {
       return () => {}
     }, [user?.id])
   )
+
+  // Efeito para redirecionar quando não tem usuário
+  useEffect(() => {
+    if (!user?.id && !userLoading && hasLoadedData.current) {
+      console.log('Usuário não encontrado, redirecionando para login')
+      router.replace('/')
+    }
+  }, [user?.id, userLoading])
 
   useEffect(() => {
     const placesWithMeasures = places.map(place => ({

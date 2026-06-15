@@ -9,14 +9,14 @@ const LoginUserLayout = () => {
 
     return (
         <UserProvider>
-        <Stack screenOptions={{
-            headerStyle: {backgroundColor: '#01cfeb'},
-            headerTintColor: '#fff',
-            headerTitleStyle: {fontWeight: 'bold'}
-        }}>
-            <Stack.Screen name="cadastro" options={{title: 'Cadastro'}} />
-            <Stack.Screen name="login" options={{title: 'Login'}} />
-        </Stack>
+            <Stack screenOptions={{
+                headerStyle: {backgroundColor: '#01cfeb'},
+                headerTintColor: '#fff',
+                headerTitleStyle: {fontWeight: 'bold'}
+            }}>
+                <Stack.Screen name="cadastro" options={{title: 'Cadastro'}} />
+                <Stack.Screen name="login" options={{title: 'Login'}} />
+            </Stack>
         </UserProvider>
     )
 }

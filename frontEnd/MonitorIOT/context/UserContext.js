@@ -1,4 +1,3 @@
-// context/UserContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { API_CONFIG } from '../config/api';

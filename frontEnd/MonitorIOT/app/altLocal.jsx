@@ -15,7 +15,8 @@ const altLocal = () => {
     newPlace, setNewPlace,
     isLoading,
     isCheckingAuth,
-    handleAlterar 
+    handleAlterar,
+    handleMarcar
   } = useAltLocal(id, place)
 
   if (isCheckingAuth) {
@@ -38,6 +39,8 @@ const altLocal = () => {
         />
         
         {buttons({buttonProps: {onPress: handleAlterar, title: 'Alterar'}})}
+
+        {buttons({buttonProps: {onPress: handleMarcar, title: 'Marcar como Atual'}})}
       </View>
     </SafeView>
   )

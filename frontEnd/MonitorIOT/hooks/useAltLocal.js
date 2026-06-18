@@ -73,6 +73,55 @@ export const useAltLocal = (id, initialPlace) => {
     console.log('Parâmetros recebidos:', { id, place: initialPlace })
   }, [])
 
+  const handleMarcar = async () => {
+    if (!id) {
+      Alert.alert('Erro', 'ID do local não encontrado.')
+      return
+    } 
+
+    setIsLoading(true)
+
+    try {
+      const placeId = Number(id)
+
+      const placeData = {
+        id: placeId
+      }
+
+      const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.MARK_CURRENT_PLACE}`
+      console.log('URL:', url)
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(placeData),
+        credentials: 'include'
+      })
+
+      console.log('Resposta MARK_CURRENT_PLACE status:', response.status)
+
+      if (response.ok) {
+        Alert.alert('Sucesso', 'Local marcado como atual!')
+        await loadPlaces(localUserId || user?.usrId)
+        router.back()
+      } else {
+        const errorData = await response.json().catch(() => ({}))
+        console.error('Erro ao marcar local:', response.status, errorData)
+        Alert.alert('Erro', errorData.message || 'Não foi possível marcar o local como atual.')
+      }
+    } catch (error) {
+      console.error('Erro na requisição:', error)
+      Alert.alert('Erro', 'Ocorreu um erro ao conectar com o servidor.')
+    } finally {
+      setIsLoading(false)
+    }
+
+
+  }
+
   const handleAlterar = async () => {
     const placeValidation = validateTextInput(newPlace)
     if (!placeValidation.isValid) {
@@ -145,6 +194,7 @@ export const useAltLocal = (id, initialPlace) => {
     setNewPlace,
     isLoading,
     isCheckingAuth,
-    handleAlterar
+    handleAlterar,
+    handleMarcar
   }
 }

@@ -15,6 +15,7 @@ const Home = () => {
     lastConsumptionDevice,
     weeklyAverage,
     highestConsumptionPlace,
+    activePlaceName,
     isFirstLoading,
     formatPower,
     handleLogout
@@ -52,6 +53,11 @@ const Home = () => {
         <Card style={styles.card}>
           <Text style={styles.cardContent}>Usuário:</Text>
           <Text style={styles.cardDescription}>{user?.name || 'Nome do Usuário'}</Text>
+        </Card>
+
+        <Card style={styles.card}>
+          <Text style={styles.cardContent}>Local Ativo Atual:</Text>
+          <Text style={styles.cardDescription}>{activePlaceName || 'Nenhum local selecionado'}</Text>
         </Card>
 
         {buttons({buttonProps: {onPress: handleLogout, title: 'Sair da Sessão'}})}

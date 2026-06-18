@@ -88,7 +88,7 @@ export const useAltLocal = (id, initialPlace) => {
         id: placeId
       }
 
-      const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.MARK_CURRENT_PLACE}`
+      const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SET_NEW_MEASURE_PLACE}`
       console.log('URL:', url)
 
       const response = await fetch(url, {
@@ -101,7 +101,7 @@ export const useAltLocal = (id, initialPlace) => {
         credentials: 'include'
       })
 
-      console.log('Resposta MARK_CURRENT_PLACE status:', response.status)
+      console.log('Resposta SET_NEW_MEASURE_PLACE status:', response.status)
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Local marcado como atual!')

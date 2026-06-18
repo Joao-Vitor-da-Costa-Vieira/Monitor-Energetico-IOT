@@ -13,13 +13,14 @@ import { calculateHomeStatsFromAPI } from '../utils/homeUtils'
 export const useHome = () => {
   const { user, loadUser, logout } = useUser()
   const { measures, loadMeasureUser, isLoading: measuresLoading, clearMeasures } = useMeasure()
-  const { places, loadPlaces, isLoading: placesLoading, clearPlaces } = usePlace()
+  const { places, loadPlaces, isLoading: placesLoading, clearPlaces, getActivePlace, activePlace } = usePlace()
   
   const [lastConsumption, setLastConsumption] = useState(0)
   const [lastConsumptionPlace, setLastConsumptionPlace] = useState('')
   const [lastConsumptionDevice, setLastConsumptionDevice] = useState('')
   const [weeklyAverage, setWeeklyAverage] = useState(0)
   const [highestConsumptionPlace, setHighestConsumptionPlace] = useState('')
+  const [activePlaceName, setActivePlaceName] = useState('')
   const [isFirstLoading, setIsFirstLoading] = useState(true) 
   const hasLoadedOnce = useRef(false)
 
@@ -47,6 +48,7 @@ export const useHome = () => {
     try {
       await Promise.all([
         loadPlaces(user.id),
+        getActivePlace(),
         loadMeasureUser(user.id)
       ])
       hasLoadedOnce.current = true
@@ -76,16 +78,17 @@ export const useHome = () => {
 
   useEffect(() => {
     if (measures.length > 0) {
-      const stats = calculateHomeStatsFromAPI(measures, places)
+      const stats = calculateHomeStatsFromAPI(measures, places, activePlace)
       setLastConsumption(stats.lastConsumption)
       setLastConsumptionPlace(stats.lastMeasurementPlace)
       setLastConsumptionDevice(stats.lastMeasurementDevice)
       setWeeklyAverage(stats.weeklyAverage)
       setHighestConsumptionPlace(stats.highestConsumptionPlace)
+      setActivePlaceName(stats.activePlaceName)
     } else if (places.length > 0 && measures.length === 0) {
       setHighestConsumptionPlace(places[0]?.name || 'Nenhum dado')
     }
-  }, [measures, places])
+  }, [measures, places, activePlace])
 
   const formatPower = (watts) => {
     if (watts >= 1000) {
@@ -130,6 +133,7 @@ export const useHome = () => {
     lastConsumptionDevice,
     weeklyAverage,
     highestConsumptionPlace,
+    activePlaceName,
     isFirstLoading,
     formatPower,
     handleLogout

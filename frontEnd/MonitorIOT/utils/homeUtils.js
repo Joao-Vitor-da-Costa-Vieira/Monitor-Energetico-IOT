@@ -1,4 +1,7 @@
-export const calculateHomeStatsFromAPI = (measures, places) => {
+export const calculateHomeStatsFromAPI = (measures, places, activePlace) => {
+
+  const activePlaceName = places[activePlace]?.name || 'Nenhum local selecionado'
+  console.log('Calculando estatísticas com activePlace:', activePlaceName)
   
   if (!measures || measures.length === 0) {
     console.log('Nenhuma medida encontrada')
@@ -7,7 +10,8 @@ export const calculateHomeStatsFromAPI = (measures, places) => {
       lastMeasurementPlace: 'Nenhum local',
       lastMeasurementDevice: 'Nenhum dispositivo',
       weeklyAverage: 0,
-      highestConsumptionPlace: 'Nenhum dado'
+      highestConsumptionPlace: 'Nenhum dado',
+      activePlaceName: activePlaceName
     }
   }
 
@@ -54,6 +58,7 @@ export const calculateHomeStatsFromAPI = (measures, places) => {
     lastMeasurementPlace: lastMeasurement?.place?.name || 'Nenhum local',
     lastMeasurementDevice: 'Desconhecido',
     weeklyAverage: weeklyAverage,
-    highestConsumptionPlace: highestConsumptionPlace || 'Nenhum dado'
+    highestConsumptionPlace: highestConsumptionPlace || 'Nenhum dado',
+    activePlaceName: activePlaceName
   }
 }

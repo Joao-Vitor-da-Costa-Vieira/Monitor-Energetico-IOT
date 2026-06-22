@@ -1,3 +1,5 @@
+import { Alert } from "react-native"
+
 // Regex básico para validação de formato de email
 const isValidEmailFormat = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -43,6 +45,41 @@ const validatePasswordsMatch = (password, confirmPassword) => {
     return { isValid: false, message: 'As senhas não coincidem' }
   }
   return { isValid: true, message: null }
+}
+
+const validatePasswordStrength = (data) => {
+  // Verifica se há erro de validação de senha
+  if (data.message && data.message.includes('Senha inserida é inválida')) {
+    let errorMessages = []
+            
+    // Verifica cada tipo de erro
+    if (data.message.includes('Senha tem menos de 8 caracteres')) {
+      errorMessages.push('• A senha deve ter pelo menos 8 caracteres')
+    }
+    
+    if (data.message.includes('Senha não tem caractere maiúsculo')) {
+      errorMessages.push('• A senha deve conter pelo menos uma letra maiúscula')
+    }
+            
+    if (data.message.includes('Senha não tem caractere minúsculo')) {
+      errorMessages.push('• A senha deve conter pelo menos uma letra minúscula')
+    }
+            
+    if (data.message.includes('Senha não tem caractere especial')) {
+      errorMessages.push('• A senha deve conter pelo menos um caractere especial')
+    }
+            
+    if (data.message.includes('Senha não tem caractere numérico')) {
+      errorMessages.push('• A senha deve conter pelo menos um número')
+    }
+            
+    // Exibe todos os erros juntos
+    if (errorMessages.length > 0) {
+      return { isValid: false, message: errorMessages.join('\n') }
+    }
+
+    return { isValid: true, message: null }
+  }
 }
 
 const validateAllLoginFields = (email, password, confirmPassword) => {
@@ -103,5 +140,6 @@ export {
   validateAllLoginFields,
   getFormData,
   isValidEmailFormat,
-  getEmailValidationStatus
+  getEmailValidationStatus,
+  validatePasswordStrength
 }

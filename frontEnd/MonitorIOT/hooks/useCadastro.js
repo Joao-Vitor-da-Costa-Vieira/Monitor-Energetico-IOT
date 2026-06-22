@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Alert } from 'react-native'
 import { router } from 'expo-router'
 import { API_CONFIG } from '../config/api'
-import { validateAllLoginFields, validateTextInput, getFormData } from '../utils/validationInputUtils'
+import { validateAllLoginFields, validateTextInput, getFormData, validatePasswordStrength } from '../utils/validationInputUtils'
 
 export const useCadastro = () => {
   const [email, setEmail] = useState('')
@@ -50,7 +50,13 @@ export const useCadastro = () => {
       const data = await response.json()
       console.log('Resposta do servidor:', data)
 
-            if (response.ok) {
+      const passwordValidation = validatePasswordStrength(data)
+      if (!passwordValidation.isValid) {
+        Alert.alert('Erro ao cadastrar', passwordValidation.message)
+        return
+      }
+
+      if (response.ok) {
         // Success case - account created
         Alert.alert(
           'Sucesso', 

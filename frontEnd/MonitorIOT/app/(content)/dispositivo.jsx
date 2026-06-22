@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native'
 import { router } from 'expo-router'
+import { useEffect } from 'react'
 
 //componentes
 import SafeView from '../../components/safeView'
@@ -18,8 +19,17 @@ const Dispositivo = () => {
     user,
     loadAllData,
     getPlaceStatus,
-    getStatusColor
+    getStatusColor,
+    shouldRedirect // Importar o estado
   } = useDispositivo()
+
+  // Efeito para redirecionamento baseado no estado do hook
+  useEffect(() => {
+    if (shouldRedirect) {
+      console.log('Redirecionando para login')
+      router.replace('/')
+    }
+  }, [shouldRedirect])
 
   // Mostrar loading enquanto carrega o usuário ou os dados iniciais
   if (userLoading || (!hasLoadedData.current && !user?.id)) {
@@ -30,10 +40,8 @@ const Dispositivo = () => {
     )
   }
 
-  // Se não tem usuário após carregamento, redireciona
+  // Se não tem usuário após carregamento, retorna null (useEffect fará o redirect)
   if (!user?.id) {
-    console.log('Usuário não encontrado, redirecionando para login')
-    router.replace('/')
     return null
   }
 

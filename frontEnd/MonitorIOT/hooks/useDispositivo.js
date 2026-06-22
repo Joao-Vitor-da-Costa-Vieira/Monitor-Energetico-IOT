@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
-import { useFocusEffect, router } from 'expo-router'
+import { useFocusEffect } from 'expo-router' // Remova 'router' daqui
 
 // context
 import { usePlace } from '../context/PlaceContext'
@@ -12,6 +12,7 @@ export const useDispositivo = () => {
   const { user, isLoading: userLoading } = useUser()
   const [placesList, setPlacesList] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false) // Novo estado
   const hasLoadedData = useRef(false)
 
   // Função para carregar todos os dados
@@ -54,11 +55,13 @@ export const useDispositivo = () => {
     }, [user?.id])
   )
 
-  // Efeito para redirecionar quando não tem usuário
+  // Verificar se precisa redirecionar
   useEffect(() => {
     if (!user?.id && !userLoading && hasLoadedData.current) {
-      console.log('Usuário não encontrado, redirecionando para login')
-      router.replace('/')
+      console.log('Usuário não encontrado, preparando redirecionamento')
+      setShouldRedirect(true)
+    } else {
+      setShouldRedirect(false)
     }
   }, [user?.id, userLoading])
 
@@ -103,6 +106,7 @@ export const useDispositivo = () => {
     user,
     loadAllData,
     getPlaceStatus,
-    getStatusColor
+    getStatusColor,
+    shouldRedirect // Exportar o estado
   }
 }

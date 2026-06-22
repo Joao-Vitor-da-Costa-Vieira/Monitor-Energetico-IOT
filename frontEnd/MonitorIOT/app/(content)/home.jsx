@@ -18,7 +18,8 @@ const Home = () => {
     activePlaceName,
     isFirstLoading,
     formatPower,
-    handleLogout
+    handleLogout,
+    clearMeasurePlace
   } = useHome()
 
   if (isFirstLoading) {
@@ -59,6 +60,10 @@ const Home = () => {
           <Text style={styles.cardContent}>Local Ativo Atual:</Text>
           <Text style={styles.cardDescription}>{activePlaceName || 'Nenhum local selecionado'}</Text>
         </Card>
+        
+        {activePlaceName && activePlaceName !== 'Nenhum local selecionado' && (
+          buttons({buttonProps: {onPress: clearMeasurePlace, title: 'Desativar Local Ativo'}})
+        )}
 
         {buttons({buttonProps: {onPress: handleLogout, title: 'Sair da Sessão'}})}
       </View>

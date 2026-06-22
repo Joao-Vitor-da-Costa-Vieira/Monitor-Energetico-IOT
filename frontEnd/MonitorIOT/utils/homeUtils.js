@@ -1,10 +1,69 @@
 export const calculateHomeStatsFromAPI = (measures, places, activePlace) => {
+  console.log('calculateHomeStatsFromAPI chamado');
+  console.log('activePlace recebido:', activePlace);
+  console.log('places disponíveis:', places);
+  
+  let activePlaceName = 'Nenhum local selecionado'
+  
+  // Verifica se activePlace existe
+  if (activePlace) {
+    console.log('activePlace existe, tipo:', typeof activePlace);
+    
+    // Caso 1: activePlace é um objeto com placeId
+    if (typeof activePlace === 'object' && activePlace !== null) {
+      // Verifica se tem placeId
+      if (activePlace.placeId) {
+        console.log('activePlace.placeId encontrado:', activePlace.placeId);
+        // Busca o local pelo placeId na lista de places
+        const place = places.find(p => p.id === activePlace.placeId || p.plc_id === activePlace.placeId);
+        if (place) {
+          activePlaceName = place.name || place.plc_name || 'Local encontrado';
+          console.log('Local encontrado pelo placeId:', activePlaceName);
+        } else {
+          console.log('Nenhum local encontrado com placeId:', activePlace.placeId);
+          console.log('Estrutura de places:', places.length > 0 ? Object.keys(places[0]) : 'nenhum place');
+        }
+      } 
+      // Verifica se tem id
+      else if (activePlace.id) {
+        console.log('activePlace.id encontrado:', activePlace.id);
+        const place = places.find(p => p.id === activePlace.id || p.plc_id === activePlace.id);
+        if (place) {
+          activePlaceName = place.name || place.plc_name || 'Local encontrado';
+          console.log('Local encontrado pelo id:', activePlaceName);
+        }
+      }
+      // Verifica se tem name diretamente
+      else if (activePlace.name) {
+        activePlaceName = activePlace.name;
+        console.log('Nome encontrado no objeto activePlace.name:', activePlaceName);
+      } else if (activePlace.plc_name) {
+        activePlaceName = activePlace.plc_name;
+        console.log('Nome encontrado no objeto activePlace.plc_name:', activePlaceName);
+      } else {
+        console.log('Objeto activePlace não tem propriedade reconhecida');
+        console.log('Propriedades do objeto:', Object.keys(activePlace));
+        console.log('Objeto completo:', JSON.stringify(activePlace));
+        activePlaceName = 'Local ativo (ID: ' + (activePlace.placeId || activePlace.id || 'desconhecido') + ')';
+      }
+    } 
+    // Caso 2: activePlace é um número (ID)
+    else if (typeof activePlace === 'number') {
+      console.log('activePlace é um número (ID):', activePlace);
+      const place = places.find(p => p.id === activePlace || p.plc_id === activePlace);
+      if (place) {
+        activePlaceName = place.name || place.plc_name || 'Local encontrado';
+        console.log('Local encontrado pelo ID:', activePlaceName);
+      }
+    }
+  } else {
+    console.log('activePlace é null, undefined ou vazio');
+  }
 
-  const activePlaceName = places[activePlace]?.name || 'Nenhum local selecionado'
-  console.log('Calculando estatísticas com activePlace:', activePlaceName)
+  console.log('activePlaceName final:', activePlaceName);
   
   if (!measures || measures.length === 0) {
-    console.log('Nenhuma medida encontrada')
+    console.log('Nenhuma medida encontrada');
     return {
       lastConsumption: 0,
       lastMeasurementPlace: 'Nenhum local',
@@ -24,18 +83,17 @@ export const calculateHomeStatsFromAPI = (measures, places, activePlace) => {
   
   const lastMeasurement = sortedMeasures[0]
 
-  // Calcular média de TODAS as medidas (não apenas última semana)
+  // Calcular média de TODAS as medidas
   let weeklyAverage = 0
   if (measures.length > 0) {
     const totalPower = measures.reduce((sum, m) => sum + (m.power || 0), 0)
     weeklyAverage = Math.round(totalPower / measures.length)
   }
 
-  // Encontrar local com maior consumo (baseado em todas as medidas ou na mais recente por local)
+  // Encontrar local com maior consumo
   let highestConsumptionPlace = 'Nenhum dado'
   let highestValue = 0
 
-  // Criar um mapa para armazenar o maior consumo de cada local
   const highestByPlace = new Map()
   
   measures.forEach(measure => {
@@ -46,7 +104,6 @@ export const calculateHomeStatsFromAPI = (measures, places, activePlace) => {
       highestByPlace.set(placeName, power)
     }
     
-    // Também atualiza o maior valor geral
     if (power > highestValue) {
       highestValue = power
       highestConsumptionPlace = placeName

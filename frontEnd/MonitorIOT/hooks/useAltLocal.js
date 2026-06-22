@@ -84,8 +84,11 @@ export const useAltLocal = (id, initialPlace) => {
     try {
       const placeId = Number(id)
 
+      console.log('Marcar local como ativo:', placeId)
+
       const placeData = {
-        id: placeId
+        type: 'id',
+        value: placeId,
       }
 
       const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SET_NEW_MEASURE_PLACE}`

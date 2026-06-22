@@ -16,7 +16,7 @@ export const API_CONFIG = {
     LOGOUT_USER: '/login/LogOutUser',
     GET_NEW_MEASURE_PLACE: '/login/GetNewMeasurePlace',
     SET_NEW_MEASURE_PLACE: '/login/SetNewMeasurePlace',
-    CLEAR_MEASURE_PLACE: '/login/ClearMeasurePlace',
+    CLEAR_MEASURE_PLACE: '/login/ClearNewMeasurePlace',
     CREATE_PLACE: '/place/CreatePlaceLogged',
     GET_PLACE: '/place/GetPlace/',
     GET_PLACE_USER: '/place/GetPlace/Usr/',

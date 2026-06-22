@@ -20,7 +20,7 @@ const Dispositivo = () => {
     loadAllData,
     getPlaceStatus,
     getStatusColor,
-    shouldRedirect // Importar o estado
+    shouldRedirect
   } = useDispositivo()
 
   // Efeito para redirecionamento baseado no estado do hook

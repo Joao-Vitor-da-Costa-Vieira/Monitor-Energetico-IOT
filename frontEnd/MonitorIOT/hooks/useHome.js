@@ -58,7 +58,7 @@ export const useHome = () => {
     console.log('Buscando local com ID:', placeId, 'tipo:', typeof placeId);
     console.log('IDs disponíveis em places:', places.map(p => ({id: p.id, tipo: typeof p.id})));
     
-    // CORREÇÃO: Comparação tratando string e número
+    // Comparação tratando string e número
     const place = places.find(p => {
       // Converte ambos para string para comparação
       const pId = String(p.id || p.plc_id || '');

@@ -48,6 +48,10 @@ export const useLogin = () => {
       const data = await response.json()
       console.log('Resposta do login:', data)
 
+      if (data.message === "Senha inserida é diferente da senha cadastrada.") {
+        alert("Senha incorreta! Por favor, tente novamente.")
+      }
+
       if (response.ok) {
         // Após login bem-sucedido, buscar os dados do usuário logado
         const loggedUserResponse = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GET_LOGGED_USER}`, {

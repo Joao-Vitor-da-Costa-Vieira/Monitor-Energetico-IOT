@@ -84,8 +84,37 @@ export const PlaceProvider = ({ children }) => {
         }
     }
 
+    const clearActivePlace = async () => {
+        try {
+            setIsLoading(true);
+            const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CLEAR_MEASURE_PLACE}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'include'
+            });
+            
+            console.log('Resposta CLEAR_MEASURE_PLACE status:', response.status);
+
+            if (response.ok) {
+                setActivePlace([]);
+                Alert.alert('Sucesso', 'Local ativo desativado com sucesso.');
+            } else {
+                console.error('Erro ao desativar lugar ativo:', response.status);
+                Alert.alert('Erro', 'Não foi possível desativar o lugar ativo. Por favor, tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro na requisição de desativação de lugar ativo:', error);
+            Alert.alert('Erro', 'Ocorreu um erro ao desativar o lugar ativo. Por favor, tente novamente.');
+        } finally {
+            setIsLoading(false);
+        }
+    }   
+
     return (
-        <PlaceContext.Provider value={{ places, loadPlaces, clearPlaces, isLoading, getActivePlace, activePlace }}>
+        <PlaceContext.Provider value={{ places, loadPlaces, clearPlaces, isLoading, getActivePlace, activePlace, clearActivePlace }}>
             {children}
         </PlaceContext.Provider>
     );

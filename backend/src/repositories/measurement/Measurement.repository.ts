@@ -6,9 +6,11 @@ import { UpdateMeasurementDto } from "../../dtos/measurement/UpdateMeasurement.d
 import Measurement from "../../models/measurement/Measurement.ts";
 import { GoogleSheetsError } from "../../errors/sheets/GoogleSheets.error.ts";
 import { NoDataFoundError } from "../../errors/mvc/NoDataFound.error.ts";
+import { SheetTypeMapper } from "../../utils/sheets/SheetTypes.mapper.ts";
 
 export class MeasurementRepository {
     private static instance : MeasurementRepository;
+    private convNumber = SheetTypeMapper.convertDecSeparator;
 
     /**
      * GetInstance
@@ -84,16 +86,16 @@ export class MeasurementRepository {
                     measuresArray.push(new Measurement(
                         Number(x[0]),
                         new Date(x[1]),
-                        Number(x[2]),
-                        Number(x[3]),
+                        this.convNumber(x[2]),
+                        this.convNumber(x[3]),
                         Number(x[4])
                     ))
                 } else {
                     measuresArray.push(new Measurement(
                         Number(x[0]),
                         new Date(x[1]),
-                        Number(x[2]),
-                        Number(x[3]),
+                        this.convNumber(x[2]),
+                        this.convNumber(x[3]),
                         Number(x[4]),
                         Number(x[5])
                     ))
@@ -119,16 +121,16 @@ export class MeasurementRepository {
                 return new Measurement(
                     Number(measureDt[0]),
                     new Date(measureDt[1]),
-                    Number(measureDt[2]),
-                    Number(measureDt[3]),
+                    this.convNumber(measureDt[2]),
+                    this.convNumber(measureDt[3]),
                     Number(measureDt[4])
                 )
             } else {
                 return new Measurement(
                     Number(measureDt[0]),
                     new Date(measureDt[1]),
-                    Number(measureDt[2]),
-                    Number(measureDt[3]),
+                    this.convNumber(measureDt[2]),
+                    this.convNumber(measureDt[3]),
                     Number(measureDt[4]),
                     Number(measureDt[5])
                 )

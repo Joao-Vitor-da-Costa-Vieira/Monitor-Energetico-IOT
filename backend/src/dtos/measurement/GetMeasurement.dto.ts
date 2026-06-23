@@ -115,8 +115,8 @@ export class GetMeasurementDto {
         if ($idOrObj instanceof Measurement) {
             this.id = Number($idOrObj.$id);
             this.date = $idOrObj.$date;
-            this.current = $idOrObj.$current;
-            this.power = $idOrObj.$power;
+            this.current = Number($idOrObj.$current);
+            this.power = Number($idOrObj.$power);
             this.usr_id = $idOrObj.$user ? Number($idOrObj.$user.$id) : Number($idOrObj.$usr_id);
             this.plc_id = $idOrObj.$place ? Number($idOrObj.$place.$id) : Number($idOrObj.$plc_id);
             this.user = $idOrObj.$user ? new GetUserDto($idOrObj.$user) : undefined;
@@ -126,8 +126,8 @@ export class GetMeasurementDto {
 
         this.id = $idOrObj;
         this.date = $date!;
-        this.current = $current!;
-        this.power = $power!;
+        this.current = Number($current!);
+        this.power = Number($power!);
         
         if ($user instanceof GetUserDto) {
             this.user = $user;
@@ -235,7 +235,7 @@ export class GetMeasurementDto {
      * @param {number} value
      */
 	public set $current(value: number) {
-		this.current = value;
+		this.current = Number(value);
 	}
 
     /**
@@ -243,7 +243,7 @@ export class GetMeasurementDto {
      * @param {number} value
      */
 	public set $power(value: number) {
-		this.power = value;
+		this.power = Number(value);
 	}
 
     /**

@@ -101,8 +101,8 @@ const Dashboard = () => {
             yAxisTextStyle={{ color: '#666', fontSize: 10 }}
             xAxisLabelTextStyle={{ color: '#666', fontSize: 9 }}
             noOfSections={4}
-            maxValue={measurementType === 'current' ? 2500 : 4500}
-            stepValue={measurementType === 'current' ? 500 : 900}
+            maxValue={measurementType === 'current' ? 1 : 100}
+            stepValue={measurementType === 'current' ? 0.2 : 20}
             showValuesAsTopLabel={false}
             rotateLabel={true}
             xAxisLabelsVertical={true}
